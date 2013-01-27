@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: contact_us.php 4248 2013-01-11 14:54:05Z Tomcraft1980 $
+   $Id: contact_us.php 4321 2013-01-15 16:42:37Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -15,18 +15,11 @@
 
 //included by shop_content.php
 
-  //BOF - DokuMan - 2010-09-06 - contact_us.php language file not needed any more, added constants to main language file
-  //BOF - web28 - 2010-07-17 - move language definition on top
-  //  require (DIR_WS_LANGUAGES.$_SESSION['language'].'/contact_us.php');
-  //EOF - web28 - 2010-07-17 - move language definition on top
-  //EOF - DokuMan - 2010-09-06 - contact_us.php language file not needed any more, added constants to main language file
-
+  //use contact_us.php language file
+  require_once (DIR_WS_LANGUAGES.$_SESSION['language'].'/contact_us.php');
+  
   $error = false;
   if (isset ($_GET['action']) && ($_GET['action'] == 'send')) {
-
-    //BOF - web28 - 2010-07-17 - move language definition on top
-    //require (DIR_WS_LANGUAGES.$_SESSION['language'].'/contact_us.php');
-    //EOF - web28 - 2010-07-17 - move language definition on top
 
     //BOF - web28 - 2010-04-03 - New error handling for required fileds
     //jedes Feld kann hier auf die gewünschte Bedingung getestet und eine Fehlermeldung zugeordnet werden
@@ -157,14 +150,14 @@
       // EOF - Dokuman - 2010-10-14: preallocate additional fields on contact form correctly
       // EOF - Tomcraft - 2009-11-05 - Advanced contact form (additional fields)
     } elseif (!$error) {
-      $customers_name = '';
-      $email_address = '';
-      $phone = '';
-      $company = '';
-      $street = '';
-      $postcode = '';
-      $city = '';
-      $fax = '';
+    	$customers_name = '';
+    	$email_address = '';
+    	$phone = '';
+    	$company = '';
+    	$street = '';
+    	$postcode = '';
+    	$city = '';
+    	$fax = '';
     }
 
     // BOF - Tomcraft - 2009-11-05 - Advanced contact form (product question)

@@ -1,6 +1,6 @@
 <?php
   /* -----------------------------------------------------------------------------------------
-   $Id: module_export.php 4281 2013-01-12 12:17:04Z Tomcraft1980 $
+   $Id: module_export.php 2985 2012-06-07 13:38:44Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -116,7 +116,7 @@
   }
 
 
-require (DIR_WS_INCLUDES.'head.php');
+  require (DIR_WS_INCLUDES.'head.php');
 ?>
 </head>
 <body>

@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: create_breadcrumb.php 3952 2012-11-15 00:20:51Z Tomcraft1980 $
+   $Id: create_breadcrumb.php 3851 2012-11-06 10:33:23Z web28 $
 
    Modified - community made shopping
    http://www.modified-shop.org
@@ -20,10 +20,9 @@ if (DIR_WS_CATALOG == '/') {
 }
 
 // add category names or the manufacturer name to the breadcrumb trail
-if (isset($cPath_array)) {
-  $group_check = '';
-  $n=sizeof($cPath_array);
-  for ($i=0; $i<$n; $i++) {
+if (isset ($cPath_array)) {
+  for ($i = 0, $n = sizeof($cPath_array); $i < $n; $i ++) {
+    $group_check = '';
     if (GROUP_CHECK == 'true') {
       $group_check = "AND c.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
     }
@@ -42,7 +41,7 @@ if (isset($cPath_array)) {
       break;
     }
   }
-} elseif (isset($_GET['manufacturers_id']) && xtc_not_null($_GET['manufacturers_id'])) {
+} elseif (isset($_GET['manufacturers_id']) && xtc_not_null($_GET['manufacturers_id'])) { 
   $_GET['manufacturers_id'] = (int) $_GET['manufacturers_id'];
   $manufacturers_query = xtDBquery("-- /includes/application_top.php
                                     SELECT manufacturers_name 

@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: default.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: default.php 2774 2012-04-20 18:30:22Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -24,7 +24,7 @@
   ---------------------------------------------------------------------------------------*/
 
 $default_smarty = new smarty;
-$default_smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
+$default_smarty->assign('tpl_path','templates/'.CURRENT_TEMPLATE.'/');
 $default_smarty->assign('session', session_id());
 
 // define defaults
@@ -92,7 +92,7 @@ if ($category_depth == 'nested') {
       if ($categories['categories_image'] != '') {
         $image = DIR_WS_IMAGES.'categories/'.$categories['categories_image'];
         if(!file_exists($image)) $image = DIR_WS_IMAGES.'categories/noimage.gif';
-        $image = DIR_WS_BASE.$image;
+        $image = $image;
       }
       $categories_content[] = array ('CATEGORIES_NAME' => $categories['categories_name'],
                                      'CATEGORIES_HEADING_TITLE' => $categories['categories_heading_title'],
@@ -109,7 +109,7 @@ if ($category_depth == 'nested') {
   if ($category['categories_image'] != '') {
     $image = DIR_WS_IMAGES.'categories/'.$category['categories_image'];
     if(!file_exists($image)) $image = DIR_WS_IMAGES.'categories/noimage.gif';
-    $image = DIR_WS_BASE.$image;
+    $image = $image;
   }
   // get default template
   if ($category['categories_template'] == '' || $category['categories_template'] == 'default') {
@@ -323,8 +323,7 @@ if ($category_depth == 'nested') {
     $default_smarty->caching = 1;
     $default_smarty->cache_lifetime = CACHE_LIFETIME;
     $default_smarty->cache_modified_check = CACHE_CHECK;
-    //$cache_id = $_SESSION['language'].$_SESSION['currency'].$_SESSION['customer_id'];
-    $cache_id = $_SESSION['language'].$_SESSION['currency'].isset($_SESSION['customer_id']) ? $_SESSION['customer_id'] : NULL; 
+    $cache_id = $_SESSION['language'].$_SESSION['currency'].$_SESSION['customer_id'];
     $main_content = $default_smarty->fetch(CURRENT_TEMPLATE.'/module/main_content.html', $cache_id);
   }
   $smarty->assign('main_content', $main_content);

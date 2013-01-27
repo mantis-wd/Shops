@@ -1,26 +1,24 @@
 <?php
+
 /* -----------------------------------------------------------------------------------------
-   $Id: advanced_search.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: advanced_search.php 988 2005-06-18 16:42:42Z mz $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
-   based on:
+   based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-   (c) 2002-2003 osCommerce(advanced_search.php,v 1.49 2003/02/13); www.oscommerce.com
-   (c) 2003 nextcommerce (advanced_search.php,v 1.13 2003/08/21); www.nextcommerce.org
-   (c) 2006 XT-Commerce (advanced_search.php 988 2005-06-18)
+   (c) 2002-2003 osCommerce(advanced_search.php,v 1.49 2003/02/13); www.oscommerce.com 
+   (c) 2003	 nextcommerce (advanced_search.php,v 1.13 2003/08/21); www.nextcommerce.org
 
-   Released under the GNU General Public License
+   Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
 
 include ('includes/application_top.php');
 // create smarty elements
 $smarty = new Smarty;
-$smarty->caching = false; //DokuMan - 2012-10-30 - avoid Smarty caching in order to display the correct data, if caching is enabled in shop backend
-
 // include boxes
 require (DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/source/boxes.php');
 // include needed functions
@@ -32,13 +30,10 @@ $breadcrumb->add(NAVBAR_TITLE_ADVANCED_SEARCH, xtc_href_link(FILENAME_ADVANCED_S
 
 require (DIR_WS_INCLUDES.'header.php');
 
-// BOF - GTB - 2010-09-20 - correct the Formular in dependences of the request type SSL / NONSSL
-$smarty->assign('FORM_ACTION', xtc_draw_form('advanced_search', xtc_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', $request_type, false), 'get', 'onsubmit="return check_form(this);"').xtc_hide_session_id());
-//$smarty->assign('FORM_ACTION', xtc_draw_form('advanced_search', xtc_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get', 'onsubmit="return check_form(this);"').xtc_hide_session_id());
-// EOF - GTB - 2010-09-20 - correct the Formular in dependences of the request type SSL / NONSSL
+$smarty->assign('FORM_ACTION', xtc_draw_form('advanced_search', xtc_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', $request_type, false), 'get', 'onsubmit="return check_form(this);"').xtc_hide_session_id()); //WEB28 change NONSSL to $request_type
 
 $smarty->assign('INPUT_KEYWORDS', xtc_draw_input_field('keywords', '', 'style="width: 100%"'));
-//BOF - DokuMan - 2009-05-31 - removed quotationmark
+//BOF - DokuMan - 2009-05-31 - removed quotationmark 
 //$smarty->assign('HELP_LINK', xtc_href_link(FILENAME_POPUP_SEARCH_HELP.'?KeepThis=true&TB_iframe=true&height=400&width=600"'));
 $smarty->assign('HELP_LINK', xtc_href_link(FILENAME_POPUP_SEARCH_HELP.'?KeepThis=true&TB_iframe=true&height=400&width=600'));
 //EOF - DokuMan - 2009-05-31 - removed quotationmark
@@ -51,42 +46,47 @@ $smarty->assign('SELECT_MANUFACTURERS',xtc_draw_pull_down_menu('manufacturers_id
 $smarty->assign('SELECT_PFROM',xtc_draw_input_field('pfrom'));
 $smarty->assign('SELECT_PTO',xtc_draw_input_field('pto'));
 
+
 $error = '';
 if (isset ($_GET['errorno'])) {
-  if (($_GET['errorno'] & 1) == 1) {
-    $error .= str_replace('\n', '<br />', JS_AT_LEAST_ONE_INPUT);
-  }
-  if (($_GET['errorno'] & 10) == 10) {
-    $error .= str_replace('\n', '<br />', JS_INVALID_FROM_DATE);
-  }
-  if (($_GET['errorno'] & 100) == 100) {
-    $error .= str_replace('\n', '<br />', JS_INVALID_TO_DATE);
-  }
-  if (($_GET['errorno'] & 1000) == 1000) {
-    $error .= str_replace('\n', '<br />', JS_TO_DATE_LESS_THAN_FROM_DATE);
-  }
-  if (($_GET['errorno'] & 10000) == 10000) {
-    $error .= str_replace('\n', '<br />', JS_PRICE_FROM_MUST_BE_NUM);
-  }
-  if (($_GET['errorno'] & 100000) == 100000) {
-    $error .= str_replace('\n', '<br />', JS_PRICE_TO_MUST_BE_NUM);
-  }
-  if (($_GET['errorno'] & 1000000) == 1000000) {
-    $error .= str_replace('\n', '<br />', JS_PRICE_TO_LESS_THAN_PRICE_FROM);
-  }
-  if (($_GET['errorno'] & 10000000) == 10000000) {
-    $error .= str_replace('\n', '<br />', JS_INVALID_KEYWORDS);
-  }
+	if (($_GET['errorno'] & 1) == 1) {
+		$error .= str_replace('\n', '<br />', JS_AT_LEAST_ONE_INPUT);
+	}
+	if (($_GET['errorno'] & 10) == 10) {
+		$error .= str_replace('\n', '<br />', JS_INVALID_FROM_DATE);
+	}
+	if (($_GET['errorno'] & 100) == 100) {
+		$error .= str_replace('\n', '<br />', JS_INVALID_TO_DATE);
+	}
+	if (($_GET['errorno'] & 1000) == 1000) {
+		$error .= str_replace('\n', '<br />', JS_TO_DATE_LESS_THAN_FROM_DATE);
+	}
+	if (($_GET['errorno'] & 10000) == 10000) {
+		$error .= str_replace('\n', '<br />', JS_PRICE_FROM_MUST_BE_NUM);
+	}
+	if (($_GET['errorno'] & 100000) == 100000) {
+		$error .= str_replace('\n', '<br />', JS_PRICE_TO_MUST_BE_NUM);
+	}
+	if (($_GET['errorno'] & 1000000) == 1000000) {
+		$error .= str_replace('\n', '<br />', JS_PRICE_TO_LESS_THAN_PRICE_FROM);
+	}
+	if (($_GET['errorno'] & 10000000) == 10000000) {
+		$error .= str_replace('\n', '<br />', JS_INVALID_KEYWORDS);
+	}
 }
 
 $smarty->assign('error', $error);
 $smarty->assign('language', $_SESSION['language']);
 $smarty->assign('FORM_END', '</form>');
+
+$smarty->caching = 0;
 $main_content = $smarty->fetch(CURRENT_TEMPLATE.'/module/advanced_search.html');
+
+$smarty->assign('language', $_SESSION['language']);
 $smarty->assign('main_content', $main_content);
 $smarty->caching = 0;
 if (!defined('RM'))
-  $smarty->load_filter('output', 'note');
+	$smarty->load_filter('output', 'note');
 $smarty->display(CURRENT_TEMPLATE.'/index.html');
 include ('includes/application_bottom.php');
 ?>

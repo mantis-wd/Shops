@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: new_attributes_include.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: new_attributes_include.php 2891 2012-05-18 18:54:35Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

@@ -1,29 +1,27 @@
 <?php
-/* -----------------------------------------------------------------------------------------
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
-
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
-   -----------------------------------------------------------------------------------------
-   based on:
-   xt:Commerce - Shopsoftware
-   (c) 2003-2007 xt:Commerce (Winger/Zanier), http://www.xt-commerce.com
-   xt:Commerce ist eine geschŸtzte Handelsmarke und wird vertreten durch die xt:Commerce GmbH (Austria)
-   xt:Commerce is a protected trademark and represented by the xt:Commerce GmbH (Austria)
-
-   @copyright Copyright 2003-2007 xt:Commerce (Winger/Zanier), www.xt-commerce.com
-   @copyright based on Copyright 2002-2003 osCommerce; www.oscommerce.com
-   @copyright based on Copyright 2003 nextcommerce; www.nextcommerce.org
-   @license http://www.xt-commerce.com.com/license/2_0.txt GNU Public License V2.0
-
-   For questions, help, comments, discussion, etc., please join the
-   xt:Commerce Support Forums at www.xt-commerce.com
-   ab 15.08.2008 Teile vom Hamburger-Internetdienst geändert
-   Hamburger-Internetdienst Support Forums at www.forum.hamburger-internetdienst.de
-   Stand 04.03.2012
+/**
+ * Project: xt:Commerce - eCommerce Engine
+ * @version $Id
+ *
+ * xt:Commerce - Shopsoftware
+ * (c) 2003-2007 xt:Commerce (Winger/Zanier), http://www.xt-commerce.com
+ *
+ * xt:Commerce ist eine geschŸtzte Handelsmarke und wird vertreten durch die xt:Commerce GmbH (Austria)
+ * xt:Commerce is a protected trademark and represented by the xt:Commerce GmbH (Austria)
+ *
+ * @copyright Copyright 2003-2007 xt:Commerce (Winger/Zanier), www.xt-commerce.com
+ * @copyright based on Copyright 2002-2003 osCommerce; www.oscommerce.com
+ * @copyright based on Copyright 2003 nextcommerce; www.nextcommerce.org
+ * @license http://www.xt-commerce.com.com/license/2_0.txt GNU Public License V2.0
+ *
+ * For questions, help, comments, discussion, etc., please join the
+ * xt:Commerce Support Forums at www.xt-commerce.com
+ * ab 15.08.2008 Teile vom Hamburger-Internetdienst geändert
+ * Hamburger-Internetdienst Support Forums at www.forum.hamburger-internetdienst.de
+ * Stand 04.03.2012
 */
 class paypalexpress {
-  var $code, $title, $description, $extended_description, $enabled;
+  var $code, $title, $description, $enabled;
 /**************************************************************/
     // BOF - Hendrik - 2010-08-11 - php5 compatible
     //function paypalexpress() {
@@ -34,47 +32,26 @@ class paypalexpress {
     $this->code = 'paypalexpress';
     $this->title = MODULE_PAYMENT_PAYPALEXPRESS_TEXT_TITLE;
     $this->description = MODULE_PAYMENT_PAYPALEXPRESS_TEXT_DESCRIPTION;
-    $this->extended_description = MODULE_PAYMENT_PAYPAL_TEXT_EXTENDED_DESCRIPTION;
-
-    //BOF - DokuMan - 2012-05-29 - do not set/show a default sort order, when module is not enabled
-    /*
-    if(defined('MODULE_PAYMENT_PAYPALEXPRESS_SORT_ORDER') && MODULE_PAYMENT_PAYPALEXPRESS_SORT_ORDER!=''){
+    if(MODULE_PAYMENT_PAYPALEXPRESS_SORT_ORDER!=''){
       $this->sort_order = MODULE_PAYMENT_PAYPALEXPRESS_SORT_ORDER;
     }else{
-      $this->sort_order = 0;
+      $this->sort_order = 3;
     }
-    */
-    $this->sort_order = MODULE_PAYMENT_PAYPALEXPRESS_SORT_ORDER;
-    //EOF - DokuMan - 2012-05-29 - do not set/show a default sort order, when module is not enabled
-
-    $this->enabled = ((defined('MODULE_PAYMENT_PAYPALEXPRESS_STATUS') && MODULE_PAYMENT_PAYPALEXPRESS_STATUS == 'True') ? true : false);
+    $this->enabled = ((MODULE_PAYMENT_PAYPALEXPRESS_STATUS == 'True') ? true : false);
     $this->info = MODULE_PAYMENT_PAYPALEXPRESS_TEXT_INFO;
-    $this->order_status_success = defined('PAYPAL_ORDER_STATUS_SUCCESS_ID')?PAYPAL_ORDER_STATUS_SUCCESS_ID:'';
-    $this->order_status_rejected = defined('PAYPAL_ORDER_STATUS_REJECTED_ID')?PAYPAL_ORDER_STATUS_REJECTED_ID:'';
-    $this->order_status_pending = defined('PAYPAL_ORDER_STATUS_PENDING_ID')?PAYPAL_ORDER_STATUS_PENDING_ID:'';
-    $this->order_status_tmp = defined('PAYPAL_ORDER_STATUS_TMP_ID')?PAYPAL_ORDER_STATUS_TMP_ID:'';
+    $this->order_status_success = PAYPAL_ORDER_STATUS_SUCCESS_ID;
+    $this->order_status_rejected = PAYPAL_ORDER_STATUS_REJECTED_ID;
+    $this->order_status_pending = PAYPAL_ORDER_STATUS_PENDING_ID;
+    $this->order_status_tmp = PAYPAL_ORDER_STATUS_TMP_ID;
     $this->tmpOrders = true;
     $this->debug = true;
-    $this->tmpStatus = defined('PAYPAL_ORDER_STATUS_TMP_ID')?PAYPAL_ORDER_STATUS_TMP_ID:'';
+    $this->tmpStatus = PAYPAL_ORDER_STATUS_TMP_ID;
     if(is_object($order))
       $this->update_status();
   }
 /**************************************************************/
     function update_status() {
       global $order;
-
-      // BOF - Hendrik - 2010-08-11 - exlusion config for shipping modules
-      if( MODULE_PAYMENT_PAYPALEXPRESS_NEG_SHIPPING != '' ) {
-        $neg_shpmod_arr = explode(',',MODULE_PAYMENT_PAYPALEXPRESS_NEG_SHIPPING);
-        foreach( $neg_shpmod_arr as $neg_shpmod ) {
-          $nd=$neg_shpmod.'_'.$neg_shpmod;
-          if( $_SESSION['shipping']['id']==$nd || $_SESSION['shipping']['id']==$neg_shpmod ) {
-            $this->enabled = false;
-            break;
-          }
-        }
-      }
-    // EOF - Hendrik - 2010-08-11 - exlusion config for shipping modules
     }
 /**************************************************************/
   function javascript_validation() {
@@ -189,11 +166,6 @@ class paypalexpress {
     xtc_db_query("insert into ".TABLE_CONFIGURATION.$m_fields."values ('MODULE_PAYMENT_PAYPALEXPRESS_SORT_ORDER', '0', '6', '0', NULL, now(), '', '')");
     // muss sein wegen constante in modules/payment
     xtc_db_query("insert into ".TABLE_CONFIGURATION.$m_fields."values ('MODULE_PAYMENT_PAYPALEXPRESS_ALLOWED', '', '6', '0', NULL, now(), '', '')");
-
-    // BOF - Hendrik - 2010-08-11 - exlusion config for shipping modules
-    xtc_db_query("insert into ".TABLE_CONFIGURATION.$m_fields."values ('MODULE_PAYMENT_PAYPALEXPRESS_NEG_SHIPPING', '', '6', '99', NULL, now(), '', '')");
-    // EOF - Hendrik - 2010-08-11 - exlusion config for shipping modules
-
     // Config Daten auslesen - falls schon vorhanden durch PayPal Modul
     $rest_query=xtc_db_query("select * from ".TABLE_CONFIGURATION." where configuration_key like 'PAYPAL\_%'");
     $rest_array=array();
@@ -224,7 +196,7 @@ class paypalexpress {
     $new_config[]=array('','PAYPAL_API_CO_BORD', '', 111125, 23, '', '');
     $new_config[]=array('','PAYPAL_ERROR_DEBUG', 'false', 111125, 24, '', 'xtc_cfg_select_option(array("true", "false"),');
     $new_config[]=array('','PAYPAL_INVOICE', '', 111125, 25, '', '');
-    $new_config[]=array('','PAYPAL_API_KEY', '109,111,100,105,102,105,101,100,95,67,97,114,116,95,69,67,83', 6, 5, '', '');
+    $new_config[]=array('','PAYPAL_API_KEY', '109,111,100,105,102,105,101,100,95,67,97,114,116,95,69,67,83', 6, 5, '', ''); 
     // Config Daten speichern
     foreach($new_config as $v1) {
       $old_config=$this->mn_confsearch($v1[1],$rest_array);
@@ -294,12 +266,12 @@ class paypalexpress {
     else:
       xtc_db_query("alter table ".TABLE_PAYPAL_STATUS_HISTORY." MODIFY ".str_replace(', ',', MODIFY ',$m_fields));
     endif;
-//BOF - Dokuman - 2009-10-04 - Disable CRC-Check on paypal edited files
+    //BOF - Dokuman - 2009-10-04 - Disable CRC-Check on paypal edited files
     /*
     if(file_exists('module_paypal_install.php'))
       xtc_redirect(xtc_href_link('module_paypal_install.php', 'set=' . $_GET['set'] . '&module=' . $this->code.'&ppauto=1'));
     */
-//EOF - Dokuman - 2009-10-04 - Disable CRC-Check on paypal edited files
+    //EOF - Dokuman - 2009-10-04 - Disable CRC-Check on paypal edited files
   }
 /**************************************************************/
   function remove($pre_inst=0) {
@@ -339,8 +311,7 @@ class paypalexpress {
 /**************************************************************/
   function keys() {
     // Stand: 29.04.2009
-    return array('MODULE_PAYMENT_PAYPALEXPRESS_STATUS',
-                 'MODULE_PAYMENT_PAYPALEXPRESS_NEG_SHIPPING' );    // Hendrik - 2010-08-11 - exlusion config for shipping modules
+    return array('MODULE_PAYMENT_PAYPALEXPRESS_STATUS');
   }
 /**************************************************************/
   function mn_confsearch($needle, $haystack ){

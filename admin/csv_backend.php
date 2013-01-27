@@ -1,16 +1,15 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: csv_backend.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: csv_backend.php 1030 2005-07-14 20:22:32Z novalis $
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    --------------------------------------------------------------
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommercecoding standards (a typical file) www.oscommerce.com
-   (c) 2006 xt:Commerce (csv_backend.php)
 
    Released under the GNU General Public License
    --------------------------------------------------------------*/
@@ -21,51 +20,52 @@
 
   define('FILENAME_CSV_BACKEND','csv_backend.php');
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
-
-  switch ($action) {
+  switch ($_GET['action']) {
 
       case 'upload':
         $upload_file=xtc_db_prepare_input($_POST['file_upload']);
-        $accepted_file_upload_files_extensions = array("txt","csv","tsv");
-        $accepted_file_upload_files_mime_types = array("text/plain","text/comma-separated-values","text/tab-separated-values");
-        if ($upload_file = &xtc_try_upload('file_upload',DIR_FS_CATALOG.'import/','',$accepted_file_upload_files_extensions,$accepted_file_upload_files_mime_types)) {
-          $$upload_file_name=$upload_file->filename;
+        if ($upload_file = &xtc_try_upload('file_upload',DIR_FS_CATALOG.'import/')) {
+            $$upload_file_name=$upload_file->filename;
         }
       break;
 
       case 'import':
-        $handler = new xtcImport($_POST['select_file']);
-        $mapping=$handler->map_file($handler->generate_map());
-        $import=$handler->import($mapping);
+           $handler = new xtcImport($_POST['select_file']);
+           $mapping=$handler->map_file($handler->generate_map());
+           $import=$handler->import($mapping);
       break;
 
       case 'export':
-        $handler = new xtcExport('export.csv');
-        $import=$handler->exportProdFile();
+            $handler = new xtcExport('export.csv');
+            $import=$handler->exportProdFile();
       break;
 
       case 'save':
-        $configuration_query = xtc_db_query("select configuration_key,configuration_id, configuration_value, use_function,set_function from " . TABLE_CONFIGURATION . " where configuration_group_id = '20' order by sort_order");
 
-        while ($configuration = xtc_db_fetch_array($configuration_query)) {
-          xtc_db_query("UPDATE ".TABLE_CONFIGURATION." SET configuration_value='".$_POST[$configuration['configuration_key']]."' where configuration_key='".$configuration['configuration_key']."'");
-        }
-        xtc_redirect(xtc_href_link(FILENAME_CSV_BACKEND));
-      break;
+          $configuration_query = xtc_db_query("select configuration_key,configuration_id, configuration_value, use_function,set_function from " . TABLE_CONFIGURATION . " where configuration_group_id = '20' order by sort_order");
+
+          while ($configuration = xtc_db_fetch_array($configuration_query))
+              xtc_db_query("UPDATE ".TABLE_CONFIGURATION." SET configuration_value='".$_POST[$configuration['configuration_key']]."' where configuration_key='".$configuration['configuration_key']."'");
+
+               xtc_redirect(xtc_href_link(FILENAME_CSV_BACKEND));
+        break;
   }
+
+
 
   $cfg_group_query = xtc_db_query("select configuration_group_title from " . TABLE_CONFIGURATION_GROUP . " where configuration_group_id = '20'");
   $cfg_group = xtc_db_fetch_array($cfg_group_query);
-
-require (DIR_WS_INCLUDES.'head.php');
+  
+  require (DIR_WS_INCLUDES.'head.php');
 ?>
+<
 <script type="text/javascript" src="includes/general.js"></script>
 </head>
 <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF">
 <!-- header //-->
 <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
 <!-- header_eof //-->
+
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
   <tr>
@@ -91,13 +91,13 @@ require (DIR_WS_INCLUDES.'head.php');
         <td class="main">
         <table class="infoBoxHeading" width="100%">
             <tr>
-              <td width="150" align="center">
-              <a href="#" onclick="toggleBox('config');"><?php echo CSV_SETUP; ?></a>
-              </td>
-              <td width="1">|
-              </td>
-              <td>
-              </td>
+                <td width="150" align="center">
+                <a href="#" onclick="toggleBox('config');"><?php echo CSV_SETUP; ?></a>
+                </td>
+                <td width="1">|
+                </td>
+                <td>
+                </td>
             </tr>
         </table>
 <div id="config" class="longDescription">
@@ -113,7 +113,7 @@ require (DIR_WS_INCLUDES.'head.php');
           if ($configuration['configuration_value'] != '') {
             $payment_installed = explode(';', $configuration['configuration_value']);
             for ($i = 0, $n = sizeof($payment_installed); $i < $n; $i++) {
-              include(DIR_WS_LANGUAGES . $language . '/modules/payment/' . $payment_installed[$i]); //DokuMan - 2012-06-30 - replace DIR_FS_CATALOG_LANGUAGES with DIR_WS_LANGUAGES
+              include(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/payment/' . $payment_installed[$i]);
             }
           }
           break;
@@ -122,7 +122,7 @@ require (DIR_WS_INCLUDES.'head.php');
           if ($configuration['configuration_value'] != '') {
             $shipping_installed = explode(';', $configuration['configuration_value']);
             for ($i = 0, $n = sizeof($shipping_installed); $i < $n; $i++) {
-              include(DIR_WS_LANGUAGES . $language . '/modules/shipping/' . $shipping_installed[$i]); //DokuMan - 2012-06-30 - replace DIR_FS_CATALOG_LANGUAGES with DIR_WS_LANGUAGES
+              include(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/shipping/' . $shipping_installed[$i]);
             }
           }
           break;
@@ -131,7 +131,7 @@ require (DIR_WS_INCLUDES.'head.php');
           if ($configuration['configuration_value'] != '') {
             $ot_installed = explode(';', $configuration['configuration_value']);
             for ($i = 0, $n = sizeof($ot_installed); $i < $n; $i++) {
-              include(DIR_WS_LANGUAGES . $language . '/modules/order_total/' . $ot_installed[$i]); //DokuMan - 2012-06-30 - replace DIR_FS_CATALOG_LANGUAGES with DIR_WS_LANGUAGES
+              include(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/order_total/' . $ot_installed[$i]);
             }
           }
           break;
@@ -153,7 +153,7 @@ require (DIR_WS_INCLUDES.'head.php');
       $cfgValue = $configuration['configuration_value'];
     }
 
-    if (((!$_GET['cID']) || (@$_GET['cID'] == $configuration['configuration_id'])) && (!$cInfo) && (substr($action, 0, 3) != 'new')) {
+    if (((!$_GET['cID']) || (@$_GET['cID'] == $configuration['configuration_id'])) && (!$cInfo) && (substr($_GET['action'], 0, 3) != 'new')) {
       $cfg_extra_query = xtc_db_query("select configuration_key,configuration_value, date_added, last_modified, use_function, set_function from " . TABLE_CONFIGURATION . " where configuration_id = '" . $configuration['configuration_id'] . "'");
       $cfg_extra = xtc_db_fetch_array($cfg_extra_query);
 
@@ -161,7 +161,7 @@ require (DIR_WS_INCLUDES.'head.php');
       $cInfo = new objectInfo($cInfo_array);
     }
     if ($configuration['set_function']) {
-        eval('$value_field = ' . $configuration['set_function'] . '"' . htmlspecialchars($configuration['configuration_value']) . '");');
+        eval('$value_field = ' . $configuration['set_function'] . '"' . encode_htmlspecialchars($configuration['configuration_value']) . '");');
       } else {
         $value_field = xtc_draw_input_field($configuration['configuration_key'], $configuration['configuration_value'],'size=40');
       }
@@ -189,13 +189,15 @@ require (DIR_WS_INCLUDES.'head.php');
 </div>
 <?php
 
-  if (isset($import))
+  if ($import)
   {
      if ($import[0])
      {
       echo '<table width="100%"  border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td class="messageStackSuccess"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">';
+                    <td class="messageStackSuccess"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+                    ';
+
                    if (isset($import[0]['prod_new'])) echo 'new products:'.$import[0]['prod_new'].'<br />';
                    if (isset($import[0]['cat_new'])) echo 'new categories:'.$import[0]['cat_new'].'<br />';
                    if (isset($import[0]['prod_upd'])) echo 'updated products:'.$import[0]['prod_upd'].'<br />';
@@ -203,6 +205,7 @@ require (DIR_WS_INCLUDES.'head.php');
                    if (isset($import[0]['cat_touched'])) echo 'touched categories:'.$import[0]['cat_touched'].'<br />';
                    if (isset($import[0]['prod_exp'])) echo 'products exported:'.$import[0]['prod_exp'].'<br />';
                    if (isset($import[2])) echo $import[2];
+
       echo '</font></td>
                 </tr>
                 </table>';
@@ -215,10 +218,11 @@ require (DIR_WS_INCLUDES.'head.php');
                     <td class="messageStackError"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
                     ';
 
-      for ($i=0;$i<count($import[1]);$i++)
-      {
-      echo $import[1][$i].'<br />';
-      }
+                   for ($i=0;$i<count($import[1]);$i++)
+                   {
+                    echo $import[1][$i].'<br />';
+                   }
+
 
       echo '</font></td>
                 </tr>
@@ -226,10 +230,11 @@ require (DIR_WS_INCLUDES.'head.php');
      }
 
   }
+
 ?>
 <table width="100%"  border="0" cellspacing="5" cellpadding="0">
   <tr>
-    <td class="pageHeading"><?php echo IMPORT; ?></td>
+    <td class="pageHeading">IMPORT</td>
   </tr>
   <tr>
     <td class="dataTableHeadingContent"><?php echo TEXT_IMPORT; ?>
@@ -260,28 +265,31 @@ echo '<br/><input type="submit" class="button" onclick="this.blur();" value="' .
           $files=array();
           echo xtc_draw_form('import',FILENAME_CSV_BACKEND,'action=import','POST','enctype="multipart/form-data"');
              if ($dir= opendir(DIR_FS_CATALOG.'import/')){
-               while  (($file = readdir($dir)) !==false) {
-                  if (is_file(DIR_FS_CATALOG.'import/'.$file) and ($file !=".htaccess"))
-                  {
-                  $size=filesize(DIR_FS_CATALOG.'import/'.$file);
-                  $files[]=array(
-                      'id' => $file,
-                      'text' => $file.' | '.xtc_format_filesize($size));
-                  }
-               }
-               closedir($dir);
+             while  (($file = readdir($dir)) !==false) {
+                if (is_file(DIR_FS_CATALOG.'import/'.$file) and ($file !=".htaccess"))
+                {
+                    $size=filesize(DIR_FS_CATALOG.'import/'.$file);
+                    $files[]=array(
+                        'id' => $file,
+                        'text' => $file.' | '.xtc_format_filesize($size));
+                }
              }
+             closedir($dir);
+            }
           echo xtc_draw_pull_down_menu('select_file',$files,'');
           echo '<br/><input type="submit" class="button" onclick="this.blur();" value="' . BUTTON_IMPORT . '"/>';
+
           ?></form>
 </td>
         </tr>
-      </table><p>&nbsp;</p></td>
+      </table>      <p>&nbsp; </p></td>
   </tr>
 </table>
+
+
 <table width="100%"  border="0" cellspacing="5" cellpadding="0">
   <tr>
-    <td class="pageHeading"><?php echo EXPORT; ?></td>
+    <td class="pageHeading">Export</td>
   </tr>
   <tr>
     <td class="dataTableHeadingContent">
@@ -305,11 +313,14 @@ echo '<br/><input type="submit" class="button" onclick="this.blur();" value="' .
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td></td>
+          <td>
+
+</td>
         </tr>
-      </table><p>&nbsp;</p></td>
+      </table>      <p>&nbsp; </p></td>
   </tr>
 </table>
+
 </td>
       </tr>
     </table></td>
@@ -317,6 +328,7 @@ echo '<br/><input type="submit" class="button" onclick="this.blur();" value="' .
   </tr>
 </table>
 <!-- body_eof //-->
+
 <!-- footer //-->
 <?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
 <!-- footer_eof //-->

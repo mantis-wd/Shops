@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: categories.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: categories.php 3392 2012-08-06 12:45:26Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -216,7 +216,6 @@ define('TEXT_ATTRIBUTE_COPY_INFO', 'Product attributes also copy <br/> Only sing
 
 define('TEXT_PRODUCTS_ORDER_DESCRIPTION','Order description');
 
-// web28 - redirect to product input mask
-define ('TEXT_HOW_TO_LINK', '<b>Page view after copying/linking</ b>');
-define ('TEXT_HOW_TO_LINK_INFO', 'Product input mask<br/> (If there are several items goto last in the list)');
+define('TEXT_HOW_TO_LINK', '<b>Page view after copying / link</b>');
+define('TEXT_HOW_TO_LINK_INFO', 'Item entry screen <br/> (For multiple items to last in the list)');
 ?>

@@ -1,17 +1,16 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_db_install.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+   $Id: xtc_db_install.inc.php 899 2005-04-29 02:40:57Z hhgag $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(database.php,v 1.2 2002/03/02); www.oscommerce.com 
    (c) 2003	 nextcommerce (xtc_db_install.inc.php,v 1.3 2003/08/13); www.nextcommerce.org
-   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
@@ -50,18 +49,17 @@ function xtc_db_install($database, $sql_file) {
           continue;
         }
         if ($restore_query[($i+1)] == "\n") {
-          $next = ''; //added missing variable initialization
           for ($j=($i+2); $j<$sql_length; $j++) {
             if (trim($restore_query[$j]) != '') {
               $next = substr($restore_query, $j, 6);
               if ($next[0] == '#') {
-                // find out where the break position is so we can remove this line (#comment line)
+// find out where the break position is so we can remove this line (#comment line)
                 for ($k=$j; $k<$sql_length; $k++) {
                   if ($restore_query[$k] == "\n") break;
                 }
                 $query = substr($restore_query, 0, $i+1);
                 $restore_query = substr($restore_query, $k);
-                // join the query before the comment appeared, with the rest of the dump
+// join the query before the comment appeared, with the rest of the dump
                 $restore_query = $query . $restore_query;
                 $sql_length = strlen($restore_query);
                 $i = strpos($restore_query, ';')-1;
@@ -70,25 +68,12 @@ function xtc_db_install($database, $sql_file) {
               break;
             }
           }
-          if (empty($next)) { // get the last insert query
+          if ($next == '') { // get the last insert query
             $next = 'insert';
           }
-          //BOF - DokuMan - 2010-07-26 - replace preg_match by strtoupper to be more accurate
-          //if ( (preg_match('/create/i', $next)) || (preg_match('/insert/i', $next)) || (preg_match('/drop t/i', $next)) ) { // Hetfield - 2009-08-19 - replaced deprecated function eregi with preg_match to be ready for PHP >= 5.3
-          // compare first 6 letters, if it fits an SQL statement to start a new line
-          if ((strtoupper($next) == 'DROP T') 
-          || (strtoupper($next) == 'CREATE') 
-          || (strtoupper($next) == 'INSERT')
-          || (strtoupper($next) == 'DELETE')
-          || (strtoupper($next) == 'ALTER ')
-          || (strtoupper($next) == 'UPDATE')) {
-          //EOF - DokuMan - 2010-07-26 - replace preg_match by strtoupper to be more accurate
+          if ( (preg_match('/create/i', $next)) || (preg_match('/insert/i', $next)) || (preg_match('/drop t/i', $next)) ) { // Hetfield - 2009-08-19 - replaced deprecated function eregi with preg_match to be ready for PHP >= 5.3
             $next = '';
-            //BOF - DokuMan - 2010-07-26 - trim SQL-statement first
-            //$sql_array[] = substr($restore_query, 0, $i);
-            $sql_query = substr($restore_query, 0, $i);       
-            $sql_array[] = trim($sql_query);
-            //EOF - DokuMan - 2010-07-26 - trim SQL-statement first
+            $sql_array[] = substr($restore_query, 0, $i);
             $restore_query = ltrim(substr($restore_query, $i+1));
             $sql_length = strlen($restore_query);
             $i = strpos($restore_query, ';')-1;

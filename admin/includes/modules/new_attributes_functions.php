@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: new_attributes_functions.php 3952 2012-11-15 00:20:51Z Tomcraft1980 $
+   $Id: new_attributes_functions.php 899 2005-04-29 02:40:57Z hhgag $
 
    XT-Commerce - community made shopping
    http://www.xt-commerce.com

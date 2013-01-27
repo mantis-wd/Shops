@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: login_admin.php 4209 2013-01-10 23:54:44Z Tomcraft1980 $
+   $Id: login_admin.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -78,7 +78,7 @@ if(isset($_POST['repair'])  || isset($_POST['show_error'])) {
   require_once(DIR_FS_INC . 'xtc_db_fetch_array.inc.php');
   require_once(DIR_FS_INC . 'xtc_db_input.inc.php');
   require_once(DIR_FS_INC . 'xtc_validate_password.inc.php');
-  require_once(DIR_WS_CLASSES.FILENAME_INPUTFILTER);
+  require_once(DIR_WS_CLASSES.'class.inputfilter.php');
 
   xtc_db_connect() or die('Unable to connect to database server!');
 

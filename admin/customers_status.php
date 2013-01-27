@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: customers_status.php 4333 2013-01-17 15:28:03Z Tomcraft1980 $
+   $Id: customers_status.php 3877 2012-11-09 13:39:14Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -139,7 +139,6 @@
 
         $accepted_customers_status_image_files_extensions = array("jpg","jpeg","jpe","gif","png","bmp","tiff","tif","bmp");
         $accepted_customers_status_image_files_mime_types = array("image/jpeg","image/gif","image/png","image/bmp");
-        //web28 - 2010-09-03 change icon path
         if ($customers_status_image = &xtc_try_upload('customers_status_image', DIR_WS_ICONS, '', $accepted_customers_status_image_files_extensions, $accepted_customers_status_image_files_mime_types)) {
           xtc_db_query("UPDATE " . TABLE_CUSTOMERS_STATUS . " SET customers_status_image = '" . $customers_status_image->filename . "' WHERE customers_status_id = '" . xtc_db_input($customers_status_id) . "'");
         }
@@ -284,7 +283,7 @@ require (DIR_WS_INCLUDES.'head.php');
                             //EOC - web28 2011-10-26 - show customers group
                             echo '<td class="dataTableContent" align="left">';
                             if ($customers_status['customers_status_image'] != '') {
-                              echo xtc_image(DIR_WS_ICONS . $customers_status['customers_status_image'] , IMAGE_ICON_INFO); //web28 - 2010-09-03 change icon path
+                              echo xtc_image(DIR_WS_ICONS . $customers_status['customers_status_image'] , IMAGE_ICON_INFO);
                             }
                             echo '</td>';
 
@@ -413,9 +412,9 @@ require (DIR_WS_INCLUDES.'head.php');
                           $contents[] = array('text' => '<br />' . TEXT_INFO_CUSTOMERS_STATUS_NAME . $customers_status_inputs_string);
                           // BOF - Tomcraft - 2010-04-08 - Removed line break for better layout
                           //$contents[] = array('text' => '<br />' . xtc_image(DIR_WS_ICONS . $cInfo->customers_status_image, $cInfo->customers_status_name) . '<br />' . DIR_WS_ICONS . '<br /><b>' . $cInfo->customers_status_image . '</b>');
-                          $contents[] = array('text' => '<br />' . xtc_image(DIR_WS_ICONS . $cInfo->customers_status_image, $cInfo->customers_status_name) . '<br />' . '../'.DIR_WS_ICONS . '<b>' . $cInfo->customers_status_image . '</b>'); //web28 - 2010-09-03 change icon path
+                          $contents[] = array('text' => '<br />' . xtc_image(DIR_WS_ICONS . $cInfo->customers_status_image, $cInfo->customers_status_name) . '<br />' . DIR_WS_ICONS . '<b>' . $cInfo->customers_status_image . '</b>'); 
                           // EOF - Tomcraft - 2010-04-08 - Removed line break for better layout
-                          $contents[] = array('text' => '<br />' . TEXT_INFO_CUSTOMERS_STATUS_IMAGE . '<br />' . xtc_draw_file_field('customers_status_image') . ' (jpg,jpeg,jpe,gif,png,bmp,tiff,tif,bmp)');
+                          $contents[] = array('text' => '<br />' . TEXT_INFO_CUSTOMERS_STATUS_IMAGE . '<br />' . xtc_draw_file_field('customers_status_image', $cInfo->customers_status_image) . ' (jpg,jpeg,jpe,gif,png,bmp,tiff,tif,bmp)');
                           $contents[] = array('text' => '<br />' . TEXT_INFO_CUSTOMERS_STATUS_PUBLIC_INTRO . '<br />' . ENTRY_CUSTOMERS_STATUS_PUBLIC . ' ' . xtc_draw_pull_down_menu('customers_status_public', $customers_status_public_array, $cInfo->customers_status_public ));
                           $contents[] = array('text' => '<br />' . TEXT_INFO_CUSTOMERS_STATUS_MIN_ORDER_INTRO . '<br />' . ENTRY_CUSTOMERS_STATUS_MIN_ORDER . ' ' . xtc_draw_input_field('customers_status_min_order', $cInfo->customers_status_min_order ));
                           $contents[] = array('text' => '<br />' . TEXT_INFO_CUSTOMERS_STATUS_MAX_ORDER_INTRO . '<br />' . ENTRY_CUSTOMERS_STATUS_MAX_ORDER . ' ' . xtc_draw_input_field('customers_status_max_order', $cInfo->customers_status_max_order ));
@@ -477,7 +476,8 @@ require (DIR_WS_INCLUDES.'head.php');
 
                       if ( (xtc_not_null($heading)) && (xtc_not_null($contents)) ) {
                         echo '<td width="25%" valign="top">' . "\n";
-                        echo box::infoBoxSt($heading, $contents); // cYbercOsmOnauT - 2011-02-07 - Changed methods of the classes box and tableBox to static
+                        $box = new box;
+                        echo $box->infoBox($heading, $contents);
                         echo '</td>' . "\n";
                       }
                     ?>

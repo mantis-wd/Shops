@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: checkout_process.php 4318 2013-01-14 14:33:39Z Tomcraft1980 $
+   $Id: checkout_process.php 3731 2012-09-30 17:35:19Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -113,9 +113,9 @@ if (isset ($_SESSION['cart']->cartID) && isset ($_SESSION['cartID'])) {
 // EOF - Tomcraft - 2009-10-03 - Paypal Express Modul
 
 // load selected payment module
-require_once (DIR_WS_CLASSES.'payment.php');
+require_once  (DIR_WS_CLASSES.'payment.php');
 if (isset ($_SESSION['credit_covers'])) {
-  $_SESSION['payment'] = ''; //ICW added for CREDIT CLASS
+  $_SESSION['payment'] = ''; //ICW added for CREDIT CLASS 
 }
 $payment_modules = new payment($_SESSION['payment']);
 
@@ -134,24 +134,20 @@ require_once(DIR_WS_CLASSES.'order.php');
 //--- SHOPSTAT -------------------------//
 $order = new order();
 
-//$payment_modules->before_process(); // DokuMan - 2011-05-09 - Load the Order Total Modules Before Loading the Payment Modules
+// load the before_process function from the payment modules
+$payment_modules->before_process();
+
 require (DIR_WS_CLASSES.'order_total.php');
 $order_total_modules = new order_total();
 $order_totals = $order_total_modules->process();
-
-// load the before_process function from the payment modules
-$payment_modules->before_process(); // DokuMan - 2011-05-09 - Load the Order Total Modules Before Loading the Payment Modules
 
 // check if tmp order id exists
 if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokuman - 2009-10-11 - Paypal fix for infinite loop see, http://www.modified-shop.org/forum/topic.php?id=2235
   $tmp = false;
   $insert_id = $_SESSION['tmp_oID'];
 } else {
-  // check if tmp order needs to be created
-  // BOF - Tomcraft - 2009-10-03 - Paypal Express Modul
-  //if (isset ($$_SESSION['payment']->form_action_url) && $$_SESSION['payment']->tmpOrders) {
-  if (isset($$_SESSION['payment']->tmpOrders) && $$_SESSION['payment']->tmpOrders == true) {
-  // EOF - Tomcraft - 2009-10-03 - Paypal Express Modul
+  // check if tmp order need to be created
+  if (isset ($$_SESSION['payment']->form_action_url) && $$_SESSION['payment']->tmpOrders) {
     $tmp = true;
     $tmp_status = $$_SESSION['payment']->tmpStatus;
   } else {
@@ -166,7 +162,6 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
   }
   // BMC CC Mod End
 
-  // BOF - Tomcraft - 2009-10-03 - Paypal Express Modul
   if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1) {
     $discount = $_SESSION['customers_status']['customers_status_ot_discount'];
   } else {
@@ -225,7 +220,7 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
                            'billing_address_format_id' => $order->billing['format_id'],
                            'cc_start' => $order->info['cc_start'],
                            'cc_cvv' => $order->info['cc_cvv'],
-                           'cc_issue' => $order->info['cc_issue'],
+                           'cc_issue' => $order->info['cc_issue'],                           
                            'payment_method' => $order->info['payment_method'],
                            'payment_class' => $order->info['payment_class'],
                            'shipping_method' => $order->info['shipping_method'],
@@ -242,8 +237,7 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
                            'customers_ip' => $customers_ip,
                            'language' => $_SESSION['language'],
                            'comments' => $order->info['comments']
-                           );
-  // EOF - Tomcraft - 2009-10-03 -Paypal Express Modul (andere Schreibweise)
+                           );  
 
   xtc_db_perform(TABLE_ORDERS, $sql_data_array);
   $insert_id = xtc_db_insert_id();
@@ -271,15 +265,15 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
   // initialized for the email confirmation
   $products_ordered = '';
   $products_ordered_html = '';
-  //$subtotal = 0;  //DokuMan - 2011-05-10 - remove redundant variables
-  //$total_tax = 0; //DokuMan - 2011-05-10 - remove redundant variables
+  $subtotal = 0;
+  $total_tax = 0;
 
   for ($i = 0, $n = sizeof($order->products); $i < $n; $i ++) {
     // Stock Update - Joao Correia
     if (STOCK_LIMITED == 'true') {
       if (DOWNLOAD_ENABLED == 'true') {
         $stock_query_raw = "-- /checkout_process.php
-                            SELECT products_quantity,
+                            SELECT products_quantity, 
                                    pad.products_attributes_filename
                               FROM ".TABLE_PRODUCTS." p
                          LEFT JOIN ".TABLE_PRODUCTS_ATTRIBUTES." pa ON p.products_id=pa.products_id
@@ -287,20 +281,16 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
                              WHERE p.products_id = '".xtc_get_prid($order->products[$i]['id'])."'";
         // Will work with only one option for downloadable products
         // otherwise, we have to build the query dynamically with a loop
-
-        //BOF - DokuMan - 2011-09-12 - Make sure product has attributes before checking them
-        //$products_attributes = $order->products[$i]['attributes'];
-        $products_attributes = (isset($order->products[$i]['attributes'])) ? $order->products[$i]['attributes'] : '';
-        //EOF - DokuMan - 2011-09-12 - Make sure product has attributes before checking them
+        $products_attributes = $order->products[$i]['attributes'];
         if (is_array($products_attributes)) {
           $stock_query_raw .= " AND pa.options_id = '".$products_attributes[0]['option_id']."' AND pa.options_values_id = '".$products_attributes[0]['value_id']."'";
         }
         $stock_query = xtc_db_query($stock_query_raw);
       } else {
-        $stock_query = xtc_db_query("-- /checkout_process.php
-                                     SELECT products_quantity
-                                       FROM ".TABLE_PRODUCTS."
-                                      WHERE products_id = '".xtc_get_prid($order->products[$i]['id'])."'");
+        $stock_query = xtc_db_query(" -- /checkout_process.php
+                                    SELECT products_quantity
+                                        FROM ".TABLE_PRODUCTS."
+                                       WHERE products_id = '".xtc_get_prid($order->products[$i]['id'])."'");
       }
       if (xtc_db_num_rows($stock_query) > 0) {
         $stock_values = xtc_db_fetch_array($stock_query);
@@ -312,7 +302,7 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
         }
 
         xtc_db_query("UPDATE ".TABLE_PRODUCTS."
-                         SET products_quantity = '".(int)$stock_left."'
+                         SET products_quantity = '".$stock_left."'
                        WHERE products_id = '".xtc_get_prid($order->products[$i]['id'])."'");
         if (($stock_left < 1) && (STOCK_CHECKOUT_UPDATE_PRODUCTS_STATUS == 'true')) {
           xtc_db_query("UPDATE ".TABLE_PRODUCTS."
@@ -327,18 +317,18 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
                      SET products_ordered = products_ordered + ".sprintf('%d', $order->products[$i]['qty'])."
                    WHERE products_id = '".xtc_get_prid($order->products[$i]['id'])."'");
 
-    $sql_data_array = array ('orders_id' => $insert_id,
-                             'products_id' => xtc_get_prid($order->products[$i]['id']),
-                             'products_model' => $order->products[$i]['model'],
-                             'products_name' => $order->products[$i]['name'],
-                             'products_shipping_time'=>$order->products[$i]['shipping_time'],
-                             'products_price' => $order->products[$i]['price'],
-                             'final_price' => $order->products[$i]['final_price'],
-                             'products_tax' => $order->products[$i]['tax'],
-                             'products_discount_made' => isset($order->products[$i]['discount_allowed']) ? $order->products[$i]['discount_allowed'] : 0,
-                             'products_quantity' => $order->products[$i]['qty'],
-                             'allow_tax' => $_SESSION['customers_status']['customers_status_show_price_tax']
-    );
+    $sql_data_array = array ( 'orders_id' => $insert_id,
+                              'products_id' => xtc_get_prid($order->products[$i]['id']),
+                              'products_model' => $order->products[$i]['model'],
+                              'products_name' => $order->products[$i]['name'],
+                              'products_shipping_time'=>$order->products[$i]['shipping_time'],
+                              'products_price' => $order->products[$i]['price'],
+                              'final_price' => $order->products[$i]['final_price'],
+                              'products_tax' => $order->products[$i]['tax'],
+                              'products_discount_made' => $order->products[$i]['discount_allowed'],
+                              'products_quantity' => $order->products[$i]['qty'],
+                              'allow_tax' => $_SESSION['customers_status']['customers_status_show_price_tax']
+                              );
 
     $add_data_array = array('products_order_description' => $order->products[$i]['order_description']);
     $sql_data_array = array_merge($sql_data_array, $add_data_array);
@@ -352,17 +342,18 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
                                       WHERE products_id = '".xtc_get_prid($order->products[$i]['id'])."' ");
     if (xtc_db_num_rows($specials_result)) {
       $spq = xtc_db_fetch_array($specials_result);
-      $new_sp_quantity = ($spq['specials_quantity'] - $order->products[$i]['qty']);
-
-      if ($new_sp_quantity >= 1) {
-        xtc_db_query("UPDATE ".TABLE_SPECIALS."
-                         SET specials_quantity = '".$new_sp_quantity."'
-                       WHERE products_id = '".xtc_get_prid($order->products[$i]['id'])."' ");
-      } else {
-        xtc_db_query("UPDATE ".TABLE_SPECIALS."
-                         SET status = '0',
-                             specials_quantity = '".$new_sp_quantity."'
-                       WHERE products_id = '".xtc_get_prid($order->products[$i]['id'])."' ");
+      if ($spq['specials_quantity'] != 0) {
+        $new_sp_quantity = ($spq['specials_quantity'] - $order->products[$i]['qty']);
+        if ($new_sp_quantity >= 1) {
+          xtc_db_query("UPDATE ".TABLE_SPECIALS." 
+                           SET specials_quantity = '".$new_sp_quantity."' 
+                         WHERE products_id = '".xtc_get_prid($order->products[$i]['id'])."' ");
+        } else {
+          xtc_db_query("UPDATE ".TABLE_SPECIALS." 
+                           SET status = '0', 
+                               specials_quantity = '".$new_sp_quantity."'
+                         WHERE products_id = '".xtc_get_prid($order->products[$i]['id'])."' ");
+        }
       }
     }
     // Aenderung Ende
@@ -374,7 +365,7 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
     if (isset ($order->products[$i]['attributes'])) {
       $attributes_exist = '1';
       for ($j = 0, $n2 = sizeof($order->products[$i]['attributes']); $j < $n2; $j ++) {
-       $left_join_downloads = $add_products_attributes = '';
+        $left_join_downloads = $add_products_attributes = '';
         if (DOWNLOAD_ENABLED == 'true') {
           $left_join_downloads = "LEFT JOIN ".TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD." pad ON pa.products_attributes_id=pad.products_attributes_id";
           $add_products_attributes = 'pad.products_attributes_maxdays,
@@ -388,7 +379,7 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
                        WHERE products_id='".$order->products[$i]['id']."'
                          AND options_values_id='".$order->products[$i]['attributes'][$j]['value_id']."'
                          AND options_id='".$order->products[$i]['attributes'][$j]['option_id']."'
-                    ");
+                       ");
 
         $attributes_values = $main->getAttributes( $order->products[$i]['id'],
                                                    $order->products[$i]['attributes'][$j]['option_id'],
@@ -420,11 +411,10 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
       }
     }
     //------insert customer choosen option eof ----
-    // EOF - DokuMan - 2011-05-10 - remove redundant variables
-    //$total_weight += ($order->products[$i]['qty'] * $order->products[$i]['weight']);
-    //$total_tax += xtc_calculate_tax($total_products_price, $products_tax) * $order->products[$i]['qty'];
-    //$total_cost += $total_products_price;
-    // EOF - DokuMan - 2011-05-10 - remove redundant variables
+    $total_weight += ($order->products[$i]['qty'] * $order->products[$i]['weight']);
+    $total_tax += xtc_calculate_tax($total_products_price, $products_tax) * $order->products[$i]['qty'];
+    $total_cost += $total_products_price;
+
   }
 
   // check refID
@@ -472,6 +462,9 @@ if (!$tmp) {
   $order_totals = $order_total_modules->apply_credit();
   include ('send_order.php');
 
+  /* easyBill */
+  include(DIR_WS_MODULES.'module.easybill.php');
+
   // load the after_process function from the payment modules
   $payment_modules->after_process();
 
@@ -510,12 +503,12 @@ if (!$tmp) {
   $order_total_modules->clear_posts(); //ICW ADDED FOR CREDIT CLASS SYSTEM
   // GV Code End
 
-  // BOF - Tomcraft - 2009-11-28 - Included xs:booster
+// BOF - Tomcraft - 2009-11-28 - Included xs:booster
   if(@isset($_SESSION['xtb0'])) {
     define('XTB_CHECKOUT_PROCESS', __LINE__);
-    require 'callback/xtbooster/xtbcallback.php'; //DokuMan - Moved xtbcallback.php to callback directory
+    require 'xtbcallback.php';
   }
-  // EOF - Tomcraft - 2009-11-28 - Included xs:booster
+// EOF - Tomcraft - 2009-11-28 - Included xs:booster
 
   // BOF - Tomcraft - 2009-10-03 - PayPal Express Modul (PayPal GiroPay aufrufen zum bestätigen)
   if(isset($_SESSION['reshash']['REDIRECTREQUIRED'])  && strtoupper($_SESSION['reshash']['REDIRECTREQUIRED'])=="TRUE") {

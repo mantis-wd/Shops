@@ -1,17 +1,16 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: customers_status.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: customers_status.php 1062 2005-07-21 19:57:29Z gwinger $
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    --------------------------------------------------------------
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(customers.php,v 1.76 2003/05/04); www.oscommerce.com
    (c) 2003	 nextcommerce (customers_status.php,v 1.12 2003/08/14); www.nextcommerce.org
-   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License
    --------------------------------------------------------------*/
@@ -43,6 +42,9 @@ define('ERROR_REMOVE_DEFAULT_CUSTOMER_STATUS', 'Error: You can not delete the de
 define('ERROR_REMOVE_DEFAULT_CUSTOMERS_STATUS','ERROR! You cant delete a standardgroup');
 define('ERROR_STATUS_USED_IN_CUSTOMERS', 'Error: This customer group is actually in use.');
 define('ERROR_STATUS_USED_IN_HISTORY', 'Error: This customer group is actually in use for order history.');
+
+define('YES','yes');
+define('NO','no');
 
 define('TABLE_HEADING_ACTION','Action');
 define('TABLE_HEADING_CUSTOMERS_GRADUATED','Graduated Price');
@@ -90,4 +92,6 @@ define('TEXT_INFO_HEADING_NEW_CUSTOMERS_STATUS', 'New Customer Group');
 
 define('TEXT_INFO_CUSTOMERS_STATUS_BASE', '<strong>Basis Kundengruppe für Artikelpreise</strong>');
 define('ENTRY_CUSTOMERS_STATUS_BASE', 'wird als Grundlage für die Preise der neuen Kundengruppe gewählt. Wenn Auswahl = Admin werden keine Preise für die neue Kundengruppe angelegt.');
+
+define('IMAGE_ICON_INFO','action');
 ?>

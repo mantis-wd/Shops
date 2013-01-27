@@ -1,17 +1,16 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: customers.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+   $Id: customers.php 2666 2012-02-23 11:38:17Z dokuman $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    --------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(customers.php,v 1.13 2002/06/15); www.oscommerce.com 
    (c) 2003 nextcommerce (customers.php,v 1.8 2003/08/15); www.nextcommerce.org
-   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License 
    --------------------------------------------------------------*/
@@ -62,4 +61,8 @@ define('TABLE_HEADING_UMSATZ','Umsatz');
 // BOF - web28 - 2010-05-28 - added  customers_email_address
 define('TABLE_HEADING_EMAIL','E-Mail');
 // EOF - web28 - 2010-05-28 - added  customers_email_address
+
+define('TEXT_INFO_HEADING_ADRESS_BOOK', 'Adressbuch');
+define('TEXT_INFO_DELETE', '<b>Diesen Adressbucheintrag l&ouml;schen?</b>');
+define('TEXT_INFO_DELETE_DEFAULT', '<b>Dieser Adressbucheintrag kann nicht gel&ouml;scht werden!</b>'); 
 ?>

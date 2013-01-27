@@ -36,5 +36,7 @@ include(DIR_WS_LANGUAGES.$lng->language['directory'].'/'.$lng->language['directo
 // testen ende
 require_once('../../includes/classes/paypal_checkout.php');
 $o_paypal = new paypal_checkout();
-if(is_array($_POST))$response = $o_paypal->callback_process($_POST,$lng->language['language_charset']);
+if(is_array($_POST)) {
+	$response = $o_paypal->callback_process($_POST,$lng->language['language_charset']);
+}
 ?>

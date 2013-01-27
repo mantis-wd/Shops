@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: account_history_info.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: account_history_info.php 3970 2012-11-16 12:30:38Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -91,49 +91,24 @@ $statuses_query = xtc_db_query("-- /account_history_info.php
                                   AND os.language_id = '".(int) $_SESSION['languages_id']."'
                                 ORDER BY osh.date_added");
 while ($statuses = xtc_db_fetch_array($statuses_query)) {
-  $history_block .= xtc_date_short($statuses['date_added']). '&nbsp;<strong>' .$statuses['orders_status_name']. '</strong>&nbsp;' . (empty ($statuses['comments']) || empty($statuses['comments_sent']) ? '&nbsp;' : nl2br(htmlspecialchars($statuses['comments']))) .'<br />';
+  $history_block .= xtc_date_short($statuses['date_added']). '&nbsp;<strong>' .$statuses['orders_status_name']. '</strong>&nbsp;' . (empty ($statuses['comments']) || empty($statuses['comments_sent']) ? '&nbsp;' : nl2br(encode_htmlspecialchars($statuses['comments']))) .'<br />';
 }
 $smarty->assign('HISTORY_BLOCK', $history_block);
-
-// BOF - DokuMan - 2012-11-15 - Track & Trace functionality (show tracking numbers in customer account)
-// Order Tracking
-$tracking_block = '';
-$tracking_links_query = xtc_db_query("-- /account_history_info.php
-                                     SELECT ortra.ortra_id,
-                                            ortra.ortra_parcel_id,
-                                            carriers.carrier_name,
-                                            carriers.carrier_tracking_link
-                                       FROM ".TABLE_ORDERS_TRACKING." ortra, 
-                                            ".TABLE_CARRIERS ." carriers
-                                      WHERE ortra_order_id = '".$order->info['order_id']."'
-                                        AND ortra.ortra_carrier_id = carriers.carrier_id");
-if (xtc_db_num_rows($tracking_links_query)) {
-  //$parcel_count = xtc_db_num_rows($tracking_links_query);
-  while ($tracking_link = xtc_db_fetch_array($tracking_links_query)) {
-    $tracking_block .= $tracking_link['carrier_name'].': <a href="'.str_replace('$1',$tracking_link['ortra_parcel_id'],$tracking_link['carrier_tracking_link']).'" target="_blank">'.$tracking_link['ortra_parcel_id'].'</a><br />';
-  }
-}
-$smarty->assign('TRACKING_BLOCK', $tracking_block);
-// EOF - DokuMan - 2012-11-15 - Track & Trace functionality (show tracking numbers in customer account)
 
 // Download-Products
 if (DOWNLOAD_ENABLED == 'true') include (DIR_WS_MODULES.'downloads.php');
 
 // Stuff
 $smarty->assign('ORDER_NUMBER', $order->info['order_id']); //DokuMan - 2011-08-31 - fix order_id assignment
-
 $smarty->assign('ORDER_DATE', xtc_date_long($order->info['date_purchased']));
 $smarty->assign('ORDER_STATUS', $order->info['orders_status']);
 $smarty->assign('BILLING_LABEL', xtc_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br />'));
 $smarty->assign('PRODUCTS_EDIT', xtc_href_link(FILENAME_SHOPPING_CART, '', 'NONSSL')); // web28 - 2011-04-14 - change SSL -> NONSSL
 $smarty->assign('SHIPPING_ADDRESS_EDIT', xtc_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL'));
 $smarty->assign('BILLING_ADDRESS_EDIT', xtc_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'));
-//BOF - Tomcraft - 2010-04-03 - unified popups with scrollbars and make them resizable
-//$smarty->assign('BUTTON_PRINT', '<a style="cursor:pointer" onclick="javascript:window.open(\''.xtc_href_link(FILENAME_PRINT_ORDER, 'oID='.$order->info['order_id']).'\', \'popup\', \'toolbar=0, width=640, height=600\')"><img src="'.'templates/'.CURRENT_TEMPLATE.'/buttons/'.$_SESSION['language'].'/button_print.gif" alt="'.TEXT_PRINT.'" /></a>');
 $smarty->assign('BUTTON_PRINT', '<a style="cursor:pointer" onclick="javascript:window.open(\''.xtc_href_link(FILENAME_PRINT_ORDER, 'oID='.$order->info['order_id']).'\', \'popup\', \'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no, width=640, height=600\')"><img src="'.'templates/'.CURRENT_TEMPLATE.'/buttons/'.$_SESSION['language'].'/button_print.gif" alt="'.TEXT_PRINT.'" /></a>');
-//EOF - Tomcraft - 2010-04-03 - unified popups with scrollbars and make them resizable
 
-$from_history = preg_match("/page=/i", xtc_get_all_get_params()); // referer from account_history yes/no // Hetfield - 2009-08-19 - replaced deprecated function eregi with preg_match to be ready for PHP >= 5.3
+$from_history = preg_match("/page=/i", xtc_get_all_get_params()); // referer from account_history yes/no
 $back_to = $from_history ? FILENAME_ACCOUNT_HISTORY : FILENAME_ACCOUNT; // if from account_history => return to account_history
 $smarty->assign('BUTTON_BACK','<a href="' . xtc_href_link($back_to,xtc_get_all_get_params(array ('order_id')), 'SSL') . '">' . xtc_image_button('button_back.gif', IMAGE_BUTTON_BACK) . '</a>');
 $smarty->assign('language', $_SESSION['language']);

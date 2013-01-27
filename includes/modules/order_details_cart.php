@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: order_details_cart.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: order_details_cart.php 3717 2012-09-29 10:09:21Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -10,7 +10,7 @@
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(order_details.php,v 1.8 2003/05/03); www.oscommerce.com
-   (c) 2003 nextcommerce (order_details.php,v 1.16 2003/08/17); www.nextcommerce.org
+   (c) 2003   nextcommerce (order_details.php,v 1.16 2003/08/17); www.nextcommerce.org
    (c) 2006 xt:Commerce (order_details_cart.php 1281 2005-10-03); www.xt-commerce.de
 
    Released under the GNU General Public License
@@ -30,12 +30,10 @@
    ---------------------------------------------------------------------------------------*/
 
 $module_smarty = new Smarty;
-$module_smarty->caching = false; //DokuMan - 2012-10-30 - avoid Smarty caching in order to display the correct data, if caching is enabled in shop backend
 
-//BOF - GTB - 2010-08-03 - Security Fix - Base
-$module_smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
-//$module_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
-//EOF - GTB - 2010-08-03 - Security Fix - Base
+$module_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+
+
 // include needed functions
 require_once (DIR_FS_INC.'xtc_check_stock.inc.php');
 require_once (DIR_FS_INC.'xtc_get_products_stock.inc.php');
@@ -78,16 +76,16 @@ for ($i = 0, $n = sizeof($products); $i < $n; $i ++) {
                                                   xtc_draw_hidden_field('old_qty[]', $products[$i]['quantity']),
                                 'PRODUCTS_MODEL' => $products[$i]['model'],
                                 'PRODUCTS_SHIPPING_TIME'=>$products[$i]['shipping_time'],
-                                'PRODUCTS_TAX' => number_format($products[$i]['tax'], TAX_DECIMAL_PLACES),
-                                'PRODUCTS_IMAGE' => $image,
+                                'PRODUCTS_TAX' => number_format($products[$i]['tax'], TAX_DECIMAL_PLACES), 
+                                'PRODUCTS_IMAGE' => $image, 
                                 'IMAGE_ALT' => $products[$i]['name'],
-                                'BOX_DELETE' => xtc_draw_checkbox_field('cart_delete[]', $products[$i]['id']),
-                                'PRODUCTS_LINK' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products[$i]['id'], $products[$i]['name'])),
+                                'BOX_DELETE' => xtc_draw_checkbox_field('cart_delete[]', $products[$i]['id']), 
+                                'PRODUCTS_LINK' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products[$i]['id'], $products[$i]['name'])), 
                                 'BUTTON_DELETE' => $del_button,
-                                'LINK_DELETE' => $del_link,
-                                'PRODUCTS_PRICE' => $xtPrice->xtcFormat($products[$i]['price'] * $products[$i]['quantity'], true),
-                                'PRODUCTS_SINGLE_PRICE' =>$xtPrice->xtcFormat($products[$i]['price'], true),
-                                'PRODUCTS_SHORT_DESCRIPTION' => xtc_get_short_description($products[$i]['id']),
+                                'LINK_DELETE' => $del_link,                  
+                                'PRODUCTS_PRICE' => $xtPrice->xtcFormat($products[$i]['price'] * $products[$i]['quantity'], true), 
+                                'PRODUCTS_SINGLE_PRICE' =>$xtPrice->xtcFormat($products[$i]['price'], true), 
+                                'PRODUCTS_SHORT_DESCRIPTION' => xtc_get_short_description($products[$i]['id']), 
                                 'ATTRIBUTES' => '');
 
   //products attributes
@@ -142,16 +140,17 @@ if ($_SESSION['customers_status']['customers_status_show_price'] == '1') {
 }
 
 if (SHOW_SHIPPING == 'true') {
-   $module_smarty->assign('SHIPPING_INFO', $main->getShippingLink()); //web28 -2012-09-29 - use main function
+  $module_smarty->assign('SHIPPING_INFO', $main->getShippingLink()); //web28 -2012-09-29 - use main function
 }
 if ($_SESSION['customers_status']['customers_status_show_price'] == '1') {
-  $module_smarty->assign('UST_CONTENT', $_SESSION['cart']->show_tax());
+$module_smarty->assign('UST_CONTENT', $_SESSION['cart']->show_tax());
 }
 $module_smarty->assign('TOTAL_CONTENT', $total_content);
 $module_smarty->assign('language', $_SESSION['language']);
 $module_smarty->assign('module_content', $module_content);
 $module_smarty->assign('TOTAL_WEIGHT', $_SESSION['cart']->weight + SHIPPING_BOX_WEIGHT);
 
+$module_smarty->caching = 0;
 $module = $module_smarty->fetch(CURRENT_TEMPLATE.'/module/order_details.html');
 
 $smarty->assign('MODULE_order_details', $module);

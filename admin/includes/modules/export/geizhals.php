@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: geizhals.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: geizhals.php 1508 2010-11-20 20:16:09Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

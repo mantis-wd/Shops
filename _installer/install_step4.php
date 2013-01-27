@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: install_step4.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: install_step4.php 3072 2012-06-18 15:01:13Z hhacker $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -24,7 +24,7 @@
 <html>
   <head>
     <title>modified eCommerce Shopsoftware Installer - STEP 4 / Webserver Configuration</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset;?>" />
     <style type="text/css">
       body { background: #eee; font-family: Arial, sans-serif; font-size: 12px;}
       table,td,div { font-family: Arial, sans-serif; font-size: 12px;}
@@ -163,7 +163,7 @@
                     <p><?php echo TEXT_WS_ROOT_INFO; ?></p>
                     <?php //EOF - web28 - 2010.02.20 -  NEW ROOT INFO ?>                    
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                      <tr>
+                      <tr>                        
                         <td style="border-top: 1px solid; border-color: #CFCFCF">&nbsp;</td>
                       </tr>
                     </table>
@@ -174,8 +174,8 @@
                       echo xtc_draw_hidden_field_installer('DB_DATABASE', $_POST['DB_DATABASE']);
                       echo xtc_draw_hidden_field_installer('install_db', $_POST['install_db']);
                       echo xtc_draw_hidden_field_installer('install_cfg', $_POST['install_cfg']);
-                      echo xtc_draw_hidden_field_installer('STORE_SESSIONS', 'mysql', true); 
-                    ?>
+                      echo xtc_draw_hidden_field_installer('STORE_SESSIONS', 'mysql', true);
+                    ?>                     
                   </div>
                   <br />
                   <table border="0" width="100%" cellspacing="0" cellpadding="0">

@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: security_check.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: security_check.php 3561 2012-08-29 18:11:38Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -129,6 +129,7 @@ if (!empty($check)) {
 /** ----------------------------------------------------------------------------
  ** Check for enabled FILE options on MySQL database - possible injection
  ** ------------------------------------------------------------------------- */
+/* //for further use
 $sql = '-- admin/includes/modules/security_check FILE perms
   show grants';
 $stmt = xtc_db_query($sql);
@@ -143,6 +144,7 @@ while ($row = xtc_db_fetch_array($stmt)) {
   // we are only interested in the user privileges - not for the DB
   break;
 }
+*/
 
 /*******************************************************************************
  ** register_globals = off check:

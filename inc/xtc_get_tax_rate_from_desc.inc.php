@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_get_tax_rate_from_desc.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: xtc_get_tax_rate_from_desc.inc.php 2843 2012-05-06 14:30:10Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: products_attributes_action.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: products_attributes_action.php 3674 2012-09-26 12:27:49Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

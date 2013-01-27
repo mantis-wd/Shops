@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: orders_edit.php 
+   $Id: orders_edit.php,v 1.0 
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -10,8 +10,8 @@
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(orders.php,v 1.27 2003/02/16); www.oscommerce.com 
-   (c) 2003 nextcommerce (orders.php,v 1.7 2003/08/14); www.nextcommerce.org
-   (c) 2006 xt:Commerce (orders_edit.php,v 1.0); www.xt-commerce.com
+   (c) 2003	 nextcommerce (orders.php,v 1.7 2003/08/14); www.nextcommerce.org
+   (c) 2006 XT-Commerce (orders_edit.php)
 
    Released under the GNU General Public License 
    --------------------------------------------------------------*/
@@ -61,7 +61,6 @@ define('TEXT_PRODUCT_SEARCH', 'Search Products:');
 
 define('TEXT_PRODUCT_OPTION', 'Attributes:');
 define('TEXT_PRODUCT_OPTION_VALUE', 'Option Value:');
-define('TEXT_PRICE', 'Price:');
 define('TEXT_PRICE_PREFIX', 'Price Prefix:');
 define('TEXT_SAVE_ORDER', 'Finish and Recalculate');
 define('TEXT_INS', 'Add:');

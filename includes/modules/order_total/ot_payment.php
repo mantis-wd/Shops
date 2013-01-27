@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------
-   $Id: ot_payment.php 4302 2013-01-13 20:25:15Z Tomcraft1980 $
+   $Id: ot_payment.php 3453 2012-08-21 14:11:56Z franky-n-xtcm $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -96,9 +96,9 @@ class ot_payment
 
         if ($this->include_shipping == 'false') {
             $module = substr($_SESSION['shipping']['id'], 0, strpos($_SESSION['shipping']['id'], '_'));
-            $shipping_tax = 0; 
+            $shipping_tax = 0;
             if (is_object($module) && array_key_exists($module, $GLOBALS)) {
-                $shipping_tax = xtc_get_tax_rate($GLOBALS[$module]->tax_class, $order->delivery['country']['id'], $order->delivery['zone_id']); 
+              $shipping_tax = xtc_get_tax_rate($GLOBALS[$module]->tax_class, $order->delivery['country']['id'], $order->delivery['zone_id']);
             }
             if ($_SESSION['customers_status']['customers_status_show_price_tax'] && !$_SESSION['customers_status']['customers_status_add_tax_ot']) {
                 //$tod_shipping = $order->info['shipping_cost'] / (100 + $shipping_tax) * $shipping_tax;

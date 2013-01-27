@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: product.php 4361 2013-01-25 12:16:27Z Tomcraft1980 $
+   $Id: product.php 2696 2012-03-04 10:44:41Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -26,7 +26,7 @@ class product {
    */
   function product($pID = 0) {
     $this->pID = (int)$pID; // DokuMan - 2010-08-28 - typecasting
-
+    
     //set default select, using in function getAlsoPurchased, getCrossSells, getReverseCrossSells
     $this->default_select ='p.products_fsk18,
                             p.products_id,
@@ -366,7 +366,7 @@ class product {
    * @return unknown
    */
   function getVPEtext($product, $price) {
-    global $main;    
+    global $main;
     return $main->getVPEtext($product, $price); //change to main class
   }
 
@@ -404,9 +404,9 @@ class product {
       $shipping_status_name = '';
       $shipping_status_image = '';
     }
-
+    
     //get products image, imageinfo array
-    $products_image = $this->productImage($array['products_image'], $image);
+    $products_image = $this->productImage($array['products_image'], $image);    
     $p_img = substr($products_image,strlen(DIR_WS_BASE)); //web28 - 2011-01-24 - FIX DIR_WS_BASE
     $img_attr = '';
     if (file_exists($p_img)) {
@@ -418,8 +418,8 @@ class product {
                           'COUNT' => isset($array['ID']) ? $array['ID'] : 0,
                           'PRODUCTS_ID'=> $array['products_id'],
                           'PRODUCTS_MODEL'=> isset($array['products_model']) ? $array['products_model'] : '',
-                          'PRODUCTS_EAN'=> isset($array['products_ean']) ? $array['products_ean'] : '',
-                          'PRODUCTS_MANUFACTURERS_MODEL'=> isset($array['products_manufacturers_model']) ? $array['products_manufacturers_model'] : '',
+                          'PRODUCTS_EAN' => isset($array['products_ean']) ? $array['products_ean'] : '',
+                          'PRODUCTS_MANUFACTURERS_MODEL' => isset($array['products_manufacturers_model']) ? $array['products_manufacturers_model'] : '',
                           'PRODUCTS_VPE' => $main->getVPEtext($array, $products_price['plain']),
                           'PRODUCTS_IMAGE' => $products_image,
                           'PRODUCTS_IMAGE_SIZE' => $img_attr,
@@ -476,7 +476,7 @@ class product {
           $name = $this->standardImage;
         }
       }
-      return DIR_WS_BASE.$path.$name; // GTB - 2010-08-03 - Security Fix - Base
+      return $path.$name;
     }
   }
 }

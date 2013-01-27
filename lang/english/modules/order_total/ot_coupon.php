@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: ot_coupon.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: ot_coupon.php 1243 2010-08-31 15:27:48Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

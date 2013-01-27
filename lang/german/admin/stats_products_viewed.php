@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: stats_products_viewed.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: stats_products_viewed.php 3542 2012-08-27 10:52:20Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

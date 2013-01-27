@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_php_mail.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: xtc_php_mail.inc.php 3072 2012-06-18 15:01:13Z hhacker $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -30,6 +30,7 @@ function xtc_php_mail($from_email_address, $from_email_name,
   $mailsmarty= new Smarty;
   $mailsmarty->compile_dir = DIR_FS_CATALOG.'templates_c';
 
+  
   // load the signatures only, if the appropriate file(s) exists
   $html_signatur = '';
   $txt_signatur = '';
@@ -165,7 +166,7 @@ function check_attachments($attachments, $path_to_attachments)
     $path_to_attachments = is_array($path_to_attachments) ? $path_to_attachments : explode(',',$path_to_attachments);
     $num = count($path_to_attachments);
     for($i=0; $i <$num; $i++) {
-      $path_to_attachments[$i] = DIR_FS_DOCUMENT_ROOT . trim($path_to_attachments[$i]);
+      $path_to_attachments[$i] = ((strpos($path_to_attachments[$i], DIR_FS_DOCUMENT_ROOT)===false) ? DIR_FS_DOCUMENT_ROOT:'') . trim($path_to_attachments[$i]);
       if (file_exists($path_to_attachments[$i])) {
         $attachments[] = $path_to_attachments[$i];
       }

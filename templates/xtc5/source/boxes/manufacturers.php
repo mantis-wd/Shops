@@ -1,6 +1,6 @@
 <?php
   /* -----------------------------------------------------------------------------------------
-   $Id: manufacturers.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: manufacturers.php 2081 2011-08-03 09:06:48Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -32,10 +32,9 @@
   }
 
   if (!$box_smarty->is_cached(CURRENT_TEMPLATE.'/boxes/box_manufacturers.html', $cache_id) || !$cache) {
-    //BOF - GTB - 2010-08-03 - Security Fix - Base
-    $box_smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
-    //$box_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
-    //EOF - GTB - 2010-08-03 - Security Fix - Base
+
+    $box_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+    
     // include needed funtions
     require_once (DIR_FS_INC.'xtc_hide_session_id.inc.php');
     require_once (DIR_FS_INC.'xtc_draw_form.inc.php');

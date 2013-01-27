@@ -1,18 +1,17 @@
 <?php
 
 /* -----------------------------------------------------------------------------------------
-   $Id: popup_search_help.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: popup_search_help.php 1238 2005-09-24 10:51:19Z mz $
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(popup_search_help.php,v 1.3 2003/02/13); www.oscommerce.com
    (c) 2003	 nextcommerce (popup_search_help.php,v 1.6 2003/08/17); www.nextcommerce.org 
-   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/

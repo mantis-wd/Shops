@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: modules.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: modules.php 2567 2011-12-29 10:44:32Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

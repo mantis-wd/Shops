@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: print_order.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: print_order.php 3113 2012-06-22 16:23:20Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -17,6 +17,7 @@
 include ('includes/application_top.php');
 
 // include needed functions
+require_once (DIR_FS_INC.'xtc_get_order_data.inc.php');
 require_once (DIR_FS_INC.'xtc_get_attributes_model.inc.php');
 
 $smarty = new Smarty;
@@ -45,7 +46,7 @@ if ((isset($_SESSION['customer_id']) && $_SESSION['customer_id'] == $order_check
   $order_total = $order->getTotalData($oID);
   $smarty->assign('order_data', $order->getOrderData($oID));
   $smarty->assign('order_total', $order_total['data']);
-  
+
   //allow duty-note in print_order
   $smarty->assign('DELIVERY_DUTY_INFO', $main->getDeliveryDutyInfo($order->delivery['country_iso_2']));
 
@@ -60,17 +61,15 @@ if ((isset($_SESSION['customer_id']) && $_SESSION['customer_id'] == $order_check
   $smarty->assign('PAYMENT_METHOD', $payment_method);
   $smarty->assign('COMMENT', $order->info['comments']);
   $smarty->assign('DATE', xtc_date_long($order->info['date_purchased']));
-  //BOF - GTB - 2010-08-03 - Security Fix - Base
-  //$path = DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/';
-  $smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
-  //$smarty->assign('tpl_path', $path);
-  //EOF - GTB - 2010-08-03 - Security Fix - Base
+  $path = 'templates/'.CURRENT_TEMPLATE.'/';
+  $smarty->assign('tpl_path', $path);
+
   //BOF - web28 - 2010-08-17 - define missing charset
   $smarty->assign('charset', $_SESSION['language_charset'] );
   //EOF - web28 - 2010-08-17 - define missing charset
 
   // dont allow cache
-  $smarty->caching = 0;
+  $smarty->caching =0;
   $smarty->display(CURRENT_TEMPLATE.'/module/print_order.html');
 } else {
   $smarty->assign('ERROR', 'You are not allowed to view this order!');

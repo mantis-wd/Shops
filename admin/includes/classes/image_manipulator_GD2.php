@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------------------------
-   $Id: image_manipulator_GD2.php 3708 2012-09-28 10:30:15Z web28 $   
+   $Id: image_manipulator_GD2.php 950 2005-05-14 16:45:21Z mz $   
 
    XT-Commerce - community made shopping
    http://www.xt-commerce.com

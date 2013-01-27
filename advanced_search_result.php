@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: advanced_search_result.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: advanced_search_result.php 3413 2012-08-10 15:53:56Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -117,7 +117,7 @@ if ($errorno) {
       $NeedTax = true;
     }
   }
-
+  
   //price filters
   if (($pfrom != '') && (is_numeric($pfrom))) {
     if($NeedTax)
@@ -164,12 +164,12 @@ if ($errorno) {
   $from_str .= "LEFT OUTER JOIN ".TABLE_SPECIALS." AS s ON (p.products_id = s.products_id) AND s.status = '1'";
 
   if($NeedTax) {
-    if (!isset($_SESSION['customer_country_id'])) {
+    if (!isset ($_SESSION['customer_country_id'])) {
       $_SESSION['customer_country_id'] = STORE_COUNTRY;
       $_SESSION['customer_zone_id'] = STORE_ZONE;
     }
     $from_str .= " LEFT OUTER JOIN ".TABLE_TAX_RATES." tr ON (p.products_tax_class_id = tr.tax_class_id) LEFT OUTER JOIN ".TABLE_ZONES_TO_GEO_ZONES." gz ON (tr.tax_zone_id = gz.geo_zone_id) ";
-    $tax_where = " AND (gz.zone_country_id IS NULL OR gz.zone_country_id = '0' OR gz.zone_country_id = '".(int)$_SESSION['customer_country_id']."') AND (gz.zone_id is null OR gz.zone_id = '0' OR gz.zone_id = '".(int)$_SESSION['customer_zone_id']."')";
+    $tax_where = " AND (gz.zone_country_id IS NULL OR gz.zone_country_id = '0' OR gz.zone_country_id = '".(int) $_SESSION['customer_country_id']."') AND (gz.zone_id is null OR gz.zone_id = '0' OR gz.zone_id = '".(int) $_SESSION['customer_zone_id']."')";
   }
 
   //where-string
@@ -197,7 +197,7 @@ if ($errorno) {
             $where_str .= " ".$search_keywords[$i]." ";
             break;
           default :
-          $ent_keyword = htmlentities($search_keywords[$i]); // umlauts
+          $ent_keyword = encode_htmlentities($search_keywords[$i]); // umlauts
           $ent_keyword = $ent_keyword != $search_keywords[$i] ? addslashes($ent_keyword) : false;
           $keyword = addslashes($search_keywords[$i]);
           $where_str .= " ( ";

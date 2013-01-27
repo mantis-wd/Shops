@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: products_images.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: products_images.php 3568 2012-08-30 08:45:43Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

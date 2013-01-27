@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_count_modules.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: xtc_count_modules.inc.php 2531 2011-12-19 15:02:34Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

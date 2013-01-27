@@ -1,11 +1,11 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: callback_mb.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+   $Id: callback_mb.php 22 2009-01-17 14:33:18Z mzanier $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   xt:Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2009 xt:Commerce GmbH
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/

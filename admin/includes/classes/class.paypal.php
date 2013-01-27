@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: class.paypal.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: class.paypal.php 1718 2011-01-29 00:49:50Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

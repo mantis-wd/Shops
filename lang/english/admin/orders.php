@@ -1,27 +1,25 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: orders.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: orders.php 1185 2010-08-20 09:00:29Z web28 $   
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
 
    Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
-   based on:
+   based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-   (c) 2002-2003 osCommerce; www.oscommerce.com
-   (c) 2003 nextcommerce; www.nextcommerce.org
-   (c) 2006 xt:Commerce; www.xt-commerce.com
+   (c) 2002-2003 osCommerce; www.oscommerce.com 
+   (c) 2003      nextcommerce; www.nextcommerce.org
+   (c) 2006      xt:Commerce; www.xt-commerce.com
 
-   Released under the GNU General Public License
+   Released under the GNU General Public License 
    --------------------------------------------------------------*/
 define('TEXT_BANK', 'Bank Collection');
 define('TEXT_BANK_OWNER', 'Account Holder:');
 define('TEXT_BANK_NUMBER', 'Account Number:');
 define('TEXT_BANK_BLZ', 'Bank Code:');
 define('TEXT_BANK_NAME', 'Bank:');
-define('TEXT_BANK_IBAN', 'IBAN:'); //DokuMan - 2012-11-26 - added IBAN and BIC
-define('TEXT_BANK_BIC', 'BIC-Code:'); //DokuMan - 2012-11-26 - added IBAN and BIC
 define('TEXT_BANK_FAX', 'Collect Authorization will be approved via Fax');
 define('TEXT_BANK_STATUS', 'Verify Status:');
 define('TEXT_BANK_PRZ', 'Method of Verify:');
@@ -41,15 +39,16 @@ define('HEADING_TITLE_STATUS', 'Status:');
 
 define('TABLE_HEADING_COMMENTS', 'Comments');
 define('TABLE_HEADING_CUSTOMERS', 'Customers');
-define('TABLE_HEADING_ORDERS_ID', 'Ord-ID');
 define('TABLE_HEADING_ORDER_TOTAL', 'Order Total');
 define('TABLE_HEADING_DATE_PURCHASED', 'Date Purchased');
+define('TABLE_HEADING_STATUS', 'Status');
 define('TABLE_HEADING_ACTION', 'Action');
 define('TABLE_HEADING_QUANTITY', 'Qty.');
 define('TABLE_HEADING_PRODUCTS_MODEL', 'Model');
 define('TABLE_HEADING_PRODUCTS', 'Products');
 define('TABLE_HEADING_TAX', 'Tax');
 define('TABLE_HEADING_TOTAL', 'Total');
+define('TABLE_HEADING_STATUS', 'Status');
 define('TABLE_HEADING_PRICE_EXCLUDING_TAX', 'Price (ex)');
 define('TABLE_HEADING_PRICE_INCLUDING_TAX', 'Price (inc)');
 define('TABLE_HEADING_TOTAL_EXCLUDING_TAX', 'Total (ex)');
@@ -62,7 +61,14 @@ define('TABLE_HEADING_DATE_ADDED', 'Date Added');
 
 define('ENTRY_CUSTOMER', 'Customer:');
 define('ENTRY_SOLD_TO', 'SOLD TO:');
+define('ENTRY_STREET_ADDRESS', 'Street Address:');
+define('ENTRY_SUBURB', 'Suburb:');
+define('ENTRY_CITY', 'City:');
+define('ENTRY_POST_CODE', 'Post Code:');
+define('ENTRY_STATE', 'State:');
+define('ENTRY_COUNTRY', 'Country:');
 define('ENTRY_TELEPHONE', 'Telephone:');
+define('ENTRY_EMAIL_ADDRESS', 'E-Mail Address:');
 define('ENTRY_DELIVERY_TO', 'Delivery To:');
 define('ENTRY_SHIP_TO', 'SHIP TO:');
 define('ENTRY_SHIPPING_ADDRESS', 'Shipping Address:');
@@ -99,7 +105,7 @@ define('EMAIL_TEXT_SUBJECT', 'Order Update');
 define('EMAIL_TEXT_ORDER_NUMBER', 'Order Number:');
 define('EMAIL_TEXT_INVOICE_URL', 'Detailed Invoice:');
 define('EMAIL_TEXT_DATE_ORDERED', 'Date Ordered:');
-define('EMAIL_TEXT_STATUS_UPDATE', 'Your order has been updated to the following status.' . "\n\n" . 'New status: %s' . "\n\n" . 'Please reply to this e-mail if you have any questions.' . "\n");
+define('EMAIL_TEXT_STATUS_UPDATE', 'Your order has been updated to the following status.' . "\n\n" . 'New status: %s' . "\n\n" . 'Please reply to this E-Mail if you have any questions.' . "\n");
 define('EMAIL_TEXT_COMMENTS_UPDATE', 'The comments for your order are' . "\n\n%s\n\n");
 
 define('ERROR_ORDER_DOES_NOT_EXIST', 'Error: Order does not exist.');
@@ -108,6 +114,7 @@ define('WARNING_ORDER_NOT_UPDATED', 'Warning: Nothing to change. The order was n
 
 define('TABLE_HEADING_DISCOUNT','Discount');
 define('ENTRY_CUSTOMERS_GROUP','Customers Group:');
+define('ENTRY_CUSTOMERS_VAT_ID','VAT Reg No:');
 define('TEXT_VALIDATING','Not validated');
 
 // BOF - Tomcraft - 2009-10-03 - Paypal Express Modul
@@ -130,18 +137,9 @@ define('TEXT_ORDER', 'Order:');
 define('TEXT_ORDER_HISTORY', 'Order History:');
 define('TEXT_ORDER_STATUS', 'Order Status:');
 
-// DokuMan - 2012-01-05 - option to reverse an order instead of deleting it
-define('TEXT_INFO_REVERSE_ORDER', 'Reverse with order status: ');
-define('BUTTON_DELETE_OR_REVERSE','Delete/Reverse');
-
 define('TABLE_HEADING_ORDERS_ID', 'Ord-ID');
 define('TEXT_SHIPPING_TO', 'Shipping to');
-
-// DokuMan - 2012-08-28 - Track & Trace functionality
-define('TABLE_HEADING_TRACKING', 'Shipment tracking system:');
-define('TABLE_HEADING_CARRIER', 'Carrier');
-define('TABLE_HEADING_PARCEL_LINK', 'Tracking number');
-define('TABLE_HEADING_REMOVE_LINK', 'Add/delete number');
+define('TEXT_SHIPPING_LANG', 'Language');
 
 define('TABLE_HEADING_COMMENTS_SENT', 'Comment is sent');
 ?>

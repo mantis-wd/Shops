@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: cart_actions.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: cart_actions.php 3255 2012-07-18 18:27:41Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -50,6 +50,10 @@ if (xtc_not_null($action)) {
     }
   }
 
+  if (!is_object($_SESSION['cart'])) {
+    $_SESSION['cart'] = new shoppingCart();
+  }
+
   switch ($action) {
 
     case 'remove_product':
@@ -68,9 +72,9 @@ if (xtc_not_null($action)) {
           $cart_quantity = $_POST['cart_quantity'][$i] = xtc_remove_non_numeric($_POST['cart_quantity'][$i]);
           $_POST['old_qty'][$i] = xtc_remove_non_numeric($_POST['old_qty'][$i]);
           $_POST['products_id'][$i] = xtc_input_validation($_POST['products_id'][$i], 'products_id', '');
-          
+                    
           if ($cart_quantity == 0) $_SESSION['cart']->remove($_POST['products_id'][$i]);
-		  
+         
           if (in_array($_POST['products_id'][$i], (isset($_POST['cart_delete']) && is_array($_POST['cart_delete']) ? $_POST['cart_delete'] : array ()))) {
           $_SESSION['cart']->remove($_POST['products_id'][$i]);
 
@@ -96,7 +100,7 @@ if (xtc_not_null($action)) {
     // customer adds a product from the products page
     case 'add_product':
       if (isset ($_POST['products_id']) && is_numeric($_POST['products_id'])) {
-        $cart_quantity = (xtc_remove_non_numeric($_POST['products_qty']) + $_SESSION['cart']->get_quantity(xtc_get_uprid($_POST['products_id'], isset($_POST['id'])?$_POST['id']:'')));
+				$cart_quantity = (xtc_remove_non_numeric($_POST['products_qty']) + $_SESSION['cart']->get_quantity(xtc_get_uprid($_POST['products_id'], isset($_POST['id'])?$_POST['id']:'')));
         if ($cart_quantity > MAX_PRODUCTS_QTY) {
           $cart_quantity = MAX_PRODUCTS_QTY;
         }

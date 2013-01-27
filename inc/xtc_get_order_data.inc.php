@@ -1,21 +1,20 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_get_order_data.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+   $Id: xtc_get_order_data.inc.php 899 2005-04-29 02:40:57Z hhgag $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
    based on:
-   (c) 2003 nextcommerce (xtc_get_order_data.inc.php,v 1.1 2003/08/15); www.nextcommerce.org
-   (c) 2006 xtcommerce (xtc_get_order_data.inc.php 899 2005-04-29)
-  
+   (c) 2003	 nextcommerce (xtc_get_order_data.inc.php,v 1.1 2003/08/15); www.nextcommerce.org
+   
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
 
 function xtc_get_order_data($order_id) {
-  $order_query = xtc_db_query("SELECT
+$order_query = xtc_db_query("SELECT
   customers_name,
   customers_company,
   customers_street_address,
@@ -51,21 +50,23 @@ function xtc_get_order_data($order_id) {
   orders_status,
   currency,
   currency_value
-  FROM ".TABLE_ORDERS."
-  WHERE orders_id='".$_GET['oID']."'");
+  					FROM ".TABLE_ORDERS."
+  					WHERE orders_id='".$_GET['oID']."'");
   					
   $order_data= xtc_db_fetch_array($order_query);
   // get order status name	
-  $order_status_query=xtc_db_query("SELECT
+ $order_status_query=xtc_db_query("SELECT
  				orders_status_name
  				FROM ".TABLE_ORDERS_STATUS."
  				WHERE orders_status_id='".$order_data['orders_status']."'
  				AND language_id='".$_SESSION['languages_id']."'");
-  $order_status_data=xtc_db_fetch_array($order_status_query); 			
-  $order_data['orders_status']=$order_status_data['orders_status_name'];
-  // get language name for payment method
-  include_once(DIR_WS_LANGUAGES.$_SESSION['language'].'/modules/payment/'.$order_data['payment_method'].'.php');
-  $order_data['payment_method']=constant(strtoupper('MODULE_PAYMENT_'.$order_data['payment_method'].'_TEXT_TITLE'));	
+ $order_status_data=xtc_db_fetch_array($order_status_query); 			
+ $order_data['orders_status']=$order_status_data['orders_status_name'];
+ // get language name for payment method
+ include(DIR_WS_LANGUAGES.$_SESSION['language'].'/modules/payment/'.$order_data['payment_method'].'.php');
+ $order_data['payment_method']=constant(strtoupper('MODULE_PAYMENT_'.$order_data['payment_method'].'_TEXT_TITLE'));	
   return $order_data; 
 }
+
+
 ?>

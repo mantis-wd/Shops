@@ -1,7 +1,6 @@
 {config_load file="$language/lang_$language.conf" section="duty_info"} 
 {$address_label_customer}
 
-{if $SHIPPING_METHOD}Shippingmethod: {$SHIPPING_METHOD}{/if}
 {if $PAYMENT_METHOD}Paymentmethod: {$PAYMENT_METHOD}{/if}
 Order Nr.: {$oID}
 Date: {$DATE}
@@ -10,16 +9,12 @@ Your e-mail-address: {$EMAIL}
 ----------------------------------------------------------------------
 
 
-Dear {$GENDER} {$LASTNAME},
+Dear {$NAME},
 
 thank you for your order.
 
 {$PAYMENT_INFO_TXT}
-{*BOF - web28 - 2011-02-01 - Paypal Express*}
-{if $NEW_PASSWORD}
-        Your Account Password: {$NEW_PASSWORD}
-{/if}
-{*EOF - web28 - 2011-02-01 - Paypal Express*}
+
 {if $COMMENTS}
 Your Comments:
 {$COMMENTS}
@@ -27,10 +22,11 @@ Your Comments:
 
 Your ordered following products
 ----------------------------------------------------------------------
-{foreach name=aussen item=order_values from=$order_data}
+{foreach name=aussen item=order_values from=$order_data} 
 {$order_values.PRODUCTS_QTY} x {$order_values.PRODUCTS_NAME} {$order_values.PRODUCTS_PRICE}
-{if ACTIVATE_SHIPPING_STATUS == 'true'}{if $order_values.PRODUCTS_SHIPPING_TIME neq ''}Shipping time: {$order_values.PRODUCTS_SHIPPING_TIME}{/if}{/if}
-{if $order_values.PRODUCTS_ATTRIBUTES != ''}{$order_values.PRODUCTS_ATTRIBUTES}{/if}
+{if $order_values.PRODUCTS_ORDER_DESCRIPTION neq ''}{$order_values.PRODUCTS_ORDER_DESCRIPTION}{/if}
+{if $order_values.PRODUCTS_SHIPPING_TIME neq ''}Shipping time: {$order_values.PRODUCTS_SHIPPING_TIME}{/if}
+{if $order_values.PRODUCTS_ATTRIBUTES !=''}{$order_values.PRODUCTS_ATTRIBUTES}{/if}
 
 {/foreach}
 
@@ -40,14 +36,13 @@ Your ordered following products
 
 
 {if $address_label_payment}
-{if $address_label_payment != $address_label_shipping}Paymentadress{else}Payment-/Shippingaddress{/if}
+Paymentaddress
 ----------------------------------------------------------------------
 {$address_label_payment}
 {/if}
-{if $address_label_payment != $address_label_shipping}
-Shippingaddress
+Shippingaddress 
 ----------------------------------------------------------------------
-{$address_label_shipping}{/if}
+{$address_label_shipping}
 {if $DELIVERY_DUTY_INFO neq ''}
 
 ----------------------------------------------------------------------

@@ -1,6 +1,6 @@
 <?php
 /*------------------------------------------------------------------------------
-  $Id: changedatain.inc.php 1279 2010-09-07 11:03:18Z dokuman $
+  $Id: changedatain.inc.php 899 2005-04-29 02:40:57Z hhgag $
 
   XTC-CC - Contribution for XT-Commerce http://www.xt-commerce.com
   modified by http://www.netz-designer.de

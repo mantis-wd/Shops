@@ -1,11 +1,11 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: google_conversiontracking.js.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: google_conversiontracking.js.php 1116 2005-07-25 19:31:14Z mz $
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
 
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/

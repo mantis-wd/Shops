@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: start.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: start.php 2585 2012-01-03 14:25:49Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

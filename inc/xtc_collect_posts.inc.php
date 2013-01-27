@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_collect_posts.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: xtc_collect_posts.inc.php 2047 2011-07-25 10:51:53Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -77,7 +77,7 @@
             // no gv_amount so insert
             $gv_insert = xtc_db_query("insert into " . TABLE_COUPON_GV_CUSTOMER . " (customer_id, amount) values ('" . $_SESSION['customer_id'] . "', '" . $total_gv_amount . "')");
           }
-          xtc_redirect(xtc_href_link(FILENAME_SHOPPING_CART, 'info_message=' . urlencode(REDEEMED_AMOUNT. $xtPrice->xtcFormat($gv_amount,true,0,true)), 'NONSSL')); // web28 - 2011-04-13  New  class distinction  error / info // web28 - 2011-04-14 - change SSL -> NONSSL //DokuMan - 2011-11-18 - from SP1b
+          xtc_redirect(xtc_href_link(FILENAME_SHOPPING_CART, 'info=1info_message=' . urlencode(REDEEMED_AMOUNT. $xtPrice->xtcFormat($gv_amount,true,0,true)), 'NONSSL')); // web28 - 2011-04-13  New  class distinction  error / info // web28 - 2011-04-14 - change SSL -> NONSSL
 
 
       } else {
@@ -87,23 +87,25 @@
         }
 
         // web28 - 2011-11-06 - FIX: only active coupons
-        $date_query=xtc_db_query("select coupon_start_date
-                                    from " . TABLE_COUPONS . "
-                                   where coupon_start_date <= now()
+        $date_query=xtc_db_query("select coupon_start_date 
+                                    from " . TABLE_COUPONS . " 
+                                   where coupon_start_date <= now() 
                                      and coupon_code='".xtc_db_input($_POST['gv_redeem_code'])."'
                                      and coupon_active = 'Y'
                                  ");
+
         if (xtc_db_num_rows($date_query)==0) {
           xtc_redirect(xtc_href_link(FILENAME_SHOPPING_CART, 'info_message=' . urlencode(ERROR_INVALID_STARTDATE_COUPON), 'NONSSL')); // web28 - 2011-04-14 - change SSL -> NONSSL
         }
-
+        
         // web28 - 2011-11-06 - FIX: only active coupons
-        $date_query=xtc_db_query("select coupon_expire_date
-                                    from " . TABLE_COUPONS . "
-                                   where coupon_expire_date >= now()
+        $date_query=xtc_db_query("select coupon_expire_date 
+                                    from " . TABLE_COUPONS . " 
+                                   where coupon_expire_date >= now() 
                                      and coupon_code='".xtc_db_input($_POST['gv_redeem_code'])."'
                                      and coupon_active = 'Y'
                                  ");
+                                 
         if (xtc_db_num_rows($date_query)==0) {
           xtc_redirect(xtc_href_link(FILENAME_SHOPPING_CART, 'info_message=' . urlencode(ERROR_INVALID_FINISDATE_COUPON), 'NONSSL')); // web28 - 2011-04-14 - change SSL -> NONSSL
         }
@@ -125,7 +127,7 @@
         if ($gv_result['coupon_type']=='P') {
           $coupon_amount = $gv_result['coupon_amount'] . '% ';
         }
-        if ($gv_result['coupon_minimum_order']>0) {
+        if ($gv_result['coupon_minimum_order']>0) { 
           $coupon_amount .= 'on orders greater than ' . $gv_result['coupon_minimum_order'];
         }
         //if (!xtc_session_is_registered('cc_id')) xtc_session_register('cc_id'); //Fred - this was commented out before  // Hetfield - 2009-08-19 - removed deprecated function session_is_registered and session_register to be ready for PHP >= 5.3

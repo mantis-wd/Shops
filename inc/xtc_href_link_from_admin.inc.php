@@ -1,6 +1,6 @@
 <?php
 /*-----------------------------------------------------------------------
-   $Id: xtc_href_link_from_admin.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: xtc_href_link_from_admin.inc.php 2539 2011-12-20 15:31:37Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

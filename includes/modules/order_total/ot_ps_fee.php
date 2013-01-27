@@ -1,17 +1,16 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: ot_ps_fee.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: ot_ps_fee.php,v 1.0 
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(ot_ps_fee.php,v 1.02 2003/02/24); www.oscommerce.com
-   (c) 2001 - 2003 TheMedia, Dipl.-Ing Thomas Plänkers ; http://www.themedia.at & http://www.oscommerce.at
-   (c) 2006 xt:Commerce (ot_ps_fee.php,v 1.0); www.xt-commerce.de
+   (C) 2001 - 2003 TheMedia, Dipl.-Ing Thomas Plänkers ; http://www.themedia.at & http://www.oscommerce.at
 
    Released under the GNU General Public License
    -----------------------------------------------------------------------------------------
@@ -22,23 +21,24 @@
    Credit Class/Gift Vouchers/Discount Coupons (Version 5.10)
    http://www.oscommerce.com/community/contributions,282
    Copyright (c) Strider | Strider@oscworks.com
-   Copyright (c) Nick Stanko of UkiDev.com, nick@ukidev.com
+   Copyright (c  Nick Stanko of UkiDev.com, nick@ukidev.com
    Copyright (c) Andre ambidex@gmx.net
    Copyright (c) 2001,2002 Ian C Wilson http://www.phesis.org
 
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
 
+
   class ot_ps_fee {
     var $title, $output;
 
     function ot_ps_fee() {
-      global $xtPrice;
+    	global $xtPrice;
       $this->code = 'ot_ps_fee';
       $this->title = MODULE_ORDER_TOTAL_PS_FEE_TITLE;
       $this->description = MODULE_ORDER_TOTAL_PS_FEE_DESCRIPTION;
-      $this->enabled = ((defined('MODULE_ORDER_TOTAL_PS_FEE_STATUS') && MODULE_ORDER_TOTAL_PS_FEE_STATUS == 'true') ? true : false);
-      $this->sort_order = defined('MODULE_ORDER_TOTAL_PS_FEE_SORT_ORDER')?MODULE_ORDER_TOTAL_PS_FEE_SORT_ORDER:'';
+      $this->enabled = ((MODULE_ORDER_TOTAL_PS_FEE_STATUS == 'true') ? true : false);
+      $this->sort_order = MODULE_ORDER_TOTAL_PS_FEE_SORT_ORDER;
       $this->output = array();
     }
 
@@ -53,21 +53,22 @@
 
         //check if payment method is ps. If yes, check if ps is possible.
 
-        $count_query = xtc_db_query("select count(*) as count from " . TABLE_CUSTOMERS_BASKET . " cb, " . TABLE_PRODUCTS . " p  where cb.customers_id = '" . $customer_id . "' and cb.products_id = p.products_id and p.products_fsk18 = '1'");
-        $num = xtc_db_fetch_array($count_query);
+				$count_query = xtc_db_query("select count(*) as count from " . TABLE_CUSTOMERS_BASKET . " cb, " . TABLE_PRODUCTS . " p  where cb.customers_id = '" . $customer_id . "' and cb.products_id = p.products_id and p.products_fsk18 = '1'");
+				$num = xtc_db_fetch_array($count_query);
 
-        $age = $num['count'];
+				$age = $num['count'];
+
 
         if ($age > '0') {
           //process installed shipping modules
-          // BOF -  Hetfield - 2009-08-18 - replaced deprecated function split with preg_split to be ready for PHP >= 5.3
+		  // BOF -  Hetfield - 2009-08-18 - replaced deprecated function split with preg_split to be ready for PHP >= 5.3
           if ($_SESSION['shipping']['id'] == 'flat_flat') $ps_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_PS_FEE_FLAT);
           if ($_SESSION['shipping']['id'] == 'item_item') $ps_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_PS_FEE_ITEM);
           if ($_SESSION['shipping']['id'] == 'table_table') $ps_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_PS_FEE_TABLE);
           if ($_SESSION['shipping']['id'] == 'zones_zones') $ps_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_PS_FEE_ZONES);
           if ($_SESSION['shipping']['id'] == 'ap_ap') $ps_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_PS_FEE_AP);
           if ($_SESSION['shipping']['id'] == 'dp_dp') $ps_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_PS_FEE_DP);
-          // EOF - Hetfield - 2009-08-18 - replaced deprecated function split with preg_split to be ready for PHP >= 5.3
+		  // EOF - Hetfield - 2009-08-18 - replaced deprecated function split with preg_split to be ready for PHP >= 5.3
             for ($i = 0; $i < count($ps_zones); $i++) {
             if ($ps_zones[$i] == $order->billing['country']['iso_code_2']) {
                   $ps_cost = $ps_zones[$i + 1];
@@ -94,20 +95,14 @@
             $ps_tax_description = xtc_get_tax_description(MODULE_ORDER_TOTAL_PS_FEE_TAX_CLASS, $order->delivery['country']['id'], $order->delivery['zone_id']);
         if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 1) {
             $order->info['tax'] += xtc_add_tax($ps_cost, $ps_tax)-$ps_cost;
-            //BOF - DokuMan - 2010-09-28 - set correct order of VAT display, added .TAX_SHORT_DISPLAY
-            //$order->info['tax_groups'][TAX_ADD_TAX . "$ps_tax_description"] += xtc_add_tax($ps_cost, $ps_tax)-$ps_cost;
-            $order->info['tax_groups'][TAX_ADD_TAX . "$ps_tax_description".TAX_SHORT_DISPLAY ] += xtc_add_tax($ps_cost, $ps_tax)-$ps_cost;
-            //EOF - DokuMan - 2010-09-28 - set correct order of VAT display, added .TAX_SHORT_DISPLAY
+            $order->info['tax_groups'][TAX_ADD_TAX . "$ps_tax_description"] += xtc_add_tax($ps_cost, $ps_tax)-$ps_cost;
             $order->info['total'] += $ps_cost + (xtc_add_tax($ps_cost, $ps_tax)-$ps_cost);
             $ps_cost_value= xtc_add_tax($ps_cost, $ps_tax);
             $ps_cost= $xtPrice->xtcFormat($ps_cost_value,true);
         }
         if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1) {
             $order->info['tax'] += xtc_add_tax($ps_cost, $ps_tax)-$ps_cost;
-            //BOF - DokuMan - 2010-09-28 - set correct order of VAT display, added .TAX_SHORT_DISPLAY
-            //$order->info['tax_groups'][TAX_NO_TAX . "$ps_tax_description"] += xtc_add_tax($ps_cost, $ps_tax)-$ps_cost;
-            $order->info['tax_groups'][TAX_NO_TAX . "$ps_tax_description".TAX_SHORT_DISPLAY] += xtc_add_tax($ps_cost, $ps_tax)-$ps_cost;
-            //EOF - DokuMan - 2010-09-28 - set correct order of VAT display, added .TAX_SHORT_DISPLAY
+            $order->info['tax_groups'][TAX_NO_TAX . "$ps_tax_description"] += xtc_add_tax($ps_cost, $ps_tax)-$ps_cost;
             $ps_cost_value=$ps_cost;
             $ps_cost= $xtPrice->xtcFormat($ps_cost,true);
             $order->info['subtotal'] += $ps_cost_value;

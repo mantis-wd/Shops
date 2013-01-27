@@ -1,17 +1,16 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: chronopost.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+   $Id: chronopost.php 899 2005-04-29 02:40:57Z hhgag $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(chronopost.php,v 1.0 2002/04/01 07:07:45); www.oscommerce.com 
    (c) 2003	 nextcommerce (chronopost.php,v 1.4 2003/08/13); www.nextcommerce.org
-   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License 
    -----------------------------------------------------------------------------------------
@@ -31,7 +30,7 @@ define('MODULE_SHIPPING_CHRONOPOST_INVALID_ZONE', 'Chronopost No shipping availa
 define('MODULE_SHIPPING_CHRONOPOST_UNDEFINED_RATE', 'Chronopost The shipping rate cannot be determined at this time');
 
 define('MODULE_SHIPPING_CHRONOPOST_STATUS_TITLE' , 'Activer Chronopost');
-define('MODULE_SHIPPING_CHRONOPOST_STATUS_DESC' , 'Vous souhaitez activer l\'expédition via Chronopost? (True, False)');
+define('MODULE_SHIPPING_CHRONOPOST_STATUS_DESC' , 'Vous souhaitez activer l\'expédition via Chronopost? (0=non, 1=oui)');
 define('MODULE_SHIPPING_CHRONOPOST_HANDLING_TITLE' , 'Les tarifs');
 define('MODULE_SHIPPING_CHRONOPOST_HANDLING_DESC' , 'Les tarifs pour l\'expédition via chronopost');
 define('MODULE_SHIPPING_CHRONOPOST_ALLOWED_TITLE' , 'Einzelne Versandzonen');

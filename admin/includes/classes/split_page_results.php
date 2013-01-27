@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: split_page_results.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: split_page_results.php 2135 2011-08-31 12:37:03Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -19,24 +19,31 @@
 defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.' );
 class splitPageResults {
 
-    function splitPageResults(&$current_page_number, $max_rows_per_page, &$sql_query, &$query_num_rows) {
-        if (empty($current_page_number)) $current_page_number = 1;
 
-        $pos_to = strlen($sql_query);
-        $pos_from = strpos(strtoupper($sql_query), ' FROM', 0);
+    function splitPageResults(&$current_page_number, $max_rows_per_page, &$sql_query, &$query_num_rows, $count_key = '*') {
+      if (empty($current_page_number)) $current_page_number = 1;
 
-        $pos_group_by = strpos(strtoupper($sql_query), ' GROUP BY', $pos_from);
-        if (($pos_group_by < $pos_to) && ($pos_group_by != false)) $pos_to = $pos_group_by;
+      $pos_to = strlen($sql_query);
+      $pos_from = strpos(strtoupper($sql_query), ' FROM', 0);
 
-        $pos_having = strpos(strtoupper($sql_query), ' HAVING', $pos_from);
-        if (($pos_having < $pos_to) && ($pos_having != false)) $pos_to = $pos_having;
+      $pos_group_by = strpos(strtoupper($sql_query), ' GROUP BY', $pos_from);
+      if (($pos_group_by < $pos_to) && ($pos_group_by != false)) $pos_to = $pos_group_by;
 
-        $pos_order_by = strpos(strtoupper($sql_query), ' ORDER BY', $pos_from);
-        if (($pos_order_by < $pos_to) && ($pos_order_by != false)) $pos_to = $pos_order_by;
+      $pos_having = strpos(strtoupper($sql_query), ' HAVING', $pos_from);
+      if (($pos_having < $pos_to) && ($pos_having != false)) $pos_to = $pos_having;
 
-        $reviews_count_query = xtc_db_query("SELECT count(*) AS total " . substr($sql_query, $pos_from, ($pos_to - $pos_from)));
-        $reviews_count = xtc_db_fetch_array($reviews_count_query);
-        $query_num_rows = $reviews_count['total'];
+      $pos_order_by = strpos(strtoupper($sql_query), ' ORDER BY', $pos_from);
+      if (($pos_order_by < $pos_to) && ($pos_order_by != false)) $pos_to = $pos_order_by;
+
+      if (strpos($sql_query, 'DISTINCT') || strpos(strtoupper($sql_query), 'GROUP BY')) {
+        $count_string = 'DISTINCT ' . xtc_db_input($count_key);
+      } else {
+        $count_string = xtc_db_input($count_key);
+      }
+
+      $reviews_count_query = xtc_db_query("SELECT count(" . $count_string . ") AS total " .  substr($sql_query, $pos_from, ($pos_to - $pos_from)));
+      $reviews_count = xtc_db_fetch_array($reviews_count_query);
+      $query_num_rows = $reviews_count['total'];
         
         // FIX Division by Zero
         $num_pages = $max_rows_per_page > 0 ? ceil($query_num_rows / $max_rows_per_page) : 0;        
@@ -66,7 +73,7 @@ class splitPageResults {
             $display_links = xtc_draw_form('pages', basename($PHP_SELF), '', 'get');
 
             if ($current_page_number > 1) {
-                $display_links .= '<a href="' . xtc_href_link(basename($PHP_SELF), $parameters . $page_name . '=1') . '" class="splitPageLink">' . PREVNEXT_BUTTON_FIRST . ' </a>&nbsp;';
+                //$display_links .= '<a href="' . xtc_href_link(basename($PHP_SELF), $parameters . $page_name . '=1') . '" class="splitPageLink">' . PREVNEXT_BUTTON_FIRST . ' </a>&nbsp;';
                 $display_links .= '<a href="' . xtc_href_link(basename($PHP_SELF), $parameters . $page_name . '=' . ($current_page_number - 1)) . '" class="splitPageLink">' . PREVNEXT_BUTTON_PREV . '</a>&nbsp;&nbsp;';
             } else {
                 $display_links .= PREVNEXT_BUTTON_PREV . '&nbsp;&nbsp;';
@@ -76,7 +83,7 @@ class splitPageResults {
 
             if (($current_page_number < $num_pages) && ($num_pages != 1)) {
                 $display_links .= '&nbsp;&nbsp;<a href="' . xtc_href_link(basename($PHP_SELF), $parameters . $page_name . '=' . ($current_page_number + 1)) . '" class="splitPageLink">' . PREVNEXT_BUTTON_NEXT . '</a>';
-                $display_links .= '&nbsp;<a href="' . xtc_href_link(basename($PHP_SELF), $parameters . $page_name . '=' . $num_pages) . '" class="splitPageLink">' . PREVNEXT_BUTTON_LAST . '</a>';
+                //$display_links .= '&nbsp;<a href="' . xtc_href_link(basename($PHP_SELF), $parameters . $page_name . '=' . $num_pages) . '" class="splitPageLink">' . PREVNEXT_BUTTON_LAST . '</a>';
             } else {
                 $display_links .= '&nbsp;&nbsp;' . PREVNEXT_BUTTON_NEXT;
             }

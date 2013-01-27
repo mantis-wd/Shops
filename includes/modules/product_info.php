@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: product_info.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: product_info.php 3072 2012-06-18 15:01:13Z hhacker $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -24,7 +24,7 @@
 
 /******* SHOPGATE **********/
 if(strpos(MODULE_PAYMENT_INSTALLED, 'shopgate.php') !== false && strpos($_SESSION['customers_status']['customers_status_payment_unallowed'], 'shopgate') === false){
-  include_once DIR_FS_EXTERNAL.'/shopgate/base/includes/modules/product_info.php';
+  include_once DIR_FS_CATALOG.'includes/shopgate/base/includes/modules/product_info.php';
 }
 /******* SHOPGATE **********/
 
@@ -58,12 +58,12 @@ if (!is_object($product) || !$product->isProduct()) {
         break;
       }
     }
-    if (isset($xsb_tx['products_id'])) {           // replace || with && ?
-        $hide_qty = (@$xsb_tx['XTB_ALLOW_USER_CHQTY'] != 'true' || $xsb_tx['products_id'] == $product->data['products_id']) ? 1 : 0;
-        if(isset($xsb_tx['XTB_REDIRECT_USER_TO']) && $xsb_tx['products_id'] == $product->data['products_id']) {
-          $info_smarty->assign('XTB_REDIRECT_USER_TO', $xsb_tx['XTB_REDIRECT_USER_TO']);
-        }
-    }
+	if (isset($xsb_tx['products_id'])) {           // replace || with && ?
+      $hide_qty = (@$xsb_tx['XTB_ALLOW_USER_CHQTY'] != 'true' || $xsb_tx['products_id'] == $product->data['products_id']) ? 1 : 0;
+      if(isset($xsb_tx['XTB_REDIRECT_USER_TO']) && $xsb_tx['products_id'] == $product->data['products_id']) {
+        $info_smarty->assign('XTB_REDIRECT_USER_TO', $xsb_tx['XTB_REDIRECT_USER_TO']);
+      }
+	}
   }
 
   if (ACTIVATE_NAVIGATOR == 'true') {
@@ -144,10 +144,10 @@ if (!is_object($product) || !$product->isProduct()) {
 
   //get products vpe
   $info_smarty->assign('PRODUCTS_VPE',$main->getVPEtext($product->data, $products_price['plain'])); //web28 - 2012-04-17 - use classes function getVPEtext() 
-
+  
   // products id
   $info_smarty->assign('PRODUCTS_ID', $product->data['products_id']);
-
+  
   // products name
   $info_smarty->assign('PRODUCTS_NAME', $product->data['products_name']);
 
@@ -167,7 +167,7 @@ if (!is_object($product) || !$product->isProduct()) {
   $info_smarty->assign('PRODUCTS_WEIGHT', $product->data['products_weight']);
   $info_smarty->assign('PRODUCTS_STATUS', $product->data['products_status']);
   $info_smarty->assign('PRODUCTS_ORDERED', $product->data['products_ordered']);
-  $info_smarty->assign('PRODUCTS_PRINT', xtc_image_button('print.gif', $product->data['products_name'], 'onclick="javascript:window.open(\''.xtc_href_link(FILENAME_PRINT_PRODUCT_INFO, 'products_id='.$product->data['products_id']).'\', \'popup\', \'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no, width=640, height=600\')"'));
+  $info_smarty->assign('PRODUCTS_PRINT', xtc_image_button('print.gif', $product->data['products_name'], 'onclick="javascript:window.open(\''.xtc_href_link(FILENAME_PRINT_PRODUCT_INFO, 'products_id='.$product->data['products_id']).'\', \'popup\', \'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no, '.POPUP_PRODUCT_PRINT_SIZE.'\')"'));
   $info_smarty->assign('PRODUCTS_DESCRIPTION', stripslashes($product->data['products_description']));
   $info_smarty->assign('PRODUCTS_SHORT_DESCRIPTION', stripslashes($product->data['products_short_description']));
   $info_smarty->assign('PRODUCTS_IMAGE', $product->productImage($product->data['products_image'], 'info'));
@@ -235,7 +235,7 @@ if (!is_object($product) || !$product->isProduct()) {
   }
 
   // session products history
-  $i = isset($_SESSION['tracking']['products_history']) ? count($_SESSION['tracking']['products_history']) : 0; 
+  $i = isset($_SESSION['tracking']['products_history']) ? count($_SESSION['tracking']['products_history']) : 0;
   if ($i > 6) { $i = 6; array_shift($_SESSION['tracking']['products_history']); }
   $_SESSION['tracking']['products_history'][$i] = $product->data['products_id'];
   $_SESSION['tracking']['products_history'] = array_unique($_SESSION['tracking']['products_history']);

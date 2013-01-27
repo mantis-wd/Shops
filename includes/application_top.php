@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: application_top.php 4299 2013-01-13 20:14:39Z Tomcraft1980 $
+   $Id: application_top.php 3121 2012-06-23 19:29:57Z franky-n-xtcm $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -31,14 +31,10 @@
 // start the timer for the page parse time log
 define('PAGE_PARSE_START_TIME', microtime(true));
 
-// xajax support
-define('XAJAX_SUPPORT','false'); // 'true');
-define('XAJAX_SUPPORT_TEST','false'); // 'true');
 
 // configuration parameters
 if (file_exists('includes/local/configure.php')) {
   include ('includes/local/configure.php');
-  $dev_mode = 1;
 } else {
   include ('includes/configure.php');
 }
@@ -62,29 +58,18 @@ if (file_exists(DIR_FS_CATALOG.'export/_error_reporting.all') || file_exists(DIR
 if (version_compare(PHP_VERSION, 5.3, '<') && function_exists('set_magic_quotes_runtime')) set_magic_quotes_runtime(0);
 if (version_compare(PHP_VERSION, 5.4, '<') && @ini_get('magic_quotes_sybase') != 0) @ini_set('magic_quotes_sybase', 0);
 
-// list of project filenames
+// include the list of project filenames
 require (DIR_WS_INCLUDES.'filenames.php');
-
-// Debug-Log-Class - thx to franky
-include_once(DIR_WS_CLASSES.FILENAME_DEBUG);
-$log = new debug;
-
-// SSEQ-Lib integration - call SSEQ earlier
-require_once (DIR_FS_EXTERNAL . 'sseq-lib/seq_lib.php');
-
-// solve compatibility issues
-require_once (DIR_WS_FUNCTIONS.FILENAME_COMPATIBILITY);
-if (version_compare(PHP_VERSION,"5.2","<")) {
-  require_once (DIR_FS_EXTERNAL . 'upgradephp/upgrade.php');
-}
-
-// default time zone
-if (version_compare(PHP_VERSION, '5.1.0', '>=')) { //Tomcraft - 2009-11-08 - FIX for 
+if (version_compare(PHP_VERSION, '5.1.0', '>=')) {
   date_default_timezone_set('Europe/Berlin');
 }
 
+// Debug-Log-Class - thx to franky
+include_once(DIR_WS_CLASSES.'class.debug.php');
+$log = new debug;
+
 // for xtc_db_perform
-$php4_3_10 = (0 == version_compare(phpversion(), "4.3.10")); 
+$php4_3_10 = (0 == version_compare(phpversion(), "4.3.10"));
 define('PHP4_3_10', $php4_3_10);
 
 // project version
@@ -98,16 +83,12 @@ if (file_exists('includes/request_type.php')) {
 } else {
   $request_type = 'NONSSL';
 }
-
 // Base/PHP_SELF/SSL-PROXY
-require_once(DIR_FS_INC . 'set_php_self.inc.php'); 
+require_once(DIR_FS_INC . 'set_php_self.inc.php');
 $PHP_SELF = set_php_self();
-$ssl_proxy = '';
-if ($request_type == 'SSL' && ENABLE_SSL == true && defined('USE_SSL_PROXY') && USE_SSL_PROXY == true) {
-  $ssl_proxy = '/' . $_SERVER['HTTP_HOST'];
-}
-define('DIR_WS_BASE', $ssl_proxy . preg_replace('/\\' . DIRECTORY_SEPARATOR . '\/|\/\//', '/', dirname($PHP_SELF) . '/'));
 
+//compatibility for modified eCommerce Shopsoftware 1.06 files
+define('DIR_WS_BASE', '');
 
 // list of project database tables
 require (DIR_WS_INCLUDES.'database_tables.php');
@@ -189,7 +170,7 @@ require_once (DIR_FS_INC.'xtc_cleanName.inc.php');
 require_once (DIR_FS_INC.'xtc_calculate_tax.inc.php');
 require_once (DIR_FS_INC.'xtc_input_validation.inc.php');
 require_once (DIR_FS_INC.'xtc_js_lang.php');
-
+require_once (DIR_FS_INC.'html_encoding.php'); //new function for PHP5.4
 // make a connection to the database... now
 xtc_db_connect() or die('Unable to connect to database server!');
 
@@ -198,12 +179,18 @@ $configuration_query = xtc_db_query('select configuration_key as cfgKey, configu
 while ($configuration = xtc_db_fetch_array($configuration_query)) {
   define($configuration['cfgKey'], stripslashes($configuration['cfgValue'])); //Web28 - 2012-08-09 - fix slashes
 }
+// Set the length of the redeem code, the longer the more secure
+// Kommt eigentlich schon aus der Table configuration
+if(SECURITY_CODE_LENGTH=='')
+  define('SECURITY_CODE_LENGTH', '10');
 
 // PHPMailer
 require_once (DIR_WS_CLASSES.'class.phpmailer.php');
 if (EMAIL_TRANSPORT == 'smtp') {
   require_once (DIR_WS_CLASSES.'class.smtp.php');
 }
+
+require_once (DIR_FS_INC.'xtc_Security.inc.php');
 
 // move to xtc_db_queryCached.inc.php
 function xtDBquery($query) {
@@ -231,7 +218,7 @@ if ((!isset($gzip_off) || !$gzip_off) && (GZIP_COMPRESSION == 'true') && ($ext_z
 }
 
 // security inputfilter for GET/POST/COOKIE
-require (DIR_WS_CLASSES.FILENAME_INPUTFILTER);
+require (DIR_WS_CLASSES.'class.inputfilter.php');
 $InputFilter = new InputFilter();
 
 $_GET = $InputFilter->process($_GET);
@@ -241,8 +228,6 @@ $_GET = $InputFilter->safeSQL($_GET);
 $_POST = $InputFilter->safeSQL($_POST);
 $_REQUEST = $InputFilter->safeSQL($_REQUEST);
 
-// SEQ-Lib integration
-function_exists('SEQ_SANITIZE') ? SEQ_SANITIZE (DIR_FS_EXTERNAL . 'sseq-filter/modified.txt', true) : '';
 
 // set the top level domains
 $http_domain = xtc_get_top_level_domain(HTTP_SERVER);
@@ -254,6 +239,9 @@ require (DIR_WS_CLASSES.'shopping_cart.php');
 
 // include navigation history class
 require (DIR_WS_CLASSES.'navigation_history.php');
+
+// some code to solve compatibility issues
+require (DIR_WS_FUNCTIONS.'compatibility.php');
 
 // define how the session functions will be used
 require (DIR_WS_FUNCTIONS.'sessions.php');
@@ -271,15 +259,12 @@ if (function_exists('session_set_cookie_params')) {
   ini_set('session.cookie_domain', (xtc_not_null($current_domain) ? '.'.$current_domain : ''));
 }
 // set the session ID if it exists
-if (isset($_POST[session_name()])) {
+if (isset ($_POST[session_name()])) {
   session_id($_POST[session_name()]);
 }
-elseif (($request_type == 'SSL') && isset($_GET[session_name()])) {
+elseif (($request_type == 'SSL') && isset ($_GET[session_name()])) {
   session_id($_GET[session_name()]);
 }
-
-//DokuMan - 2011-01-06 - set session.use_only_cookies when force cookie is enabled
-@ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
 
 // start the session
 $session_started = false;
@@ -290,14 +275,10 @@ if (SESSION_FORCE_COOKIE_USE == 'True') {
     $session_started = true;
   }
 } else {
-  session_start();
+  session_start();  
   $session_started = true;
 }
 include (DIR_WS_INCLUDES.'tracking.php');
-
-// SSEQ-Lib integration
-function_exists('SEQ_SECURE_SESSION') ? SEQ_SECURE_SESSION() : '';
-
 // check the Agent
 $truncate_session_id = false;
 if (CHECK_CLIENT_AGENT && xtc_check_agent() == 1) {
@@ -321,7 +302,7 @@ if (SESSION_CHECK_USER_AGENT == 'True') {
   $http_user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
   $http_user_agent2 = strtolower(getenv("HTTP_USER_AGENT"));
   $http_user_agent = ($http_user_agent == $http_user_agent2) ? $http_user_agent : $http_user_agent.';'.$http_user_agent2;
-  if (!isset($_SESSION['SESSION_USER_AGENT'])) {
+  if (!isset ($_SESSION['SESSION_USER_AGENT'])) {
     $_SESSION['SESSION_USER_AGENT'] = $http_user_agent;
   } elseif ($_SESSION['SESSION_USER_AGENT'] != $http_user_agent) {
     session_destroy();
@@ -356,16 +337,12 @@ if (!(preg_match('/^[a-z0-9]{26}$/i', session_id()) || preg_match('/^[a-z0-9]{32
 // set the language
 include (DIR_WS_MODULES.'set_language_sessions.php');
 
-
-// SSEQ-Lib integration
-function_exists('SEQ_SECURE_SESSION') ? SEQ_SECURE_SESSION() : '';
-
 // language translations
 require (DIR_WS_LANGUAGES.$_SESSION['language'].'/'.$_SESSION['language'].'.php');
 
 // currency
-if (!isset($_SESSION['currency']) || isset($_GET['currency']) || ((USE_DEFAULT_LANGUAGE_CURRENCY == 'true') && (LANGUAGE_CURRENCY != $_SESSION['currency']))) {
-  if (isset($_GET['currency'])) {
+if (!isset ($_SESSION['currency']) || isset ($_GET['currency']) || ((USE_DEFAULT_LANGUAGE_CURRENCY == 'true') && (LANGUAGE_CURRENCY != $_SESSION['currency']))) {
+  if (isset ($_GET['currency'])) {
     $_GET['currency'] = xtc_input_validation($_GET['currency'], 'char', '');
     if (!$_SESSION['currency'] = xtc_currency_exists($_GET['currency']))
       $_SESSION['currency'] = (USE_DEFAULT_LANGUAGE_CURRENCY == 'true') ? LANGUAGE_CURRENCY : DEFAULT_CURRENCY;
@@ -373,7 +350,7 @@ if (!isset($_SESSION['currency']) || isset($_GET['currency']) || ((USE_DEFAULT_L
     $_SESSION['currency'] = (USE_DEFAULT_LANGUAGE_CURRENCY == 'true') ? LANGUAGE_CURRENCY : DEFAULT_CURRENCY;
   }
 }
-if (isset($_SESSION['currency']) && $_SESSION['currency'] == '') {
+if (isset ($_SESSION['currency']) && $_SESSION['currency'] == '') {
   $_SESSION['currency'] = DEFAULT_CURRENCY;
 }
 
@@ -389,15 +366,15 @@ require (DIR_WS_CLASSES.'xtcPrice.php');
 $xtPrice = new xtcPrice($_SESSION['currency'], $_SESSION['customers_status']['customers_status_id']);
 
 // econda tracking
-if (TRACKING_ECONDA_ACTIVE == 'true') {
-  require(DIR_FS_EXTERNAL . 'econda/class.econda304SP2.php');
+if (TRACKING_ECONDA_ACTIVE=='true') {
+  require(DIR_WS_INCLUDES . 'econda/class.econda304SP2.php');
   $econda = new econda();
 }
 
 // PayPal Express
 if (defined('PAYPAL_API_VERSION')) {
-    require_once (DIR_WS_CLASSES . 'paypal_checkout.php');
-    $o_paypal = new paypal_checkout();
+  require_once (DIR_WS_CLASSES . 'paypal_checkout.php');
+  $o_paypal = new paypal_checkout();
 }
 
 // create the shopping cart & fix the cart if necesary
@@ -446,10 +423,10 @@ define('WARN_SESSION_AUTO_START', 'true');
 define('WARN_DOWNLOAD_DIRECTORY_NOT_READABLE', 'true');
 
 // Smarty Template Engine 
-require (DIR_FS_EXTERNAL.'smarty/Smarty.class.php');
+require (DIR_WS_CLASSES.'Smarty_2.6.27/Smarty.class.php');
 
-if (isset($_SESSION['customer_id'])) {
-  $account_type_query = xtc_db_query("-- /includes/application_top.php
+if (isset ($_SESSION['customer_id'])) {
+$account_type_query = xtc_db_query("-- /includes/application_top.php
                                       SELECT account_type,
                                              customers_default_address_id
                                         FROM ".TABLE_CUSTOMERS."
@@ -457,12 +434,12 @@ if (isset($_SESSION['customer_id'])) {
   $account_type = xtc_db_fetch_array($account_type_query);
 
   // check if zone id is unset bug
-  if (!isset($_SESSION['customer_country_id'])) {
+  if (!isset ($_SESSION['customer_country_id'])) {
     $zone_query = xtc_db_query("-- /includes/application_top.php
-                                SELECT entry_country_id
-                                  FROM ".TABLE_ADDRESS_BOOK."
-                                 WHERE customers_id='".(int) $_SESSION['customer_id']."'
-                                   AND address_book_id='".$account_type['customers_default_address_id']."'");
+                            SELECT entry_country_id
+                              FROM ".TABLE_ADDRESS_BOOK."
+                             WHERE customers_id='".(int) $_SESSION['customer_id']."'
+                               AND address_book_id='".$account_type['customers_default_address_id']."'");
 
     $zone = xtc_db_fetch_array($zone_query);
     $_SESSION['customer_country_id'] = $zone['entry_country_id'];
@@ -477,11 +454,11 @@ unset ($_SESSION['actual_content']);
 
 // econda tracking
 if (TRACKING_ECONDA_ACTIVE == 'true') {
-  require(DIR_FS_EXTERNAL . 'econda/emos.php');
+  require(DIR_WS_INCLUDES . 'econda/emos.php');
 }
 
 // BOF - Tomcraft - 2011-06-17 - Added janolaw AGB hosting service
-require_once(DIR_FS_CATALOG.'includes/external/janolaw/janolaw.php');
+require_once(DIR_FS_CATALOG.'includes/janolaw/janolaw.php');
 $coo_janolaw = new janolaw();
 if($coo_janolaw->get_status() == true) {
   $coo_janolaw->get_page_content('agb', true, true, 'checkout-agb');

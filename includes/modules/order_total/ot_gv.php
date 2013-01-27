@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: ot_gv.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: ot_gv.php 2099 2011-08-17 18:22:16Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -75,7 +75,7 @@ class ot_gv {
       if ($od_amount > 0) {
         $this->output[] = array ('title' => $this->title.':', 
                                  'text' => '<strong><font color="#ff0000">'.$xtPrice->xtcFormat($od_amount *(-1), true).'</font></strong>', //2011-08-25 - web28 - fix negativ sign
-                                 'value' => $xtPrice->xtcFormat($od_amount *(-1), false)); //2011-08-25 - web28 - fix negativ sign //DokuMan - 2011-11-18 - from SP1b
+                                 'value' => $xtPrice->xtcFormat($od_amount *(-1), false)); //2011-08-25 - web28 - fix negativ sign
       }
     }
   }
@@ -187,7 +187,6 @@ class ot_gv {
 
   function apply_credit() {
     global $order, $coupon_no,$xtPrice;
-    $gv_payment_amount = ''; //undefined variable
     if (isset ($_SESSION['cot_gv']) && $_SESSION['cot_gv'] == true) {
       $gv_query = xtc_db_query("select amount from ".TABLE_COUPON_GV_CUSTOMER." where customer_id = '".$_SESSION['customer_id']."'");
       $gv_result = xtc_db_fetch_array($gv_query);

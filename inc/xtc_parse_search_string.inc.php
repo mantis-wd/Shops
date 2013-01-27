@@ -1,17 +1,16 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_parse_search_string.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+   $Id: xtc_parse_search_string.inc.php 899 2005-04-29 02:40:57Z hhgag $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(general.php,v 1.225 2003/05/29); www.oscommerce.com 
    (c) 2003	 nextcommerce (xtc_parse_search_string.inc.php,v 1.3 2003/08/13); www.nextcommerce.org
-   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
@@ -153,7 +152,7 @@
       if ($objects[$i] == ')') $balance ++;
       if ( ($objects[$i] == 'and') || ($objects[$i] == 'or') ) {
         $operator_count ++;
-      } elseif ( (is_string($objects[$i]) && $objects[$i] == '0') || ($objects[$i]) && ($objects[$i] != '(') && ($objects[$i] != ')') ) {
+      } elseif ( ($objects[$i]) && ($objects[$i] != '(') && ($objects[$i] != ')') ) {
         $keyword_count ++;
       }
     }

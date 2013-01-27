@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: set_language_sessions.php 3952 2012-11-15 00:20:51Z Tomcraft1980 $
+   $Id: set_language_sessions.php 3859 2012-11-08 10:18:16Z web28 $
 
    Modified - community made shopping
    http://www.modified-shop.org

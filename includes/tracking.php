@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: tracking.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: tracking.php 2812 2012-05-02 09:26:43Z gtb-modified $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

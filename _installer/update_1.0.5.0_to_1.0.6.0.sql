@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------------------
-#  $Id: update_1.0.5.0_to_1.0.6.0.sql 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+#  $Id: update_1.0.5.0_to_1.0.6.0.sql 3813 2012-10-29 11:54:40Z Tomcraft1980 $
 #
 #  modified eCommerce Shopsoftware
 #  http://www.modified-shop.org
@@ -31,23 +31,22 @@ ALTER TABLE manufacturers MODIFY manufacturers_name varchar(64) NOT NULL;
 #DokuMan - 2010-10-13 - enlarge field 'comments' from varchar(255) to text
 ALTER TABLE orders MODIFY comments text;
 
-#DokuMan - Add indexes with db_upgrade.php
-# vr - 2012-10-26 - add index idx_customers_id
-#ALTER TABLE orders
-#  ADD INDEX idx_customers_id (customers_id);
-
 #DokuMan - 2010-10-13 - add index idx_categories_id
-#ALTER TABLE products_to_categories
-#  ADD INDEX idx_categories_id (categories_id,products_id);
+ALTER TABLE products_to_categories
+  ADD INDEX idx_categories_id (categories_id,products_id);
 
 #DokuMan - 2010-10-14 - keep index naming convention (idx_)
-#ALTER TABLE orders_products
-#  ADD INDEX idx_orders_id (orders_id),
-#  ADD INDEX idx_products_id (products_id);
+ALTER TABLE orders_products
+  DROP INDEX orders_id,
+  DROP INDEX products_id,
+  ADD INDEX idx_orders_id (orders_id),
+  ADD INDEX idx_products_id (products_id);
 
-#ALTER TABLE products_attributes
-#  ADD INDEX idx_products_id (products_id),
-#  ADD INDEX idx_options (options_id, options_values_id);
+ALTER TABLE products_attributes
+  DROP INDEX products_id,
+  DROP INDEX options,
+  ADD INDEX idx_products_id (products_id),
+  ADD INDEX idx_options (options_id, options_values_id);
 
 #DokuMan - 2010-11-08 - remove unsupported payment module qenta
 DROP TABLE IF EXISTS payment_qenta;
@@ -161,17 +160,17 @@ INSERT INTO zones VALUES ('',215,'BR', 'Bartin');
 INSERT INTO zones VALUES ('',215,'BM', 'Batman');
 INSERT INTO zones VALUES ('',215,'BB', 'Bayburt');
 INSERT INTO zones VALUES ('',215,'BC', 'Bilecik');
-INSERT INTO zones VALUES ('',215,'BG', 'BingÃ¶l');
+INSERT INTO zones VALUES ('',215,'BG', 'Bingöl');
 INSERT INTO zones VALUES ('',215,'BT', 'Bitlis');
 INSERT INTO zones VALUES ('',215,'BL', 'Bolu' );
 INSERT INTO zones VALUES ('',215,'BD', 'Burdur');
 INSERT INTO zones VALUES ('',215,'BU', 'Bursa');
-INSERT INTO zones VALUES ('',215,'CK', 'Ã‡anakkale');
-INSERT INTO zones VALUES ('',215,'CI', 'Ã‡ankiri');
-INSERT INTO zones VALUES ('',215,'CM', 'Ã‡orum');
+INSERT INTO zones VALUES ('',215,'CK', 'Çanakkale');
+INSERT INTO zones VALUES ('',215,'CI', 'Çankiri');
+INSERT INTO zones VALUES ('',215,'CM', 'Çorum');
 INSERT INTO zones VALUES ('',215,'DN', 'Denizli');
 INSERT INTO zones VALUES ('',215,'DY', 'Diyarbakir');
-INSERT INTO zones VALUES ('',215,'DU', 'DÃ¼zce');
+INSERT INTO zones VALUES ('',215,'DU', 'Düzce');
 INSERT INTO zones VALUES ('',215,'ED', 'Edirne');
 INSERT INTO zones VALUES ('',215,'EG', 'Elazig');
 INSERT INTO zones VALUES ('',215,'EN', 'Erzincan');
@@ -179,7 +178,7 @@ INSERT INTO zones VALUES ('',215,'EM', 'Erzurum');
 INSERT INTO zones VALUES ('',215,'ES', 'Eskisehir');
 INSERT INTO zones VALUES ('',215,'GA', 'Gaziantep');
 INSERT INTO zones VALUES ('',215,'GI', 'Giresun');
-INSERT INTO zones VALUES ('',215,'GU', 'GÃ¼mÃ¼shane');
+INSERT INTO zones VALUES ('',215,'GU', 'Gümüshane');
 INSERT INTO zones VALUES ('',215,'HK', 'Hakkari');
 INSERT INTO zones VALUES ('',215,'HT', 'Hatay');
 INSERT INTO zones VALUES ('',215,'IG', 'Igdir');
@@ -187,7 +186,7 @@ INSERT INTO zones VALUES ('',215,'IP', 'Isparta');
 INSERT INTO zones VALUES ('',215,'IB', 'Istanbul');
 INSERT INTO zones VALUES ('',215,'IZ', 'Izmir');
 INSERT INTO zones VALUES ('',215,'KM', 'Kahramanmaras');
-INSERT INTO zones VALUES ('',215,'KB', 'KarabÃ¼k');
+INSERT INTO zones VALUES ('',215,'KB', 'Karabük');
 INSERT INTO zones VALUES ('',215,'KR', 'Karaman');
 INSERT INTO zones VALUES ('',215,'KA', 'Kars');
 INSERT INTO zones VALUES ('',215,'KS', 'Kastamonu');
@@ -198,7 +197,7 @@ INSERT INTO zones VALUES ('',215,'KL', 'Kirklareli');
 INSERT INTO zones VALUES ('',215,'KH', 'Kirsehir');
 INSERT INTO zones VALUES ('',215,'KC', 'Kocaeli');
 INSERT INTO zones VALUES ('',215,'KO', 'Konya');
-INSERT INTO zones VALUES ('',215,'KU', 'KÃ¼tahya');
+INSERT INTO zones VALUES ('',215,'KU', 'Kütahya');
 INSERT INTO zones VALUES ('',215,'ML', 'Malatya');
 INSERT INTO zones VALUES ('',215,'MN', 'Manisa');
 INSERT INTO zones VALUES ('',215,'MR', 'Mardin');
@@ -266,7 +265,7 @@ INSERT INTO zones VALUES ('',105,'FM','Fermo');
 INSERT INTO zones VALUES ('',105,'FE','Ferrara');
 INSERT INTO zones VALUES ('',105,'FI','Firenze');
 INSERT INTO zones VALUES ('',105,'FG','Foggia');
-INSERT INTO zones VALUES ('',105,'FC','ForlÃ¬-Cesena');
+INSERT INTO zones VALUES ('',105,'FC','Forlì-Cesena');
 INSERT INTO zones VALUES ('',105,'FR','Frosinone');
 INSERT INTO zones VALUES ('',105,'GE','Genova');
 INSERT INTO zones VALUES ('',105,'GO','Gorizia');
@@ -343,7 +342,7 @@ INSERT INTO zones VALUES ('',105,'VT','Viterbo');
 
 #DokuMan - 2011-05-09 - Fix Australian Dollar currency from 'AUS' to 'AUD'
 UPDATE countries SET countries_iso_code_3 = 'AUD' WHERE countries_id = 13 LIMIT 1;
-UPDATE payment_amoneybookers_countries SET mb_cID = 'AUD' WHERE osc_cID = 13 LIMIT 1;
+UPDATE payment_moneybookers_countries SET mb_cID = 'AUD' WHERE osc_cID = 13 LIMIT 1;
 
 #DokuMan - 2011-06-06 - Create the database table for storing the bank code
 DROP TABLE IF EXISTS banktransfer_blz;
@@ -424,7 +423,7 @@ CREATE TABLE sessions (
 
 #DokuMan - 2012-08-21 - fix default value for customer group merchants
 UPDATE customers_status SET customers_status_add_tax_ot  = '1' WHERE customers_status_id = '3';
-
+  
 #DokuMan - 2012-08-21 - remove unused pictures in Admin
 ALTER TABLE admin_access ADD removeoldpics INT(1) NOT NULL DEFAULT 0;
 UPDATE admin_access SET removeoldpics = 1 WHERE customers_id = 1;
@@ -442,6 +441,10 @@ UPDATE configuration SET configuration_group_id = '1000', sort_order = '21', las
 #Web28 - 2012-09-28 - add image_manipulator_GD2_advanced.php (supports transparent png)
 UPDATE configuration SET set_function = 'xtc_cfg_select_option(array(\'image_manipulator_GD2.php\', \'image_manipulator_GD2_advanced.php\',\'image_manipulator_GD1.php\'),' WHERE configuration_key = 'IMAGE_MANIPULATOR';
 
+# vr - 2012-10-26 - add index idx_customers_id
+ALTER TABLE orders
+  ADD INDEX idx_customers_id (customers_id);
+  
 #Web28 - 2012-07-16 - New order description using in checkout
 ALTER TABLE products_description ADD products_order_description TEXT NULL DEFAULT '';
 ALTER TABLE orders_products ADD products_order_description TEXT NULL DEFAULT '';
@@ -468,8 +471,8 @@ UPDATE configuration SET configuration_group_id = '5', sort_order = '60', last_m
 UPDATE configuration SET configuration_group_id = '5', sort_order = '100', last_modified = NOW() WHERE configuration_key = 'ACCOUNT_OPTIONS';
 UPDATE configuration SET configuration_group_id = '5', sort_order = '110', last_modified = NOW() WHERE configuration_key = 'DELETE_GUEST_ACCOUNT';
 
-#Web28 - 2012-12-31 - add comments_sent for correct representation of the comments in the customers account  
-ALTER TABLE orders_status_history ADD comments_sent INT( 1 )  NULL DEFAULT '0'; 
+#Web28 - 2012-12-31 - add comments_sent for correct representation of the comments in the customers account 
+ALTER TABLE orders_status_history ADD comments_sent INT( 1 )  NULL DEFAULT '0';
 UPDATE orders_status_history SET comments_sent = '1' WHERE customer_notified = '1';
 
 # Keep an empty line at the end of this file for the db_updater to work properly

@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: categories_view.php 4355 2013-01-23 14:20:51Z Tomcraft1980 $
+   $Id: categories_view.php 3072 2012-06-18 15:01:13Z hhacker $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -26,7 +26,7 @@
   defined('_VALID_XTC') or die('Direct Access to this location is not allowed.');
 
   define('CAT_VIEW_DROPDOWN', true); //remove dropdown field due to performance issues on many categories
-
+  
   if (!defined('MAX_DISPLAY_LIST_PRODUCTS')) {
     define('MAX_DISPLAY_LIST_PRODUCTS', 50);     // display products per page
   }
@@ -34,9 +34,9 @@
   //BOF - web28 -  2012-08-25 - change imagesize by css size
   define('BOX_CAT_IMAGE_SIZE', '150px');
   $box_cat_image_size = 'style="max-width: '. BOX_CAT_IMAGE_SIZE .'; max-height: '.BOX_CAT_IMAGE_SIZE.';"';
-
+  
   $icon_padding = 'style="padding-right:8px;"';
-
+  
   if( defined('USE_ADMIN_THUMBS_IN_LIST_STYLE')) {
     $admin_thumbs_size = 'style="'.USE_ADMIN_THUMBS_IN_LIST_STYLE.'"';
   } else {
@@ -255,7 +255,7 @@
                                                   WHERE c.categories_id = cd.categories_id
                                                         ".$search_category."
                                                     AND cd.language_id = '" . (int)$_SESSION['languages_id'] . "'
-                                                    AND cd.categories_name like '%" . xtc_db_prepare_input($search) . "%'
+                                                    AND cd.categories_name like '%" . xtc_db_input($search) . "%'
                                                ORDER BY " . $catsort);
              } else {
                $categories_query = xtc_db_query("SELECT c.categories_id,
@@ -297,13 +297,25 @@
                  <td class="categories_view_data">--</td>
                  <td class="categories_view_data">--</td>
                  <td class="categories_view_data">--</td>
-                 <td class="categories_view_data" style="text-align: center;">--</td>
+                 <?php
+                 if ( USE_ADMIN_THUMBS_IN_LIST=='true' ) {
+                 ?>
+                   <td class="categories_view_data" style="text-align: center;">--</td>
+                 <?php
+                 }
+                 ?>
                  <td class="categories_view_data" style="text-align: left; padding-left: 5px;">
                    <?php
                    echo '<a href="' . xtc_href_link(FILENAME_CATEGORIES, xtc_get_all_get_params(array('cPath', 'action', 'pID', 'cID')) .$cPath_back.'&cID='.$categories['parent_id']). '">'.xtc_image(DIR_WS_ICONS . 'folder_parent.gif', ICON_FOLDER) .' ..</a>';
                    ?>
                  </td>
-                 <td class="categories_view_data">--</td>
+                 <?php                 
+                 if (STOCK_CHECK == 'true') {
+                 ?>
+                   <td class="categories_view_data">--</td>
+                 <?php
+                 }
+                 ?>
                  <td class="categories_view_data">--</td>
                  <td class="categories_view_data">--</td>
                  <td class="categories_view_data">--</td>
@@ -410,7 +422,7 @@
                                               p.products_startpage_sort,
                                               p2c.categories_id ";
 
-               $from_str  = "FROM ".TABLE_PRODUCTS." AS p ";
+               $from_str  = " FROM ".TABLE_PRODUCTS." AS p ";
                $from_str .= "LEFT JOIN ".TABLE_PRODUCTS_DESCRIPTION." AS pd ON (p.products_id = pd.products_id) ";
                $from_str .= "JOIN ".TABLE_PRODUCTS_TO_CATEGORIES." AS p2c ON (p.products_id = p2c.products_id) ";
                if (ADMIN_SEARCH_IN_ATTR == 'true') {
@@ -434,7 +446,7 @@
                          $where_str .= " ".$search_keywords[$i]." ";
                          break;
                        default :
-                         $ent_keyword = htmlentities($search_keywords[$i]);
+                         $ent_keyword = encode_htmlentities($search_keywords[$i]);
                          $ent_keyword = ($ent_keyword != $search_keywords[$i]) ? addslashes($ent_keyword) : false;
                          $keyword = addslashes($search_keywords[$i]);
                          $where_str .= " ( ";
@@ -488,8 +500,8 @@
                             LEFT JOIN " . TABLE_PRODUCTS_DESCRIPTION . " pd ON p.products_id = pd.products_id AND pd.language_id = '" . (int)$_SESSION['languages_id'] . "'
                                  JOIN " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c ON p.products_id = p2c.products_id AND p2c.categories_id = '" . $current_category_id . "'
                              ORDER BY " . $prodsort;
-                 $products_split = new splitPageResults($_GET['page'], MAX_DISPLAY_LIST_PRODUCTS, $select_str, $products_query_numrows);
-                 $products_query = xtc_db_query($select_str);
+                $products_split = new splitPageResults($_GET['page'], MAX_DISPLAY_LIST_PRODUCTS, $select_str, $products_query_numrows);
+                $products_query = xtc_db_query($select_str);
              }
 
              // ----------------------------------------------------------------------------------------------------- //
@@ -670,6 +682,7 @@
               }
               $contents[] = array('text' => '<br />' . TEXT_CATEGORIES . '<br />' . xtc_draw_pull_down_menu('categories_id', xtc_get_category_tree('0','','0'), $current_category_id));
               $contents[] = array('text' => '<br />' . TEXT_HOW_TO_COPY . '<br />' . xtc_draw_radio_field('copy_as', 'link', true) . ' ' . TEXT_COPY_AS_LINK . '<br />' . xtc_draw_radio_field('copy_as', 'duplicate') . ' ' . TEXT_COPY_AS_DUPLICATE);
+              $contents[] = array('text' => '<br />' . TEXT_HOW_TO_LINK . '<br />' . '<input type="checkbox" name="link_to_product" value="link_to_product" checked="checked"><font size="1">'.TEXT_HOW_TO_LINK_INFO.'</font><br />');
               $contents[] = array('text' => '<br />' . TEXT_ATTRIBUTE_COPY . '<br />' . '<input type="checkbox" name="attr_copy" value="attr_copy"><font size="1">'.TEXT_ATTRIBUTE_COPY_INFO.'</font><br />');
               $contents[] = array('align' => 'center', 'text' => '<br /><input type="submit" class="button" onclick="this.blur();" value="' . BUTTON_COPY . '"/> <a class="button" onclick="this.blur();" href="' . xtc_href_link(FILENAME_CATEGORIES, xtc_get_all_get_params(array('cPath', 'action', 'pID', 'cID')) . 'cPath=' . $cPath . '&pID=' . $pInfo->products_id) . '">' . BUTTON_CANCEL . '</a>');
               break;
@@ -728,7 +741,6 @@
                 //add current category id, for moving products
                 $contents[] = array('text' => '<input type="hidden" name="src_category_id" value="' . $current_category_id . '">');
                 $contents[] = array('align' => 'center', 'text' => '<input class="button" type="submit" name="multi_move_confirm" value="' . BUTTON_MOVE . '"> <a class="button" href="' . xtc_href_link(FILENAME_CATEGORIES, xtc_get_all_get_params(array('cPath', 'action', 'pID', 'cID')) . (isset($_GET['cPath']) ? 'cPath=' . $cPath : '') . '&pID=' . $pInfo->products_id . '&cID=' . $cInfo->categories_id) . '">' . BUTTON_CANCEL . '</a>');
-
                 //close multi-action form
                 $contents[] = array('text' => '</form>');
               }
@@ -869,11 +881,9 @@
                   $category_tree=xtc_get_category_tree();
                 }
                 $contents[] = array('text' => '<br />' . TEXT_SINGLECOPY_CATEGORY . '<br />' . xtc_draw_pull_down_menu('dest_category_id', $category_tree, $current_category_id) . '<br /><hr noshade>');
-                //BOC -Web28 - redirect to product input mask
-                //$contents[] = array('text' => '<strong>' . TEXT_HOW_TO_COPY . '</strong><br />' . xtc_draw_radio_field('copy_as', 'link', true) . ' ' . TEXT_COPY_AS_LINK . '<br />' . xtc_draw_radio_field('copy_as', 'duplicate') . ' ' . TEXT_COPY_AS_DUPLICATE . '<br /><hr noshade>');
-                $contents[] = array('text' => '<strong>' . TEXT_HOW_TO_COPY . '</strong><br />' . xtc_draw_radio_field('copy_as', 'link', true) . ' ' . TEXT_COPY_AS_LINK . '<br />' . xtc_draw_radio_field('copy_as', 'duplicate') . ' ' . TEXT_COPY_AS_DUPLICATE . '<br />');
+                $contents[] = array('text' => '<strong>' . TEXT_HOW_TO_COPY . '</strong><br />' . xtc_draw_radio_field('copy_as', 'link', true) . ' ' . TEXT_COPY_AS_LINK . '<br />' . xtc_draw_radio_field('copy_as', 'duplicate') . ' ' . TEXT_COPY_AS_DUPLICATE . '<br /><hr noshade>');
                 $contents[] = array('text' => '<br />' . TEXT_HOW_TO_LINK . '<br />' . '<input type="checkbox" name="link_to_product" value="link_to_product" checked="checked"><font size="1">'.TEXT_HOW_TO_LINK_INFO.'</font><br /><hr noshade>');
-                //EOC -Web28 - redirect to product input mask
+                $contents[] = array('text' => '<strong>' . TEXT_ATTRIBUTE_COPY . '</strong><br />' . '<input type="checkbox" name="attr_copy" value="attr_copy"><font size="1">'.TEXT_ATTRIBUTE_COPY_INFO.'</font><br /><hr noshade>');
                 $contents[] = array('align' => 'center', 'text' => '<input class="button" type="submit" name="multi_copy_confirm" value="' . BUTTON_COPY . '"> <a class="button" href="' . xtc_href_link(FILENAME_CATEGORIES, xtc_get_all_get_params(array('cPath', 'action', 'pID', 'cID')) . 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&cID=' . $cInfo->categories_id) . '">' . BUTTON_CANCEL . '</a>');
                 //close multi-action form
                 $contents[] = array('text' => '</form>');

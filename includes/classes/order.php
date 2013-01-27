@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: order.php 4297 2013-01-13 19:56:47Z Tomcraft1980 $
+   $Id: order.php 3202 2012-07-11 12:09:21Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -76,18 +76,19 @@
                                     ORDER BY sort_order");
       while ($totals = xtc_db_fetch_array($totals_query)) {
         $this->totals[] = array('title' => $totals['title'],
-                                 'text' => $totals['text'],
-                                 'value'=> $totals['value']
+                                'text' => $totals['text'],
+                                'value'=> $totals['value'],
+                                'class'=> $totals['class']
                                );
       }
 
       // BOF - web28 - 2010-05-06 - PayPal API Modul / Paypal Express Modul
       //$order_total_query = xtc_db_query("SELECT text FROM " . TABLE_ORDERS_TOTAL . " WHERE orders_id = '" . $order_id . "' AND class = 'ot_total'");
       $order_total_query = xtc_db_query("SELECT text, value FROM " . TABLE_ORDERS_TOTAL . " WHERE orders_id = '" . $order_id . "' AND class = 'ot_total'");
-      // EOF - web28 - 2010-05-06 - PayPal APIModul / Paypal Express Modul
+      // EOF - web28 - 2010-05-06 - PayPal API Modul / Paypal Express Modul
       $order_total = xtc_db_fetch_array($order_total_query);
 
-      // BOF - web28 - 2010-05-06 - PayPal API Modul  / Paypal Express Modul
+      // BOF - web28 - 2010-05-06 - PayPal API Modul / Paypal Express Modul
       $order_tax_query = xtc_db_query("SELECT SUM(value) FROM " . TABLE_ORDERS_TOTAL . " WHERE orders_id = '" . $order_id . "' AND class = 'ot_tax'");
       $order_tax = xtc_db_fetch_array($order_tax_query);
       $pp_order_tax=$order_tax['SUM(value)'];
@@ -106,9 +107,9 @@
       $order_gs = xtc_db_fetch_array($order_gs_query);
       $pp_order_gs+= ($order_gs['SUM(value)'] < 0) ? $order_gs['SUM(value)'] : $order_gs['SUM(value)']*(-1) ;
       //  customers bonus
-      //$order_gs_query = xtc_db_query("SELECT SUM(value) FROM " . TABLE_ORDERS_TOTAL . " WHERE orders_id = '" . $order_id . "' AND class = 'ot_bonus_fee'");
-      //$order_gs = xtc_db_fetch_array($order_gs_query);
-      //$pp_order_gs-=$order_gs['SUM(value)'];
+      $order_gs_query = xtc_db_query("SELECT SUM(value) FROM " . TABLE_ORDERS_TOTAL . " WHERE orders_id = '" . $order_id . "' AND class = 'ot_bonus_fee'");
+      $order_gs = xtc_db_fetch_array($order_gs_query);
+      $pp_order_gs-=$order_gs['SUM(value)'];
       $pp_order_fee=0;
       $order_fee_query = xtc_db_query("SELECT SUM(value) FROM " . TABLE_ORDERS_TOTAL . " WHERE orders_id = '" . $order_id . "' AND class = 'ot_payment'");
       $order_fee = xtc_db_fetch_array($order_fee_query);
@@ -224,12 +225,12 @@
                              'country' => $order['billing_country'],
                              'country_iso_2' => $order['billing_country_iso_code_2'],
                              'format_id' => $order['billing_address_format_id']
-                             );
+                            );
 
       $index = 0;
       $orders_products_query = xtc_db_query("SELECT *
-                                               FROM " . TABLE_ORDERS_PRODUCTS . "
-                                              WHERE orders_id = '" . $order_id . "'");
+                                             FROM " . TABLE_ORDERS_PRODUCTS . "
+                                             WHERE orders_id = '" . $order_id . "'");
       while ($orders_products = xtc_db_fetch_array($orders_products_query)) {
         $this->products[$index] = array('qty' => $orders_products['products_quantity'],
                                         'id' => $orders_products['products_id'],
@@ -238,18 +239,18 @@
                                         'order_description' => $orders_products['products_order_description'],
                                         'model' => $orders_products['products_model'],
                                         'tax' => $orders_products['products_tax'],
-                                        'price' => $orders_products['products_price'],
+                                        'price'=> $orders_products['products_price'],
                                         'discount' => $orders_products['products_discount_made'],
-                                        'shipping_time' => $orders_products['products_shipping_time'],
+                                        'shipping_time'=> $orders_products['products_shipping_time'],
                                         'final_price' => $orders_products['final_price'],
                                         'allow_tax' => $orders_products['allow_tax']
-                                        );
+                                       );
 
         $subindex = 0;
         $attributes_query = xtc_db_query("SELECT *
                                               FROM " . TABLE_ORDERS_PRODUCTS_ATTRIBUTES . "
-                                             WHERE orders_id = '" . $order_id . "'
-                                               AND orders_products_id = '" . $orders_products['orders_products_id'] . "'
+                                          WHERE orders_id = '" . $order_id . "'
+                                          AND orders_products_id = '" . $orders_products['orders_products_id'] . "'
                                           ORDER BY orders_products_attributes_id"); //ADD - web28 - 2010-06-11 - order by orders_products_attributes_id
         if (xtc_db_num_rows($attributes_query)) {
           while ($attributes = xtc_db_fetch_array($attributes_query)) {
@@ -301,7 +302,7 @@
         }
 
         $short_description = CHECKOUT_USE_PRODUCTS_SHORT_DESCRIPTION == 'true' ? xtc_get_short_description($order_data_values['products_id'],$order_lang_id) : '';
-        //using short description  if order description is not defined or empty        
+        //using short description  if order description is not defined or empty
         $order_description = '';
         if (array_key_exists('products_order_description',$order_data_values) && !empty($order_data_values['products_order_description'])) {
           $order_description = nl2br($order_data_values['products_order_description']);
@@ -371,20 +372,20 @@
       $this->content_type = $_SESSION['cart']->get_content_type();
 
       $customer_address_query = xtc_db_query("SELECT c.payment_unallowed,c.shipping_unallowed,c.customers_firstname,
-                                                    c.customers_cid, c.customers_gender,c.customers_lastname,
-                                                    c.customers_telephone, c.customers_email_address,
-                                                    ab.entry_company, ab.entry_street_address, ab.entry_suburb,
-                                                    ab.entry_postcode, ab.entry_city, ab.entry_zone_id, ab.entry_state,
-                                                    co.countries_id, co.countries_name, co.countries_iso_code_2,
-                                                    co.countries_iso_code_3, co.address_format_id,
-                                                    z.zone_name
-                                               FROM " . TABLE_CUSTOMERS . " c,
-                                                    " . TABLE_ADDRESS_BOOK . " ab
-                                          LEFT JOIN " . TABLE_ZONES . " z ON (ab.entry_zone_id = z.zone_id)
-                                          LEFT JOIN " . TABLE_COUNTRIES . " co ON (ab.entry_country_id = co.countries_id)
-                                              WHERE c.customers_id = '" . $_SESSION['customer_id'] . "'
-                                                AND ab.customers_id = '" . $_SESSION['customer_id'] . "'
-                                                AND c.customers_default_address_id = ab.address_book_id
+                                                     c.customers_cid, c.customers_gender,c.customers_lastname,
+                                                     c.customers_telephone, c.customers_email_address,
+                                                     ab.entry_company, ab.entry_street_address, ab.entry_suburb,
+                                                     ab.entry_postcode, ab.entry_city, ab.entry_zone_id, ab.entry_state,
+                                                     co.countries_id, co.countries_name, co.countries_iso_code_2,
+                                                     co.countries_iso_code_3, co.address_format_id,
+                                                     z.zone_name
+                                                FROM " . TABLE_CUSTOMERS . " c,
+                                                     " . TABLE_ADDRESS_BOOK . " ab
+                                           LEFT JOIN " . TABLE_ZONES . " z ON (ab.entry_zone_id = z.zone_id)
+                                           LEFT JOIN " . TABLE_COUNTRIES . " co ON (ab.entry_country_id = co.countries_id)
+                                               WHERE c.customers_id = '" . $_SESSION['customer_id'] . "'
+                                               AND ab.customers_id = '" . $_SESSION['customer_id'] . "'
+                                               AND c.customers_default_address_id = ab.address_book_id
                                             ");
       $customer_address = xtc_db_fetch_array($customer_address_query);
 
@@ -412,8 +413,8 @@
                                           LEFT JOIN " . TABLE_ZONES . " z ON (ab.entry_zone_id = z.zone_id)
                                           LEFT JOIN " . TABLE_COUNTRIES . " c ON (ab.entry_country_id = c.countries_id)
                                               WHERE ab.customers_id = '" . $_SESSION['customer_id'] . "'
-                                              AND ab.address_book_id = '" . (isset($_SESSION['billto']) ? $_SESSION['billto'] : $_SESSION['sendto']) . "'
-                                            ");
+                                                AND ab.address_book_id = '" . (isset($_SESSION['billto']) ? $_SESSION['billto'] : $_SESSION['sendto']) . "'
+                                           ");
 
       $billing_address = xtc_db_fetch_array($billing_address_query);
 
@@ -570,7 +571,7 @@
         $products_tax = $this->products[$index]['tax'];
         $products_tax_description = $this->products[$index]['tax_description'];
         if ($_SESSION['customers_status']['customers_status_show_price_tax'] == '1') {
-          $tax_index = TAX_ADD_TAX.$products_tax_description.TAX_SHORT_DISPLAY; //DokuMan - 2010-09-28 - set correct order of VAT display, added .TAX_SHORT_DISPLAY
+          $tax_index = TAX_ADD_TAX.$products_tax_description;
           if (!isset($this->info['tax_groups'][$tax_index])) {
             $this->info['tax_groups'][$tax_index] = 0;
           }
@@ -582,13 +583,13 @@
             $this->info['tax_groups'][$tax_index] += (($shown_price /(100+$products_tax)) * $products_tax);
           }
         } else {
-          $tax_index = TAX_NO_TAX.$products_tax_description.TAX_SHORT_DISPLAY; //DokuMan - 2010-09-28 - set correct order of VAT display, added .TAX_SHORT_DISPLAY
+          $tax_index = TAX_NO_TAX.$products_tax_description;
           if (!isset($this->info['tax_groups'][$tax_index])) {
             $this->info['tax_groups'][$tax_index] = 0;
           }
           if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1) {
             // BOF - web28 - 2010-05-06 - PayPal API Modul / Paypal Express Modul
-            //$this->info['tax'] += ($shown_price_tax/100) * ($products_tax);
+            // $this->info['tax'] += ($shown_price_tax/100) * ($products_tax);
             $this->tax_discount[$products[$i]['tax_class_id']]+=($shown_price_tax/100) * $products_tax;
             // EOF - web28 - 2010-05-06 - PayPal API Modul / Paypal Express Modul
             $this->info['tax_groups'][$tax_index] += ($shown_price_tax/100) * ($products_tax);

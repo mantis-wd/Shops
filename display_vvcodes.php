@@ -1,14 +1,10 @@
 <?php
+
 /* -----------------------------------------------------------------------------------------
-   $Id: display_vvcodes.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+  $Id: display_vvcodes.php 831 2005-03-13 10:16:09Z mz $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
-
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2004 XT-Commerce
    -----------------------------------------------------------------------------------------
-   based on:
-   (c) 2006 XT-Commerce
   
    Released under the GNU General Public License  
    ---------------------------------------------------------------------------------------*/

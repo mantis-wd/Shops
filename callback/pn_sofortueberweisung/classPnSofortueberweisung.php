@@ -7,7 +7,7 @@
  * 
  * Copyright (c) 2010 Payment Network AG
  *
- * $Id: classPnSofortueberweisung.php 2666 2012-02-23 11:38:17Z dokuman $
+ * $Id: classPnSofortueberweisung.php 305 2010-09-10 08:19:34Z poser $
  * 
  */
 class classPnSofortueberweisung {

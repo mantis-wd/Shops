@@ -1,17 +1,16 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: freeamount.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+   $Id: freeamount.php 1288 2005-10-07 14:47:50Z gwinger $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce( freeamount.php,v 1.01 2002/01/24 03:25:00); www.oscommerce.com 
    (c) 2003	 nextcommerce (freeamount.php,v 1.4 2003/08/13); www.nextcommerce.org
-   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License 
    -----------------------------------------------------------------------------------------
@@ -24,6 +23,7 @@
 define('MODULE_SHIPPING_FREEAMOUNT_TEXT_TITLE', 'Free Shipping');
 define('MODULE_SHIPPING_FREEAMOUNT_TEXT_DESCRIPTION', 'Free Shipping w/ Minimum Order Amount');
 define('MODULE_SHIPPING_FREEAMOUNT_TEXT_WAY', 'Free Shipping minimum order: %s');
+define('MODULE_SHIPPING_FREEAMOUNT_SORT_ORDER', 'Sort Order');
 
 define('MODULE_SHIPPING_FREEAMOUNT_ALLOWED_TITLE' , 'Allowed Zones');
 define('MODULE_SHIPPING_FREEAMOUNT_ALLOWED_DESC' , 'Please enter the zones <b>separately</b> which should be allowed to use this modul (e. g. AT,DE (leave empty if you want to allow all zones))');

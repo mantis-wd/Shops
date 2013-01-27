@@ -1,23 +1,22 @@
 <?php
 /**************************************************************
-$Id: backup_db.php 4175 2013-01-04 16:15:44Z web28 $
+$Id: backup_db.php 4174 2013-01-04 15:55:13Z web28 $
 
-* XTC Datenbank Manager Version 1.92 utf8
-*(c) by  web28 - www.rpa-com.de
-* Convert UFT-8
-* Backup pro Tabelle und limitierter Zeilenzahl (Neuladen der Seite) , einstellbar mit ANZAHL_ZEILEN_BKUP
-* Restore mit limitierter Zeilennanzahl aus SQL-Datei (Neuladen der Seite), einstellbar mit ANZAHL_ZEILEN
- * 2011-11-23 - restore in separate file
-* 2010-09-09 - add set_admin_access
- * 2011-07-02 - Security Fix - PHP_SELF
- * 2011-09-13 - fix some PHP notices
-***************************************************************/
+  * XTC Datenbank Manager Version 1.92
+  *(c) by  web28 - www.rpa-com.de
+  * Backup pro Tabelle und limitierter Zeilenzahl (Neuladen der Seite) , einstellbar mit ANZAHL_ZEILEN_BKUP
+  * Restore mit limitierter Zeilennanzahl aus SQL-Datei (Neuladen der Seite), einstellbar mit ANZAHL_ZEILEN
+  * 2011-11-23 - restore in separate file
+  * 2010-09-09 - add set_admin_access
+  * 2011-07-02 - Security Fix - PHP_SELF
+  * 2011-09-13 - fix some PHP notices
+  ***************************************************************/
 
   //#################################
   define ('ANZAHL_ZEILEN_BKUP', 20000); //Anzahl der Zeilen die beim Backup pro Durchlauf maximal aus einer Tabelle  gelesen werden.
   define ('MAX_RELOADS', 600); //Anzahle der maximalen Seitenreloads beim Backup  - falls etwas nicht richtig funktioniert stoppt das Script nach 600 Seitenaufrufen
   //#################################
-  define ('VERSION', 'Database Backup Ver. 1.92 UTF-8');
+  define ('VERSION', 'Database Backup Ver. 1.92');
 
   require('includes/application_top.php');
   include ('includes/functions/db_restore.php');
@@ -40,20 +39,15 @@ $Id: backup_db.php 4175 2013-01-04 16:15:44Z web28 $
     session_start();
   }
 
+
   //#### BACKUP ANFANG #######
   if (isset($_SESSION['dump'])) {
     $dump=$_SESSION['dump'];
   }
 
   function WriteToDumpFile($data) {
-
     $df = $_SESSION['dump']['file'];
-
     if (isset($data) && $data!='') {
-      if ($_SESSION['dump']['utf8-convert'] == 'yes') {
-        $data = mb_convert_encoding(utf8_decode($data), 'UTF-8', 'HTML-ENTITIES');
-      }
-
       if ($_SESSION['dump']['compress']) {
         if ($data!='') {
           $fp=gzopen($df,'ab');
@@ -77,15 +71,6 @@ $Id: backup_db.php 4175 2013-01-04 16:15:44Z web28 $
     $res = mysql_query('SHOW CREATE TABLE `'.$table.'`');
     $row = @mysql_fetch_row($res);
     $data .= $row[1].';'."\n\n";
-
-    if ($_SESSION['dump']['utf8-convert'] == 'yes') {
-      $check_utf8 = mysql_query("SHOW TABLE STATUS WHERE Name='".$table."'");
-      $utf8 = mysql_fetch_array($check_utf8);
-      if (strpos($utf8['Collation'], 'utf8') === false) {
-        $data .= "ALTER TABLE `$table` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;\n\n";
-      }
-    }
-
     $data .= "/*!40000 ALTER TABLE `$table` DISABLE KEYS */;\n";
     //EOF NEW TABLE  STRUCTURE  - LIKE MYSQLDUMPER
 
@@ -102,8 +87,8 @@ $Id: backup_db.php 4175 2013-01-04 16:15:44Z web28 $
   function GetTableData($table) {
     global $dump;
     // Dump the data
-    //if ( ($table != TABLE_SESSIONS ) && ($table != TABLE_WHOS_ONLINE) && ($table != TABLE_ADMIN_ACTIVITY_LOG) ) {
-    if ( ($table != TABLE_SESSIONS ) && ($table != TABLE_WHOS_ONLINE) ) { //DB-table TABLE_ADMIN_ACTIVITY_LOG does not exist by default
+    if ( ($table != TABLE_SESSIONS ) && ($table != TABLE_WHOS_ONLINE) && ($table != TABLE_ADMIN_ACTIVITY_LOG) ) {
+
       $table_list = array();
       $fields_query = mysql_query("SHOW COLUMNS FROM " . $table);
       while ($fields = mysql_fetch_array($fields_query)) {
@@ -187,24 +172,6 @@ $Id: backup_db.php 4175 2013-01-04 16:15:44Z web28 $
     $dump = array();
     unset($_SESSION['dump']);
 
-    if (!isset($dump['db_version'])) {
-      $query=mysql_query("select version from database_version");
-      $result=mysql_fetch_array($query);
-      $dump['db_version'] = $result['version'];
-    }
-    if (strpos($dump['db_version'], 'utf') !== false) {
-      if(function_exists('mysql_set_charset') == true) {
-        mysql_set_charset('utf8');
-      } else {
-        mysql_query('set names utf8');
-      }
-    } else {
-      if(function_exists('mysql_set_charset') == true) {
-        mysql_set_charset('latin1');
-      } else {
-        mysql_query('set names latin1');
-      }
-    }
 
     @xtc_set_time_limit(0);
 
@@ -230,11 +197,6 @@ $Id: backup_db.php 4175 2013-01-04 16:15:44Z web28 $
               '-- Database Server: ' . DB_SERVER . "\n" .
               '--' . "\n" . $mysql_version .
               '-- Backup Date: ' . date(PHP_DATE_TIME_FORMAT) . "\n\n";
-
-    if ($_POST['utf8-convert'] == 'yes') {
-      $dump['utf8-convert']	= 'yes';
-    }
-
     $backup_file =  'dbd_' . DB_DATABASE . '-' . date('YmdHis');
     $dump['file'] = DIR_FS_BACKUP . $backup_file;
 
@@ -301,7 +263,7 @@ $Id: backup_db.php 4175 2013-01-04 16:15:44Z web28 $
         $selbstaufruf = '';
       }
 
-    } else {//Fertig
+    } else { //Fertig
       $info_wait = '';
       $info_text = TEXT_INFO_DO_BACKUP_OK;
       $table_ok= 'Tabellen gesichert: ' . $dump['nr'] .  '<br><br>Seitenaufrufe: ' . $dump['aufruf'] ;
@@ -313,11 +275,15 @@ $Id: backup_db.php 4175 2013-01-04 16:15:44Z web28 $
     }
   }
   //#### BACKUP ENDE #######
-
-require (DIR_WS_INCLUDES.'head.php'); 
 ?>
-</head>
-<body>
+<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html <?php echo HTML_PARAMS; ?>>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $_SESSION['language_charset']; ?>" />
+    <title><?php echo TITLE; ?></title>
+    <link rel="stylesheet" type="text/css" href="includes/stylesheet.css" />
+  </head>
+  <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF">
     <!-- header //-->
     <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
     <!-- header_eof //-->

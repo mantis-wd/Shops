@@ -1,17 +1,16 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: boxes.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: boxes.php 4229 2013-01-11 10:54:58Z gtb-modified $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
-   based on:
+   based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-   (c) 2002-2003 osCommerce(boxes.php,v 1.32 2003/05/27); www.oscommerce.com
-   (c) 2003 nextcommerce (boxes.php,v 1.11 2003/08/13); www.nextcommerce.org
-   (c) 2006 XT-Commerce (boxes.php 899 2005-04-29)
+   (c) 2002-2003 osCommerce(boxes.php,v 1.32 2003/05/27); www.oscommerce.com 
+   (c) 2003	 nextcommerce (boxes.php,v 1.11 2003/08/13); www.nextcommerce.org
 
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
@@ -31,23 +30,15 @@
       if (xtc_not_null($this->table_parameters)) $tableBox_string .= ' ' . $this->table_parameters;
       $tableBox_string .= '>' . "\n";
 
-      //BOF - DokuMan - 2011-12-19 - precount for performance
-      //for ($i=0, $n=sizeof($contents); $i<$n; $i++) {
-      $n=sizeof($contents);
-      for ($i=0; $i<$n; $i++) {
-      //EOF - DokuMan - 2011-12-19 - precount for performance
+      for ($i=0, $n=sizeof($contents); $i<$n; $i++) {
         if (isset($contents[$i]['form']) && xtc_not_null($contents[$i]['form'])) $tableBox_string .= $contents[$i]['form'] . "\n";
         $tableBox_string .= '  <tr';
         if (xtc_not_null($this->table_row_parameters)) $tableBox_string .= ' ' . $this->table_row_parameters;
         if (isset($contents[$i]['params']) && xtc_not_null($contents[$i]['params'])) $tableBox_string .= ' ' . $contents[$i]['params'];
         $tableBox_string .= '>' . "\n";
 
-        if (isset($contents[$i][0]) && is_array($contents[$i][0])) { //DokuMan - 2010-08-31 - set undefined index 0
-          //BOF - DokuMan - 2011-12-19 - precount for performance
-          //for ($x=0, $n2=sizeof($contents[$i]); $x<$n2; $x++) {
-          $n2=sizeof($contents[$i]);
-          for ($i=0; $x<$n2; $x++) {
-          //EOF - DokuMan - 2011-12-19 - precount for performance
+        if (array_key_exists('0', $contents[$i])) {
+          for ($x=0, $n2=sizeof($contents[$i]); $x<$n2; $x++) {
             if (isset($contents[$i][$x]['text']) && xtc_not_null($contents[$i][$x]['text'])) {
               $tableBox_string .= '    <td';
               if (isset($contents[$i][$x]['align']) && xtc_not_null($contents[$i][$x]['align'])) $tableBox_string .= ' align="' . $contents[$i][$x]['align'] . '"';
@@ -100,11 +91,7 @@
       $this->table_parameters = 'class="infoBoxContents"';
       $info_box_contents = array();
       $info_box_contents[] = array(array('text' => xtc_draw_separator('pixel_trans.gif', '100%', '1')));
-      //BOF - DokuMan - 2011-12-19 - precount for performance
-      //for ($i=0, $n=sizeof($contents); $i<$n; $i++) {
-      $n=sizeof($contents);
-      for ($i=0; $i<$n; $i++) {
-      //EOF - DokuMan - 2011-12-19 - precount for performance
+      for ($i=0, $n=sizeof($contents); $i<$n; $i++) {
         $info_box_contents[] = array(array('align' => $contents[$i]['align'],
                                            'form' => $contents[$i]['form'],
                                            'params' => 'class="boxText"',

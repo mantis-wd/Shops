@@ -1,23 +1,24 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: item.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: item.php 899 2005-04-29 02:40:57Z hhgag $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
-   based on:
+   based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-   (c) 2002-2003 osCommerce(item.php,v 1.39 2003/02/05); www.oscommerce.com
-   (c) 2003 nextcommerce (item.php,v 1.7 2003/08/24); www.nextcommerce.org
-   (c) 2006 XT-Commerce (item.php 899 2005-04-29)
+   (c) 2002-2003 osCommerce(item.php,v 1.39 2003/02/05); www.oscommerce.com 
+   (c) 2003	 nextcommerce (item.php,v 1.7 2003/08/24); www.nextcommerce.org
 
-   Released under the GNU General Public License
+   Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
+   
 
   class item {
     var $code, $title, $description, $icon, $enabled;
+
 
     function item() {
       global $order;

@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: table_block.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: table_block.php 1797 2011-02-12 15:31:48Z franky-n-xtcm $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

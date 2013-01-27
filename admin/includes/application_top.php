@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: application_top.php 4349 2013-01-21 18:50:26Z Tomcraft1980 $
+   $Id: application_top.php 4308 2013-01-14 07:58:14Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -30,19 +30,15 @@
    --------------------------------------------------------------*/
 
 // DB version, used for updates (_installer)
-define('DB_VERSION', 'MOD_2.0.0.0');
+define('DB_VERSION', 'MOD_1.0.6.0');
 //Run Mode
 define('RUN_MODE_ADMIN',true);
-
-// xajax in backend
-define('XAJAX_BACKEND_SUPPORT', 'false'); // 'true' );
-define('XAJAX_BACKEND_SUPPORT_TEST', 'false'); // 'true' );
 
 // Start the clock for the page parse time log
 define('PAGE_PARSE_START_TIME', microtime(true));
 
 // security
-define('_VALID_XTC', true);
+define('_VALID_XTC',true);
 
 // Disable use_trans_sid as xtc_href_link() does this manually
 if (function_exists('ini_set')) {
@@ -51,10 +47,9 @@ if (function_exists('ini_set')) {
 
 // configuration parameters
 if (file_exists('includes/local/configure.php')) {
-  include ('includes/local/configure.php');
-  $dev_mode = 1;
+  include('includes/local/configure.php');
 } else {
-  require ('includes/configure.php');
+  require('includes/configure.php');
 }
 
 /**
@@ -76,33 +71,26 @@ if (file_exists(DIR_FS_CATALOG.'export/_error_reporting.all') || file_exists(DIR
 if (version_compare(PHP_VERSION, 5.3, '<') && function_exists('set_magic_quotes_runtime')) set_magic_quotes_runtime(0);
 if (version_compare(PHP_VERSION, 5.4, '<') && @ini_get('magic_quotes_sybase') != 0) @ini_set('magic_quotes_sybase', 0);
 
-// include the list of project filenames
-require (DIR_FS_ADMIN.DIR_WS_INCLUDES.'filenames.php');
-
 // solve compatibility issues
-require_once (DIR_WS_FUNCTIONS.FILENAME_COMPATIBILITY);
-if (version_compare(PHP_VERSION,"5.2","<")) {
-  require_once (DIR_FS_EXTERNAL . 'upgradephp/upgrade.php');
-}
+require_once (DIR_WS_FUNCTIONS.'compatibility.php');
 
 // project versison
 require_once (DIR_WS_INCLUDES.'version.php');
 
 // default time zone
 if (version_compare(PHP_VERSION, '5.1.0', '>=')) {
-  date_default_timezone_set('Europe/Berlin');
+date_default_timezone_set('Europe/Berlin');
 }
 
 // Base/PHP_SELF/SSL-PROXY
-require_once(DIR_FS_INC . 'set_php_self.inc.php'); 
+require_once(DIR_FS_INC . 'set_php_self.inc.php');
 $PHP_SELF = set_php_self();
-$ssl_proxy = '';
-if (isset($_SERVER['HTTP_X_FORWARDED_HOST']))
-  $ssl_proxy = '/' . $_SERVER['HTTP_HOST'];
-define('DIR_WS_BASE', $ssl_proxy . preg_replace('/\\' . DIRECTORY_SEPARATOR . '\/|\/\//', '/', dirname($PHP_SELF) . '/'));
+
+//compatibility for modified eCommerce Shopsoftware 1.06 files
+define('DIR_WS_BASE', '');
 
 // SQL caching dir
-define('SQL_CACHEDIR', DIR_FS_CATALOG . 'cache/');
+define('SQL_CACHEDIR',DIR_FS_CATALOG.'cache/');
 
 define('TAX_DECIMAL_PLACES', 0);
 
@@ -112,35 +100,39 @@ define('LOCAL_EXE_GUNZIP', '/usr/bin/gunzip');
 define('LOCAL_EXE_ZIP', '/usr/local/bin/zip');
 define('LOCAL_EXE_UNZIP', '/usr/local/bin/unzip');
 
+// include the list of project filenames
+require (DIR_FS_ADMIN.DIR_WS_INCLUDES.'filenames.php');
+
 // list of project database tables
-require_once ('../' . DIR_WS_INCLUDES . 'database_tables.php');
+require_once(DIR_FS_CATALOG.DIR_WS_INCLUDES.'database_tables.php');
 
 // include needed functions
-require_once (DIR_FS_INC . 'xtc_db_connect.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_close.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_error.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_query.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_queryCached.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_perform.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_fetch_array.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_num_rows.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_data_seek.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_insert_id.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_free_result.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_fetch_fields.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_output.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_input.inc.php');
-require_once (DIR_FS_INC . 'xtc_db_prepare_input.inc.php');
-require_once (DIR_FS_INC . 'xtc_get_ip_address.inc.php');
-require_once (DIR_FS_INC . 'xtc_setcookie.inc.php');
-require_once (DIR_FS_INC . 'xtc_validate_email.inc.php');
-require_once (DIR_FS_INC . 'xtc_not_null.inc.php');
-require_once (DIR_FS_INC . 'xtc_add_tax.inc.php');
-require_once (DIR_FS_INC . 'xtc_get_tax_rate.inc.php');
-require_once (DIR_FS_INC . 'xtc_get_qty.inc.php');
-require_once (DIR_FS_INC . 'xtc_product_link.inc.php');
-require_once (DIR_FS_INC . 'xtc_cleanName.inc.php');
-require_once (DIR_FS_INC . 'xtc_get_top_level_domain.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_connect.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_close.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_error.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_query.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_queryCached.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_perform.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_fetch_array.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_num_rows.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_data_seek.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_insert_id.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_free_result.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_fetch_fields.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_output.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_input.inc.php');
+require_once(DIR_FS_INC . 'xtc_db_prepare_input.inc.php');
+require_once(DIR_FS_INC . 'xtc_get_ip_address.inc.php');
+require_once(DIR_FS_INC . 'xtc_setcookie.inc.php');
+require_once(DIR_FS_INC . 'xtc_validate_email.inc.php');
+require_once(DIR_FS_INC . 'xtc_not_null.inc.php');
+require_once(DIR_FS_INC . 'xtc_add_tax.inc.php');
+require_once(DIR_FS_INC . 'xtc_get_tax_rate.inc.php');
+require_once(DIR_FS_INC . 'xtc_get_qty.inc.php');
+require_once(DIR_FS_INC . 'xtc_product_link.inc.php');
+require_once(DIR_FS_INC . 'xtc_cleanName.inc.php');
+require_once(DIR_FS_INC . 'xtc_get_top_level_domain.inc.php');
+require_once(DIR_FS_INC . 'html_encoding.php'); //new function for PHP5.4
 
 // design layout (wide of boxes in pixels) (default: 125)
 define('BOX_WIDTH', 125);
@@ -161,16 +153,16 @@ while ($configuration = xtc_db_fetch_array($configuration_query)) {
   }
 }
 
-define('FILENAME_IMAGEMANIPULATOR', IMAGE_MANIPULATOR);
+define('FILENAME_IMAGEMANIPULATOR',IMAGE_MANIPULATOR);
 
 // move to xtc_db_queryCached.inc.php
 function xtDBquery($query) {
-  if (DB_CACHE == 'true') {
-    $result = xtc_db_queryCached($query);
+  if (DB_CACHE=='true') {
+    $result=xtc_db_queryCached($query);
   } else {
-    $result = xtc_db_query($query);
+    $result=xtc_db_query($query);
   }
-  return $result;
+return $result;
 }
 
 // security inputfilter for GET/POST/COOKIE
@@ -179,21 +171,20 @@ $inputfilter = new Inputfilter();
 $_GET = $inputfilter->validate($_GET);
 $_POST = $inputfilter->validate($_POST);
 //$_REQUEST = $inputfilter->validate($_REQUEST);
-
 // initialize the logger class
-require (DIR_WS_CLASSES . 'logger.php');
+require(DIR_WS_CLASSES . 'logger.php');
 
 // shopping cart class
-require (DIR_WS_CLASSES . 'shopping_cart.php');
+require(DIR_WS_CLASSES . 'shopping_cart.php');
 
 // todo
-require (DIR_WS_FUNCTIONS . 'general.php');
+require(DIR_WS_FUNCTIONS . 'general.php');
 
 // define how the session functions will be used
-require (DIR_WS_FUNCTIONS . 'sessions.php');
+require(DIR_WS_FUNCTIONS . 'sessions.php');
 
-// define our general functions used application-wide
-require (DIR_WS_FUNCTIONS . 'html_output.php');
+  // define our general functions used application-wide
+require(DIR_WS_FUNCTIONS . 'html_output.php');
 
 // set the session name and save path
 session_name('MODsid');
@@ -235,11 +226,11 @@ if (isset($_POST[session_name()])) {
 // start the session
 $session_started = false;
 if (SESSION_FORCE_COOKIE_USE == 'True') {
-  xtc_setcookie('cookie_test', 'please_accept_for_session', time() + 60 * 60 * 24 * 30, '/', $current_domain);
+  xtc_setcookie('cookie_test', 'please_accept_for_session', time()+60*60*24*30, '/', $current_domain);
   if (isset($_COOKIE['cookie_test'])) {
-    session_start();
-    $session_started = true;
-  }
+      session_start();
+      $session_started = true;
+    }
 } elseif (CHECK_CLIENT_AGENT == 'True') {
   $user_agent = strtolower(getenv('HTTP_USER_AGENT'));
   $spider_flag = false;
@@ -253,7 +244,7 @@ if (SESSION_FORCE_COOKIE_USE == 'True') {
 }
 
 // verify the ssl_session_id if the feature is enabled
-if (($request_type == 'SSL') && (SESSION_CHECK_SSL_SESSION_ID == 'True') && (ENABLE_SSL == true) && ($session_started == true)) {
+if ( ($request_type == 'SSL') && (SESSION_CHECK_SSL_SESSION_ID == 'True') && (ENABLE_SSL == true) && ($session_started == true) ) {
   $ssl_session_id = getenv('SSL_SESSION_ID');
   if (!isset($_SESSION['SESSION_SSL_ID'])) {
     $_SESSION['SESSION_SSL_ID'] = $ssl_session_id;
@@ -268,7 +259,7 @@ if (($request_type == 'SSL') && (SESSION_CHECK_SSL_SESSION_ID == 'True') && (ENA
 if (SESSION_CHECK_USER_AGENT == 'True') {
   $http_user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
   $http_user_agent2 = strtolower(getenv("HTTP_USER_AGENT"));
-  $http_user_agent = ($http_user_agent == $http_user_agent2) ? $http_user_agent : $http_user_agent . ';' . $http_user_agent2;
+  $http_user_agent = ($http_user_agent == $http_user_agent2) ? $http_user_agent : $http_user_agent.';'.$http_user_agent2;
   if (!isset($_SESSION['SESSION_USER_AGENT'])) {
     $_SESSION['SESSION_USER_AGENT'] = $http_user_agent;
   }
@@ -292,7 +283,7 @@ if (SESSION_CHECK_IP_ADDRESS == 'True') {
 
 // set the language
 if (!isset($_SESSION['language']) || isset($_GET['language'])) {
-  include (DIR_WS_CLASSES . 'language.php');
+  include(DIR_WS_CLASSES . 'language.php');
   $lng = new language($_GET['language']);
   if (!isset($_GET['language'])) {
     $lng->get_browser_language();
@@ -304,56 +295,56 @@ if (!isset($_SESSION['language']) || isset($_GET['language'])) {
 }
 
 // include the language translations
-require (DIR_FS_LANGUAGES . $_SESSION['language'] . '/admin/' . $_SESSION['language'] . '.php');
-require (DIR_FS_LANGUAGES . $_SESSION['language'] . '/admin/buttons.php');
+require(DIR_FS_LANGUAGES . $_SESSION['language'] . '/admin/'.$_SESSION['language'] . '.php');
+require(DIR_FS_LANGUAGES . $_SESSION['language'] . '/admin/buttons.php');
 $current_page = basename($PHP_SELF);
-if (file_exists(DIR_FS_LANGUAGES . $_SESSION['language'] . '/admin/' . $current_page)) {
-  include (DIR_FS_LANGUAGES . $_SESSION['language'] . '/admin/' . $current_page);
+if (file_exists(DIR_FS_LANGUAGES . $_SESSION['language'] . '/admin/'.$current_page)) {
+  include(DIR_FS_LANGUAGES . $_SESSION['language'] . '/admin/'.  $current_page);
 }
 
 // write customers status in session
-require ('../' . DIR_WS_INCLUDES . 'write_customers_status.php');
-if (file_exists($current_page) == false OR $_SESSION['customers_status']['customers_status_id'] !== '0') {
+require(DIR_FS_CATALOG.DIR_WS_INCLUDES.'write_customers_status.php');
+if (file_exists($current_page) == false || $_SESSION['customers_status']['customers_status_id'] !== '0') {
   xtc_redirect(xtc_href_link(FILENAME_LOGIN));
 }
 
 // for tracking of customers
-$_SESSION['user_info'] = array ();
+$_SESSION['user_info'] = array();
 if (!isset($_SESSION['user_info']['user_ip'])) {
-  $_SESSION['user_info']['user_ip'] = $_SERVER['REMOTE_ADDR'];
-  $_SESSION['user_info']['user_host'] = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '';
-  $_SESSION['user_info']['advertiser'] = isset($_GET['ad']) ? $_GET['ad'] : '';
-  $_SESSION['user_info']['referer_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+$_SESSION['user_info']['user_ip'] = $_SERVER['REMOTE_ADDR'];
+$_SESSION['user_info']['user_host'] = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '';
+$_SESSION['user_info']['advertiser'] = isset($_GET['ad']) ? $_GET['ad'] : '';
+$_SESSION['user_info']['referer_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 }
 
 // define our localization functions
-require (DIR_WS_FUNCTIONS . 'localization.php');
+require(DIR_WS_FUNCTIONS . 'localization.php');
 
 // Include validation functions (right now only email address)
 //require(DIR_WS_FUNCTIONS . 'validations.php');
 
 // setup our boxes
-require (DIR_WS_CLASSES . 'table_block.php');
-require (DIR_WS_CLASSES . 'box.php');
+require(DIR_WS_CLASSES . 'table_block.php');
+require(DIR_WS_CLASSES . 'box.php');
 
 // initialize the message stack for output messages
-require (DIR_WS_CLASSES . 'message_stack.php');
+require(DIR_WS_CLASSES . 'message_stack.php');
 $messageStack = new messageStack();
 
 // split-page-results
-require (DIR_WS_CLASSES . 'split_page_results.php');
+require(DIR_WS_CLASSES . 'split_page_results.php');
 
 // entry/item info classes
-require (DIR_WS_CLASSES . 'object_info.php');
+require(DIR_WS_CLASSES . 'object_info.php');
 
 // file uploading class
-require (DIR_WS_CLASSES . 'upload.php');
+require(DIR_WS_CLASSES . 'upload.php');
 
 // calculate category path
 $cPath = isset($_GET['cPath']) ? $_GET['cPath'] : '';
 if (strlen($cPath) > 0) {
   $cPath_array = explode('_', $cPath);
-  $current_category_id = $cPath_array[(sizeof($cPath_array) - 1)];
+  $current_category_id = $cPath_array[(sizeof($cPath_array)-1)];
 } else {
   $current_category_id = 0;
 }
@@ -368,17 +359,17 @@ if (!isset($_SESSION['selected_box'])) {
 // the following cache blocks are used in the Tools->Cache section
 // ('language' in the filename is automatically replaced by available languages)
 $cache_blocks = array (array ('title' => TEXT_CACHE_CATEGORIES,
-                               'code' => 'categories',
-                               'file' => 'categories_box-language.cache',
-                               'multiple' => true),
-                        array ('title' => TEXT_CACHE_MANUFACTURERS,
-                                'code' => 'manufacturers',
-                                'file' => 'manufacturers_box-language.cache',
-                                'multiple' => true),
-                        array ('title' => TEXT_CACHE_ALSO_PURCHASED,
-                                'code' => 'also_purchased',
-                                'file' => 'also_purchased-language.cache',
-                                'multiple' => true));
+                             'code' => 'categories',
+                             'file' => 'categories_box-language.cache',
+                             'multiple' => true),
+                      array ('title' => TEXT_CACHE_MANUFACTURERS,
+                              'code' => 'manufacturers',
+                              'file' => 'manufacturers_box-language.cache',
+                              'multiple' => true),
+                      array ('title' => TEXT_CACHE_ALSO_PURCHASED,
+                              'code' => 'also_purchased',
+                              'file' => 'also_purchased-language.cache',
+                              'multiple' => true));
 
 // check if a default currency is set
 if (!defined('DEFAULT_CURRENCY')) {
@@ -402,5 +393,5 @@ if (xtc_check_permission($pagename) == '0') {
   xtc_redirect(xtc_href_link(FILENAME_LOGIN));
 }
 
-// Smarty Template Engine
-require (DIR_FS_EXTERNAL . 'smarty/Smarty.class.php');
+// Include Template Engine
+require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.27/Smarty.class.php');

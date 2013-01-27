@@ -1,8 +1,8 @@
 
 
-Dear {$GENDER} {$LASTNAME},
+Dear customer,
 
-we just created your customer account.
+We've created your customer account.
 
 {if $COMMENTS} Note: {$COMMENTS}{/if}
 

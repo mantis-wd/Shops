@@ -1,21 +1,20 @@
 <?php
-  /* --------------------------------------------------------------
-   $Id: languages.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+/* --------------------------------------------------------------
+   $Id: languages.php 950 2005-05-14 16:45:21Z mz $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    --------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(languages.php,v 1.5 2002/11/22); www.oscommerce.com 
    (c) 2003	 nextcommerce (languages.php,v 1.6 2003/08/18); www.nextcommerce.org
-   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License 
    --------------------------------------------------------------*/
-  defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.' );
   function xtc_get_languages_directory($code) {
     $language_query = xtc_db_query("select languages_id, directory from " . TABLE_LANGUAGES . " where code = '" . $code . "'");
     if (xtc_db_num_rows($language_query)) {

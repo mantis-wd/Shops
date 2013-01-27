@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: categories.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+   $Id: categories.php 3392 2012-08-06 12:45:26Z web28 $   
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -216,7 +216,6 @@ define('TEXT_ATTRIBUTE_COPY_INFO', 'Artikelattribute mitkopieren<br/ >Nur bei Ei
 
 define('TEXT_PRODUCTS_ORDER_DESCRIPTION','Bestellbeschreibung - Anzeige am Ende der Bestellung, in Bestellemail, Bestellausdruck');
 
-// web28 - redirect to product input mask
 define('TEXT_HOW_TO_LINK', '<b>Seitenaufruf nach dem Kopieren/Verlinken</b>');
 define('TEXT_HOW_TO_LINK_INFO', 'Artikeleingabemaske<br/ >(Bei mehreren Artikel zum Letzten in der Liste)');
 ?>

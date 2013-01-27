@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: new_attributes.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: new_attributes.php 3212 2012-07-14 09:41:44Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -62,7 +62,7 @@ require (DIR_WS_INCLUDES.'head.php');
           </table>
         </td>
         <!-- body_text //-->
-        <td  class="boxCenter" width="100%" valign="top">
+        <td class="boxCenter" width="100%" valign="top">
           <table border="0" cellspacing="0" cellpadding="2" style="border: 1px solid #a3a3a3; border-collapse:collapse;">
             <?php
             // BOF - Tomcraft - 2009-11-11 - NEW SORT SELECTION

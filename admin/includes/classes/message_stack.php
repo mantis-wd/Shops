@@ -1,19 +1,18 @@
 <?php
-  /* --------------------------------------------------------------
-   $Id: message_stack.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+/* --------------------------------------------------------------
+   $Id: message_stack.php 950 2005-05-14 16:45:21Z mz $   
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    --------------------------------------------------------------
-   based on:
+   based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-   (c) 2002-2003 osCommerce(message_stack.php,v 1.5 2002/11/22); www.oscommerce.com
-   (c) 2003 nextcommerce (message_stack.php,v 1.6 2003/08/18); www.nextcommerce.org
-   (c) 2006 xt:Commerce; www.xt-commerce.com
+   (c) 2002-2003 osCommerce(message_stack.php,v 1.5 2002/11/22); www.oscommerce.com 
+   (c) 2003	 nextcommerce (message_stack.php,v 1.6 2003/08/18); www.nextcommerce.org
 
-   Released under the GNU General Public License
+   Released under the GNU General Public License 
 
    Example usage:
 
@@ -21,14 +20,16 @@
    $messageStack->add('Error: Error 1', 'error');
    $messageStack->add('Error: Error 2', 'warning');
    if ($messageStack->size > 0) echo $messageStack->output();
-
+  
    --------------------------------------------------------------*/
-  defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.' );
   class messageStack extends tableBlock {
     var $size = 0;
 
     function messageStack() {
+
       $this->errors = array();
+
       if (isset($_SESSION['messageToStack'])) {
         for ($i = 0, $n = sizeof($_SESSION['messageToStack']); $i < $n; $i++) {
           $this->add($_SESSION['messageToStack'][$i]['text'], $_SESSION['messageToStack'][$i]['type']);
@@ -47,6 +48,7 @@
       } else {
         $this->errors[] = array('params' => 'class="messageStackError"', 'text' => $message);
       }
+
       $this->size++;
     }
 
@@ -54,6 +56,7 @@
       if (!isset($_SESSION['messageToStack'])) {
         $_SESSION['messageToStack'] = array();
       }
+
       $_SESSION['messageToStack'][] = array('text' => $message, 'type' => $type);
     }
 
@@ -63,10 +66,7 @@
     }
 
     function output() {
-      //BOF - DokuMan - 2011-09-13 - fix Accessing static property messageStack::$table_data_parameters as non static
-      //$this->table_data_parameters = 'class="messageBox"';
-      self::$table_data_parameters = 'class="messageBox"';
-      //EOF - DokuMan - 2011-09-13 - fix Accessing static property messageStack::$table_data_parameters as non static
+      $this->table_data_parameters = 'class="messageBox"';
       return $this->tableBlock($this->errors);
     }
   }

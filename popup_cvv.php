@@ -1,18 +1,23 @@
 <?php
-/* ----------------------------------------------------------------------------
-   $Id: popup_cvv.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
- 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+/*------------------------------------------------------------------------------
+  $Id: popup_cvv.php 1310 2005-10-17 10:06:32Z mz $
+
+  XTC-CC - Contribution for XT-Commerce http://www.xt-commerce.com
+  modified by http://www.netz-designer.de
+
+  Copyright (c) 2003 netz-designer
   -----------------------------------------------------------------------------
   based on:
-  (c) 2003 netz-designer
-  (c) 2006 XT-Commerce
+  $Id: popup_cvv.php 1310 2005-10-17 10:06:32Z mz $
 
-  Released under the GNU General Public License 
-  ----------------------------------------------------------------------------*/
+  osCommerce, Open Source E-Commerce Solutions
+  http://www.oscommerce.com
+
+  Copyright (c) 2003 osCommerce
+
+  Released under the GNU General Public License
+------------------------------------------------------------------------------*/
 
 require ('includes/application_top.php');
 
@@ -46,20 +51,9 @@ function resize() {
 </SCRIPT>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $_SESSION['language_charset']; ?>" /> 
 <meta http-equiv="Content-Style-Type" content="text/css" />
-<?php /*
-//BOF - GTB - 2010-08-03 - Security Fix - Base
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
-//EOF - GTB - 2010-08-03 - Security Fix - Base
-*/ ?>
 <title><?php echo TITLE; ?></title>
-<?php /*
-//BOF - GTB - 2010-08-03 - Security Fix - Base
 <link rel="stylesheet" type="text/css" href="<?php echo 'templates/'.CURRENT_TEMPLATE.'/stylesheet.css'; ?>" />
-*/ ?>
-<link rel="stylesheet" type="text/css" href="<?php echo DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/stylesheet.css'; ?>" />
-<?php /*
-//EOF - GTB - 2010-08-03 - Security Fix - Base
-*/ ?>
 </head>
 
 <style type="text/css"><!--

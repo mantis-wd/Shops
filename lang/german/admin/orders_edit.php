@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: orders_edit.php 
+   $Id: orders_edit.php,v 1.0 
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -10,8 +10,8 @@
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(orders.php,v 1.27 2003/02/16); www.oscommerce.com 
-   (c) 2003 nextcommerce (orders.php,v 1.7 2003/08/14); www.nextcommerce.org
-   (c) 2006 xt:Commerce (orders_edit.php,v 1.0); www.xt-commerce.com
+   (c) 2003	 nextcommerce (orders.php,v 1.7 2003/08/14); www.nextcommerce.org
+   (c) 2006 XT-Commerce (orders_edit.php)
 
    Released under the GNU General Public License 
    --------------------------------------------------------------*/
@@ -61,7 +61,6 @@ define('TEXT_PRODUCT_SEARCH', 'Artikelsuche:');
 
 define('TEXT_PRODUCT_OPTION', 'Artikelmerkmale:');
 define('TEXT_PRODUCT_OPTION_VALUE', 'Optionswert:');
-define('TEXT_PRICE', 'Preis:');
 define('TEXT_PRICE_PREFIX', 'Price Prefix:');
 define('TEXT_SAVE_ORDER', 'Bestellung abschlie&szlig;en und neu berechnen');
 define('TEXT_INS', 'Hinzuf&uuml;gen:');
@@ -86,11 +85,11 @@ define('TEXT_PRICE', 'Kosten: ');
 define('TEXT_ADD_TAX','inkl. ');
 define('TEXT_NO_TAX','zzgl. ');
 
-define('TEXT_ORDERS_EDIT_INFO', '<b>Wichtige Hinweise:</b><br />
-Bitte bei den Adress/Kundendaten die richtige Kundengruppe w&auml;hlen <br />
-Bei einem Wechsel der Kundengruppe sind alle Einzelposten der Rechnung neu abzuspeichern!<br />
-Versandkosten m&uuml;ssen manuell ge&auml;ndert werden!<br />
-Hierbei sind je nach Kundengruppe die Versandkosten brutto oder netto einzutragen!<br />
+define('TEXT_ORDERS_EDIT_INFO', '<b>Wichtige Hinweise:</b><br>
+Bitte bei den Adress/Kundendaten die richtige Kundengruppe w&auml;hlen <br>
+Bei einem Wechsel der Kundengruppe sind alle Einzelposten der Rechnung neu abzuspeichern!<br>
+Versandkosten m&uuml;ssen manuell ge&auml;ndert werden!<br>
+Hierbei sind je nach Kundengruppe die Versandkosten brutto oder netto einzutragen!<br>
 ');
 
 define('TEXT_CUSTOMER_GROUP_INFO', ' <span style="background:#FFD6D6;padding:3px;border:solid 1px red;">Bei einem Wechsel der Kundengruppe sind alle Einzelposten der Rechnung neu abzuspeichern!</span>');

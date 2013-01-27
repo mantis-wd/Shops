@@ -1,20 +1,21 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: form_check.js.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: form_check.js.php 1296 2005-10-08 17:52:26Z mz $
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
+   XT-Commerce - community made shopping
+   http://www.xt-commerce.com
 
-   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   Copyright (c) 2003 XT-Commerce
    -----------------------------------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(form_check.js.php,v 1.9 2003/05/19); www.oscommerce.com 
-   (c) 2003   nextcommerce (form_check.js.php,v 1.3 2003/08/13); www.nextcommerce.org 
-   (c) 2006 xt:Commerce; www.xt-commerce.com
+   (c) 2003	 nextcommerce (form_check.js.php,v 1.3 2003/08/13); www.nextcommerce.org 
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
+
+
 ?>
 <script type="text/javascript"><!--
 var form = "";
@@ -24,16 +25,16 @@ var error_message = "";
 // BOF - Hetfield - 2009-08-15 - confirm e-mail at registration
 function check_email(field_name_1, field_name_2, field_size, message_1, message_2) {
   if (form.elements[field_name_1] && (form.elements[field_name_1].type != "hidden")) {
-  var email_address = form.elements[field_name_1].value;
-  var confirm_email_address = form.elements[field_name_2].value;
+	var email_address = form.elements[field_name_1].value;
+	var confirm_email_address = form.elements[field_name_2].value;
 
-  if (email_address == '' || email_address.length < field_size) {
-    error_message = error_message + "* " + message_1 + "\n";
-    error = true;
-  } else if (email_address != confirm_email_address) {
-    error_message = error_message + "* " + message_2 + "\n";
-    error = true;
-  }
+	if (email_address == '' || email_address.length < field_size) {
+	  error_message = error_message + "* " + message_1 + "\n";
+	  error = true;
+	} else if (email_address != confirm_email_address) {
+	  error_message = error_message + "* " + message_2 + "\n";
+	  error = true;
+	}
   }
 } 
 // EOF - Hetfield - 2009-08-15 - confirm e-mail at registration
@@ -119,6 +120,8 @@ function check_form(form_name) {
     return false;
   }
   
+  
+
   error = false;
   form = form_name;
   error_message = unescape("<?php echo xtc_js_lang(JS_ERROR); ?>");
