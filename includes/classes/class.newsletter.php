@@ -1,17 +1,17 @@
 <?php
+/* -----------------------------------------------------------------------------------------
+   $Id: class.newsletter.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-/*------------------------------------------------------------------------------
-   $Id: class.newsletter.php 4203 2013-01-10 20:36:14Z Tomcraft1980 $
-   
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2005 xt:Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce www.oscommerce.com 
    (c) 2003	 nextcommerce www.nextcommerce.org
+   (c) 2006 XT-Commerce
    
    XTC-NEWSLETTER_RECIPIENTS RC1 - Contribution for XT-Commerce http://www.xt-commerce.com
    by Matthias Hinsche http://www.gamesempire.de
@@ -165,7 +165,10 @@ class newsletter {
 
 		// assign language to template for caching
 		$smarty->assign('language', $_SESSION['language']);
-		$smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+		//BOF - GTB - 2010-08-03 - Security Fix - Base
+		$smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
+		//$smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+		//EOF - GTB - 2010-08-03 - Security Fix - Base
 		$smarty->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/img/');
 
 		// assign vars

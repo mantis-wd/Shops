@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: image_processing_step.php 2992 2012-06-07 16:59:49Z web28 $
+   $Id: image_processing_step.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -31,7 +31,7 @@ define('MODULE_STEP_IMAGE_PROCESS_TEXT_DESCRIPTION', 'Es werden alle Bilder in d
 /images/product_images/thumbnail_images/ <br /> <br /> neu erstellt.<br /> <br />
 
 Hierzu verarbeitet das Script nur eine begrenzte Anzahl von %s Bildern und ruft sich danach selbst wieder auf.<br /> <br />');
-define('MODULE_STEP_IMAGE_PROCESS_TEXT_TITLE', 'Imageprocessing-New <b>-V2.01- Produktbilder</b>');
+define('MODULE_STEP_IMAGE_PROCESS_TEXT_TITLE', 'XT-Imageprocessing-New <b>-V2.01- Produktbilder</b>');
 define('MODULE_STEP_IMAGE_PROCESS_STATUS_DESC','Modulstatus');
 define('MODULE_STEP_IMAGE_PROCESS_STATUS_TITLE','Status');
 define('IMAGE_EXPORT','Dr&uuml;cken Sie Ok um die Stapelverarbeitung zu starten, dieser Vorgang kann einige Zeit dauern, auf keinen Fall unterbrechen!.');

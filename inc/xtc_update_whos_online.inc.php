@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_update_whos_online.inc.php 3952 2012-11-15 00:20:51Z Tomcraft1980 $
+   $Id: xtc_update_whos_online.inc.php 4366 2013-01-27 14:55:29Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

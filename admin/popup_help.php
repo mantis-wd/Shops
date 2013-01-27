@@ -1,6 +1,6 @@
 <?php
  /* -----------------------------------------------------------------------------------------
-   $Id: popup_help.php 4327 2013-01-15 19:11:11Z web28 $
+   $Id: popup_help.php 4328 2013-01-15 20:00:10Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

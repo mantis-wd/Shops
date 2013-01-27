@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: payment.php 2594 2012-01-04 10:53:58Z dokuman $
+   $Id: payment.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -34,7 +34,10 @@
     var $modules, $selected_module;
 
     // class constructor
-    function payment($module = '') {
+    // BOF - Hendrik - 2010-08-11 - php5 compatible
+    // function payment($module = '') {
+    function __construct($module = '') {
+    // EOF - Hendrik - 2010-08-11 - php5 compatible
       global $PHP_SELF,$order;
 
       if (defined('MODULE_PAYMENT_INSTALLED') && xtc_not_null(MODULE_PAYMENT_INSTALLED)) {
@@ -53,15 +56,15 @@
         if ( (xtc_not_null($module)) && (in_array($module . '.' . substr($PHP_SELF, (strrpos($PHP_SELF, '.')+1)), $this->modules)) ) {
           $this->selected_module = $module;
           $include_modules[] = array('class' => $module,
-                                     'file' => $module . '.php');
+                                      'file' => $module . '.php');
         } else {
-          reset($this->modules);
-          while (list(, $value) = each($this->modules)) {
+          foreach ( $this->modules as $value ) {
             $class = substr($value, 0, strrpos($value, '.'));
             $include_modules[] = array('class' => $class,
-                                       'file' => $value);
+                                        'file' => $value);
           }
         }
+
         // load unallowed modules into array - remove spaces and line breaks by web28
         $unallowed_modules_string = $_SESSION['customers_status']['customers_status_payment_unallowed'];
         if (isset($order->customer['payment_unallowed']) && trim($order->customer['payment_unallowed']) != '') {
@@ -69,15 +72,16 @@
         }
         $unallowed_modules_string = preg_replace("'[\r\n\s]+'",'',$unallowed_modules_string);
         $unallowed_modules = explode(',',$unallowed_modules_string);
+
         // add unallowed modules/Download
         if (isset($order) && is_object($order) && ($order->content_type == 'virtual' || ($order->content_type == 'virtual_weight'))) {
-         $download_unallowed_payment = preg_replace("'[\r\n\s]+'",'',DOWNLOAD_UNALLOWED_PAYMENT);
-         $unallowed_modules = array_merge($unallowed_modules,explode(',',$download_unallowed_payment));
+          $download_unallowed_payment = preg_replace("'[\r\n\s]+'",'',DOWNLOAD_UNALLOWED_PAYMENT);
+          $unallowed_modules = array_merge($unallowed_modules,explode(',',$download_unallowed_payment));
         }
 
-        //print_r($include_modules);
         for ($i = 0, $n = sizeof($include_modules); $i < $n; $i++) {
           if (!in_array($include_modules[$i]['class'], $unallowed_modules)) {
+
             // check if zone is alowed to see module
             if (constant('MODULE_PAYMENT_' . strtoupper(str_replace('.php', '', $include_modules[$i]['file'])) . '_ALLOWED') != '') {
               $unallowed_zones = explode(',', constant('MODULE_PAYMENT_' . strtoupper(str_replace('.php', '', $include_modules[$i]['file'])) . '_ALLOWED'));
@@ -97,9 +101,7 @@
             }
           }
         }
-        // if there is only one payment method, select it as default because in
-        // checkout_confirmation.php the $payment variable is being assigned the
-        // $HTTP_POST_VARS['payment'] value which will be empty (no radio button selection possible)
+
         // Do not preselect a payment method -> user interaction shall be required!
         if ( (xtc_count_payment_modules() == 1) && (!isset($_SESSION['payment']) || !is_object($_SESSION['payment'])) ) {
           $_SESSION['payment'] = $include_modules[0]['class'];
@@ -109,7 +111,7 @@
           $this->form_action_url = $GLOBALS[$module]->form_action_url;
         }
       }
-    }
+    } //end constructor
 
     // class methods
     /* The following method is needed in the checkout_confirmation.php page
@@ -123,10 +125,8 @@
     function update_status() {
       if (is_array($this->modules)) {
         if (isset($GLOBALS[$this->selected_module]) && is_object($GLOBALS[$this->selected_module])) {
-          if (function_exists('method_exists')) {
-            if (method_exists($GLOBALS[$this->selected_module], 'update_status')) {
-              $GLOBALS[$this->selected_module]->update_status();
-            }
+          if (method_exists($GLOBALS[$this->selected_module], 'update_status')) {
+            $GLOBALS[$this->selected_module]->update_status();
           }
         }
       }
@@ -152,8 +152,7 @@
               '    payment_value = document.getElementById("checkout_payment").payment.value;' . "\n" .
               '  }' . "\n\n";
 
-        reset($this->modules);
-        while (list(, $value) = each($this->modules)) {
+        foreach ( $this->modules as $value ) {
           $class = substr($value, 0, strrpos($value, '.'));
           if (isset($GLOBALS[$class]) && $GLOBALS[$class]->enabled) {
             $js .= $GLOBALS[$class]->javascript_validation();
@@ -184,8 +183,7 @@
     function selection() {
       $selection_array = array();
       if (is_array($this->modules)) {
-        reset($this->modules);
-        while (list(, $value) = each($this->modules)) {
+        foreach ( $this->modules as $value ) {
           $class = substr($value, 0, strrpos($value, '.'));
           if (isset($GLOBALS[$class]) && $GLOBALS[$class]->enabled) {
             $selection = $GLOBALS[$class]->selection();
@@ -198,8 +196,8 @@
       return $selection_array;
     }
 
-    //GV Code Start
-    //ICW CREDIT CLASS Gift Voucher System
+    // GV Code Start
+    // ICW CREDIT CLASS Gift Voucher System
     // check credit covers was setup to test whether credit covers is set in other parts of the code
     function check_credit_covers() {
       global $credit_covers;
@@ -208,7 +206,7 @@
     // GV Code End
 
     function pre_confirmation_check() {
-    global $credit_covers, $payment_modules;
+      global $credit_covers, $payment_modules;
       if (is_array($this->modules)) {
         if (isset($GLOBALS[$this->selected_module]) && is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
           if ($credit_covers) {
@@ -232,7 +230,7 @@
 
     function process_button() {
       if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
+        if (isset($GLOBALS[$this->selected_module]) && is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
           return $GLOBALS[$this->selected_module]->process_button();
         }
       }
@@ -240,7 +238,7 @@
 
     function before_process() {
       if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
+        if (isset($GLOBALS[$this->selected_module]) && is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
           return $GLOBALS[$this->selected_module]->before_process();
         }
       }
@@ -248,7 +246,7 @@
 
     function payment_action() {
       if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
+        if (isset($GLOBALS[$this->selected_module]) && is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
           return $GLOBALS[$this->selected_module]->payment_action();
         }
       }
@@ -256,47 +254,50 @@
 
     function after_process() {
       if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
+        if (isset($GLOBALS[$this->selected_module]) && is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
           return $GLOBALS[$this->selected_module]->after_process();
         }
       }
     }
-// BOF - web28 - 2010-05-07 - PayPal API Modul
-		// PayPal Express Giropay
+
+    // BOF - web28 - 2010-05-07 - PayPal API Modul - Paypal Express Modul
+    // PayPal Express Giropay
     function giropay_process() {
       if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
+        if (isset($GLOBALS[$this->selected_module]) && is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
           return $GLOBALS[$this->selected_module]->giropay_process();
         }
       }
     }
-// EOF - web28 - 2010-05-07 - PayPal API Modul
+    //EOF - web28 - 2010-05-07 - PayPal API Modul - Paypal Express Modul
+
     function get_error() {
       if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
+        if (isset($GLOBALS[$this->selected_module]) && is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
           return $GLOBALS[$this->selected_module]->get_error();
         }
       }
     }
 
-//BOF - Dokuman - 2009-10-02 - added entries for new moneybookers payment module version 2.4
-  function iframeAction() {
-      if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
-          return $GLOBALS[$this->selected_module]->iframeAction();
+    //BOF - Dokuman - 2009-10-02 - added entries for new moneybookers payment module version 2.4
+    function iframeAction() {
+        if (is_array($this->modules)) {
+          if (isset($GLOBALS[$this->selected_module]) && is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
+            return $GLOBALS[$this->selected_module]->iframeAction();
+          }
         }
       }
-    }
-//EOF - Dokuman - 2009-10-02 - added entries for new moneybookers payment module version 2.4
+    //EOF - Dokuman - 2009-10-02 - added entries for new moneybookers payment module version 2.4
 
-//BOF  - web28 - 2010-03-27 PayPal IPN Bezahl-Link
-  function create_paypal_link() {
+    //BOF  - web28 - 2010-03-27 PayPal IPN Bezahl-Link
+    function create_paypal_link() {
       if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
+        if (isset($GLOBALS[$this->selected_module]) && is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
           return $GLOBALS[$this->selected_module]->create_paypal_link();
         }
       }
     }
-//EOF  - web28 - 2010-03-27 PayPal IPN Bezahl-Link
- }
+    //EOF  - web28 - 2010-03-27 PayPal IPN Bezahl-Link
+
+  }
 ?>

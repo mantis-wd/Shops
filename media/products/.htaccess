@@ -1,0 +1,8 @@
+# $Id: .htaccess 1564 2010-12-09 15:26:29Z dokuman $
+#
+# Disallow .php files for this folder
+
+<Files *.php>
+  Order Deny,Allow
+  Deny from all
+</Files>

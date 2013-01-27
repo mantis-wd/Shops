@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: print_order.php 3792 2012-10-18 11:26:51Z web28 $
+   $Id: print_order.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -66,10 +66,24 @@
   if ($order->info['payment_method']!='' && $order->info['payment_method']!='no_payment') {
     include(DIR_FS_CATALOG.'lang/'.$_SESSION['language'].'/modules/payment/'.$order->info['payment_method'].'.php');
     $payment_method=constant(strtoupper('MODULE_PAYMENT_'.$order->info['payment_method'].'_TEXT_TITLE'));
+    // BOF - DokuMan -2012-06-06 - BILLPAY payment module (in external directory)
+    require_once(DIR_FS_EXTERNAL . 'billpay/utils/billpay_display_bankdata.php');
+    $payment_method .= display_billpay_bankdata();
+    /*
+     * falls das Modul "pdfrechnung" eingesetzt wird muss nach der Zeile:
+     * $pdf->RechnungStart($order->customer['lastname'], $customer_gender['customers_gender'], PDF_LIEFERSCHEIN);
+     * folgendes eingefügt werden:
+     */
+    //if($order->info['payment_method'] == 'billpay' || $order->info['payment_method'] == 'billpaydebit' || $order->info['payment_method'] == 'billpaytransactioncredit')
+    //  require_once(DIR_FS_EXTERNAL . 'billpay/utils/billpay_display_pdf_data.php');
+    //}
+    // EOF - DokuMan -2012-06-06 - BILLPAY payment module (in external directory)
     $smarty->assign('PAYMENT_METHOD',$payment_method);
   }
   $smarty->assign('COMMENTS', $order->info['comments']);
   $smarty->assign('DATE',xtc_date_long($order->info['date_purchased']));
+  $smarty->assign('INVOICE_NUMBER', $order->info['ibn_billnr']);
+  $smarty->assign('INVOICE_DATE',   xtc_date_short($order->info['ibn_billdate']));
 
   // dont allow cache
   $smarty->caching = false;

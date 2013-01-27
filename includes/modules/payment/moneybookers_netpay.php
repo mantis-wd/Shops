@@ -1,15 +1,16 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: moneybookers_netpay.php 39 2009-01-22 15:44:52Z mzanier $
+   $Id: moneybookers_netpay.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   xt:Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2009 xt:Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(moneybookers.php,v 1.00 2003/10/27); www.oscommerce.com
+   (c) 2009 xt:Commerce
 
    Released under the GNU General Public License
    -----------------------------------------------------------------------------------------
@@ -39,7 +40,10 @@ class moneybookers_netpay extends fcnt_moneybookers {
 	var $images='eps.gif';
 
 	// class constructor
-	function moneybookers_netpay() {
+	// BOF - Hendrik - 2010-08-11 - php5 compatible
+	//function moneybookers_netpay() {
+	function __construct() {
+	// EOF - Hendrik - 2010-08-11 - php5 compatible
 		global $order, $language;
 
 		$this->_setAllowed('AT');

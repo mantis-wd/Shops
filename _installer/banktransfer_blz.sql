@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------------------
-#  $Id: banktransfer_blz.sql 3024 2012-06-13 07:29:13Z dokuman $
+#  $Id: banktransfer_blz.sql 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 #
 #  modified eCommerce Shopsoftware
 #  http://www.modified-shop.org

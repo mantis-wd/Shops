@@ -1,11 +1,11 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_count_shipping_modules.inc.php 899 2005-04-29 02:40:57Z hhgag $   
+   $Id: xtc_count_shipping_modules.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
@@ -16,7 +16,8 @@
    ---------------------------------------------------------------------------------------*/
   // include needed functions
   require_once(DIR_FS_INC . 'xtc_count_modules.inc.php');
+  
   function xtc_count_shipping_modules() {
     return xtc_count_modules(MODULE_SHIPPING_INSTALLED);
   }
- ?>
+?>

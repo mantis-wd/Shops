@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: orders_edit_products.php 4310 2013-01-14 13:06:49Z web28 $
+   $Id: orders_edit_products.php 4355 2013-01-23 14:20:51Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -14,11 +14,15 @@
    (c) 2006 XT-Commerce (orders_edit.php)
 
    Released under the GNU General Public License
+   --------------------------------------------------------------
+   Third Party contribution:
 
    XTC-Bestellbearbeitung:
    http://www.xtc-webservice.de / Matthias Hinsche
    info@xtc-webservice.de
-   --------------------------------------------------------------*/
+
+   Released under the GNU General Public License
+  --------------------------------------------------------------*/
    
 defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.' );
 
@@ -261,7 +265,7 @@ if ($_GET['action'] =='product_search') {
       </tr>
       <?php
     }
-    ?>    
+    ?>
   </table>
   <table border="0" width="100%" cellspacing="0" cellpadding="2">
     <tr>

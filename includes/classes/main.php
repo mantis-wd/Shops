@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: main.php 3277 2012-07-22 15:18:21Z web28 $
+   $Id: main.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -31,10 +31,10 @@ class main {
                              WHERE language_id = ".(int)$_SESSION['languages_id']);
 
     while ($status_data=xtc_db_fetch_array($status_query,true)) {
-      $this->SHIPPING[$status_data['shipping_status_id']] = array(
-        'name'=>$status_data['shipping_status_name'],
-        'image'=>$status_data['shipping_status_image']
-        );
+           $this->SHIPPING[$status_data['shipping_status_id']] = array(
+             'name'=>$status_data['shipping_status_name'],
+             'image'=>$status_data['shipping_status_image']
+           );
     }
   }
 
@@ -45,7 +45,7 @@ class main {
    * @return  string
    */
   function getShippingStatusName($id) {
-     return isset($this->SHIPPING[$id]['name']) ? $this->SHIPPING[$id]['name'] : '';
+    return isset($this->SHIPPING[$id]['name']) ? $this->SHIPPING[$id]['name'] : '';
   }
 
   /**
@@ -56,7 +56,7 @@ class main {
    */
   function getShippingStatusImage($id) {
     if (isset($this->SHIPPING[$id]['image']) && $this->SHIPPING[$id]['image'] != '') {
-      return DIR_WS_CATALOG.'admin/images/icons/'.$this->SHIPPING[$id]['image'];
+      return DIR_WS_BASE.'images/icons/'.$this->SHIPPING[$id]['image']; //DokuMan - 2011-09-06 - move images from admin directory to public images/icons/ directory
     } else {
       return;
     }
@@ -157,14 +157,14 @@ class main {
     }
     return '<a target="_blank" href="'.xtc_href_link(FILENAME_POPUP_CONTENT, 'coID='.$coID.POPUP_CONTENT_LINK_PARAMETERS, $ssl).'" title="Information" class="'.POPUP_CONTENT_LINK_CLASS.'"><font color="#ff0000">'.$text.'</font></a>';
   }
-  
+
   /**
    * getContentData
    *
    * @param integer $coID
    * @return array
    */
-  function getContentData($coID) { 
+  function getContentData($coID) {
     $group_check = (GROUP_CHECK == 'true') ? "AND group_ids LIKE '%c_" . $_SESSION['customers_status']['customers_status_id'] . "_group%'" : '';
     $shop_content_query = xtc_db_query("-- includes/classes/main.php
                                        SELECT content_title,
@@ -176,8 +176,8 @@ class main {
                                               " . $group_check . "
                                           AND languages_id='" . (int)$_SESSION['languages_id'] . "'
                                         LIMIT 1
-                                      ");    
-    return xtc_db_fetch_array($shop_content_query);    
+                                      ");
+    return xtc_db_fetch_array($shop_content_query);
   }
 
   /**

@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: boxes.php 3409 2012-08-10 12:47:17Z web28 $
+   $Id: boxes.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -13,15 +13,16 @@
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
 
+// BOF - web28 - 2010-10-16 - Prevent duplicate content by SEO language switch
+  require_once (DIR_FS_CATALOG . 'templates/' . CURRENT_TEMPLATE . '/source/inc/clear_language_param.inc.php');
+// EOF - web28 - 2010-10-16 - Prevent duplicate content by SEO language switch  
 // BOF - Tomcraft - 2009-10-27 - Prevent duplicate content, see: http://www.gunnart.de/tipps-und-tricks/doppelten-content-vermeiden-productredirect-fuer-xtcommerce/
   require_once (DIR_FS_CATALOG . 'templates/' . CURRENT_TEMPLATE . '/source/inc/gunnart_productRedirect.inc.php');
 // EOF - Tomcraft - 2009-10-27 - Prevent duplicate content, see: http://www.gunnart.de/tipps-und-tricks/doppelten-content-vermeiden-productredirect-fuer-xtcommerce/
 
-
-
   define('DIR_WS_BOXES',DIR_FS_CATALOG .'templates/'.CURRENT_TEMPLATE. '/source/boxes/');
 
-//BOC require boxes
+//BOC require boxex
 // -----------------------------------------------------------------------------------------
 //	Immer sichtbar
 // -----------------------------------------------------------------------------------------

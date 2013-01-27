@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: orders_edit.php 2093 2011-08-14 15:32:50Z web28 $
+   $Id: orders_edit.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -15,10 +15,10 @@
 
    Released under the GNU General Public License
 
-    v.1.32 - 2012-05-23 (c) by web28 - www.rpa-com.de
+   v.1.32 - 2012-05-23 (c) by web28 - www.rpa-com.de
    Korrektur für Nettosumme bei Modulen ohne Steuersatz
 
-    v.1.31 - 2012-05-23 (c) by web28 - www.rpa-com.de
+   v.1.31 - 2012-05-23 (c) by web28 - www.rpa-com.de
     FIX: Preisberechnung Kundengruppenwechsel, Optionspreise bei Sonderpreisen
 
     v.1.30 - 2012-04-05 (c) by web28 - www.rpa-com.de
@@ -39,7 +39,7 @@
    --------------------------------------------------------------*/
 
 //######################//
-//Fuer korrekte Steuerberechnung hier die Rabattmodule eintragen - kommagetrennt
+//Fuer korrekte Steuerberechnung hier die Rabattmodule eintragen - kommagetrennt ohne Leerzeichen
 define('DISCOUNT_MODULES', 'ot_discount,ot_payment');
 
 //######################//
@@ -67,7 +67,9 @@ require_once (DIR_FS_INC.'xtc_oe_customer_infos.inc.php');
 require_once (DIR_FS_INC.'xtc_get_countries.inc.php');
 require_once (DIR_FS_INC.'xtc_get_address_format_id.inc.php');
 // Benötigte Funktionen und Klassen Ende
-
+if (file_exists(DIR_FS_EXTERNAL . 'billpay/utils/billpay_edit_orders.php')) {
+  require_once (DIR_FS_EXTERNAL . 'billpay/utils/billpay_edit_orders.php'); // DokuMan -2011-09-08 - BILLPAY payment module (in external directory)
+}
 $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
 // Adressbearbeitung Anfang
@@ -138,8 +140,7 @@ if ($action == 'product_edit') {
   $product_query = xtc_db_query("select op.allow_tax,
                                         op.products_tax,
                                         p.products_tax_class_id,
-                                        pd.products_name,
-                                        pd.products_order_description
+                                        pd.products_name
                                    from " . TABLE_ORDERS_PRODUCTS . " op
                               left join " . TABLE_PRODUCTS . " p ON op.products_id = p.products_id
                               left join " . TABLE_PRODUCTS_DESCRIPTION . " pd ON op.products_id = pd.products_id AND pd.language_id = '".(int)$lang['languages_id']."'
@@ -160,12 +161,10 @@ if ($action == 'product_edit') {
   if ($status['customers_status_show_price_tax'] == 0 && $status['customers_status_add_tax_ot'] == 0) {
     $tax_rate = 0;
   }
-
   // FIX tax by order delivery country /customer group
   if ($tax_rate > 0 && $product['allow_tax'] == 0 ) {
     $product['products_tax'] = $tax_rate;
   }
-
   // Korrektur Kundengruppenwechsel
   $group_subtax = $group_addtax = false;
   if ($status['customers_status_show_price_tax'] == 0 && $status['customers_status_add_tax_ot'] == 0 && $product['products_tax'] > 0 && $product['allow_tax'] == 1) {
@@ -186,6 +185,7 @@ if ($action == 'product_edit') {
                                       from ".TABLE_ORDERS_PRODUCTS_ATTRIBUTES."
                                      where orders_products_id = '".(int)($_POST['opID'])."'
                                    ");
+
 
   //Produktpreise neu berechnen - Steuer hinzufügen
   if ($group_addtax) {
@@ -215,7 +215,6 @@ if ($action == 'product_edit') {
   $sql_data_array = array ('orders_id' => (int)($_POST['oID']),
                            'products_id' => (int)($_POST['products_id']),
                            'products_name' => xtc_db_prepare_input($_POST['products_name']),
-                           'products_order_description' => xtc_db_prepare_input($product['products_order_description']),
                            'products_price' => (float)$_POST['products_price'],
                            'products_discount_made' => '',
                            'final_price' => (float)$final_price,
@@ -261,8 +260,7 @@ if ($action == 'product_ins') {
 
   $product_query = xtc_db_query("select p.products_model,
                                         p.products_tax_class_id,
-                                        pd.products_name,
-                                        pd.products_order_description
+                                        pd.products_name
                                    from ".TABLE_PRODUCTS." p,
                                         ".TABLE_PRODUCTS_DESCRIPTION." pd
                                   where p.products_id = '".(int)$_POST['products_id']."'
@@ -288,7 +286,6 @@ if ($action == 'product_ins') {
   $sql_data_array = array ('orders_id' => (int)($_POST['oID']),
                            'products_id' => (int)($_POST['products_id']),
                            'products_name' => xtc_db_prepare_input($product['products_name']),
-                           'products_order_description' => xtc_db_prepare_input($product['products_order_description']),
                            'products_price' => (float)$price,
                            'products_discount_made' => '',
                            'products_shipping_time' => xtc_db_prepare_input($shipping_time), //web28 - 2011-10-14- added status update for shipping_status_name in TABLE_ORDERS_PRODUCTS
@@ -489,7 +486,6 @@ if ($action == 'product_option_ins') {
     $tax_rate = 0;
   }
   $price = $xtPrice->xtcAddTax($products_price, $tax_rate); //tax by products
-
   $final_price = $price * $products['products_quantity'];
 
   $sql_data_array = array ('products_price' => xtc_db_prepare_input($price));
@@ -587,7 +583,7 @@ if ($action== 'ot_edit') {
     $sql_data_array = array ('title' => xtc_db_prepare_input($_POST['title']),
                              'text' => $text,
                              'value' => xtc_db_prepare_input($_POST['value']),
-                             'sort_order' => xtc_db_prepare_input($_POST['sort_order']) // web28 - 2011-08-26 - Fix missing sort_order
+                             'sort_order' => xtc_db_prepare_input($_POST['sort_order']) // web28 - 2011-08-26 -Fix missing sort_order
                              );
 
     xtc_db_perform(TABLE_ORDERS_TOTAL, $sql_data_array, 'update', 'orders_total_id = \''.(int)($check_total['orders_total_id']).'\'');
@@ -634,7 +630,7 @@ if ($action == 'lang_edit') {
                                       FROM ".TABLE_PRODUCTS_DESCRIPTION."
                                      WHERE products_id = '".(int)$order_products['products_id']."'
                                        AND language_id = '".(int)$_POST['lang']."'
-                                  ");
+                                   ");
     $products = xtc_db_fetch_array($products_query);
 
     $sql_data_array = array ('products_name' => xtc_db_prepare_input($products['products_name']));
@@ -864,7 +860,7 @@ if ($action == 'save_order') {
     xtc_db_perform(TABLE_ORDERS_RECALCULATE, $sql_data_array);
 
   }
-  //EOF#######  Produkte Steuersätze  #######//
+  //BOF#######  Produkte Steuersätze  #######//
 
   //BOF#######  Module  #######//
   $module_query = xtc_db_query("SELECT value, class
@@ -924,7 +920,7 @@ if ($action == 'save_order') {
       $module_tax = calculate_tax($module_value['value']);
       $module_n_price -= $module_tax; //Korrektur für Nettosumme bei Modulen ohne Steuersatz
     }
-    //EOC  web28 - 2012-03-22 - neue anteilige Steuerberechnung Module - ausgenommen bei Versandkosten  und Nachnahme ohne Steuer
+    //EOC  web28 - 2010-08-25 - neue anteilige Steuerberechnung Module - ausgenommen bei Versandkosten und Nachnahme ohne Steuer
 
     $sql_data_array = array (
                             'orders_id' => (int)($_POST['oID']),
@@ -1011,7 +1007,7 @@ if ($action == 'save_order') {
     }
   }
   //if(!MODULE_ORDER_TOTAL_SUBTOTAL_NO_TAX_STATUS || $status['customers_status_show_price_tax'] ==1) {
-  if (!MODULE_ORDER_TOTAL_SUBTOTAL_NO_TAX_STATUS || ($status['customers_status_show_price_tax'] == 0 && $status['customers_status_add_tax_ot'] == 0)) { //Keine Mwst. auf Rechnung
+	if (!MODULE_ORDER_TOTAL_SUBTOTAL_NO_TAX_STATUS || ($status['customers_status_show_price_tax'] == 0 && $status['customers_status_add_tax_ot'] == 0)) { //Keine Mwst. auf Rechnung
     xtc_db_query("delete from ".TABLE_ORDERS_TOTAL." where orders_id = '".(int)($_POST['oID'])."' and class='ot_subtotal_no_tax'");
   }
   //EOF Web28 - 2010-01-15 -  Gesamtsumme NETTO
@@ -1214,12 +1210,12 @@ function get_c_infos($customers_id, $delivery_country_iso_code_2) {
 
 }
 //EOC - web28 - 2012-01-20 - FIX order tax
-
 //--------------------------------------------------------------------------------------------------------------------------------------
+
 require (DIR_WS_INCLUDES.'head.php');
 ?>
 </head>
-  <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF">
+<body>
     <!-- header //-->
     <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
     <!-- header_eof //-->

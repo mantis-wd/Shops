@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: products_vpe.php 2990 2012-06-07 14:35:48Z web28 $
+   $Id: products_vpe.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

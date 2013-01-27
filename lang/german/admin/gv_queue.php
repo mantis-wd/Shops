@@ -1,11 +1,11 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: gv_queue.php 899 2005-04-29 02:40:57Z hhgag $
+   $Id: gv_queue.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
@@ -26,9 +26,9 @@
    ---------------------------------------------------------------------------------------*/
 
 
-define('HEADING_TITLE', 'Gutschein Freigabe Warteschlange');
+define('HEADING_TITLE', 'Gutschein Freigabe Warteschlange <i>(Bestellung)</i>');
 
-define('TABLE_HEADING_CUSTOMERS', 'Kunden');
+define('TABLE_HEADING_CUSTOMERS', 'Kunde');
 define('TABLE_HEADING_ORDERS_ID', 'Bestell-Nr.');
 define('TABLE_HEADING_VOUCHER_VALUE', 'Gutscheinwert');
 define('TABLE_HEADING_DATE_PURCHASED', 'Bestelldatum');

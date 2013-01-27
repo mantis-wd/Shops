@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: orders_edit_other.php 1920 2011-05-09 13:18:51Z web28 $
+   $Id: orders_edit_other.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -11,7 +11,7 @@
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(orders.php,v 1.27 2003/02/16); www.oscommerce.com
    (c) 2003	 nextcommerce (orders.php,v 1.7 2003/08/14); www.nextcommerce.org
-   (c) 2003 XT-Commerce
+   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License
    --------------------------------------------------------------
@@ -113,11 +113,7 @@ defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.'
   if (trim(MODULE_PAYMENT_INSTALLED) != '') {
     $payments = explode(';', MODULE_PAYMENT_INSTALLED); // Hetfield - 2009-08-18 - replaced deprecated function split with explode to be ready for PHP >= 5.3
     for ($i=0; $i<count($payments); $i++){
-      if(file_exists(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/payment/checkout/' . $payments[$i])){
-        require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/payment/checkout/' . $payments[$i]);
-      } else {
-        require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/payment/' . $payments[$i]);
-      }
+      require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/payment/' . $payments[$i]);
       $payment_modul = substr($payments[$i], 0, strrpos($payments[$i], '.'));
       $payment_text = constant('MODULE_PAYMENT_'.strtoupper($payment_modul).'_TEXT_TITLE');
       $payment_array[] = array('id' => $payment_modul,
@@ -126,11 +122,7 @@ defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.'
   }
   $order_payment = $order->info['payment_class'];
   if(file_exists(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/payment/' . $order_payment .'.php')){
-    if(file_exists(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/payment/checkout/' . $order_payment .'.php')){
-      require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/payment/checkout/' . $order_payment .'.php');
-    } else {
-      require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/payment/' . $order_payment .'.php');
-    }
+    require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/payment/' . $order_payment .'.php');
     $order_payment_text = constant('MODULE_PAYMENT_'.strtoupper($order_payment).'_TEXT_TITLE');
   }
   //EOF - web28 - 2011-06-08 - FIX for no installed payment modules
@@ -166,12 +158,8 @@ defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.'
   <?php
   $shippings = explode(';', MODULE_SHIPPING_INSTALLED); // Hetfield - 2009-08-18 - replaced deprecated function split with explode to be ready for PHP >= 5.3
   for ($i=0; $i<count($shippings); $i++){
-    if (isset($shippings[$i]) && is_file(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/' . $shippings[$i])) {      
-      if (is_file(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/checkout/' . $shippings[$i])) {
-        require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/checkout/' . $shippings[$i]);
-      } else {
-        require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/' . $shippings[$i]);
-      }
+    if (isset($shippings[$i]) && is_file(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/' . $shippings[$i])) {
+      require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/' . $shippings[$i]);
       $shipping_modul = substr($shippings[$i], 0, strrpos($shippings[$i], '.'));
       $shipping_text = constant('MODULE_SHIPPING_'.strtoupper($shipping_modul).'_TEXT_TITLE');
       $shipping_array[] = array('id' => $shipping_modul,
@@ -181,13 +169,9 @@ defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.'
   $order_shipping = explode('_', $order->info['shipping_class']); // Hetfield - 2009-08-18 - replaced deprecated function split with explode to be ready for PHP >= 5.3
   $order_shipping = $order_shipping[0];
   if (is_file(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/' . $order_shipping .'.php')) {
-    if (is_file(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/checkout/' . $order_shipping .'.php')) {
-      require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/checkout/' . $order_shipping .'.php');
-    } else {
-      require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/' . $order_shipping .'.php');
-    }
+    require(DIR_FS_LANGUAGES . $order->info['language'] . '/modules/shipping/' . $order_shipping .'.php');
     $order_shipping_text = constant('MODULE_SHIPPING_'.strtoupper($order_shipping).'_TEXT_TITLE');
-  }  
+  }
   echo xtc_draw_form('shipping_edit', FILENAME_ORDERS_EDIT, 'action=shipping_edit', 'post');
     ?>
     <tr class="dataTableRow">
@@ -241,7 +225,7 @@ defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.'
     ?>
     <tr class="dataTableRow">
       <?php echo xtc_draw_form('ot_edit', FILENAME_ORDERS_EDIT, 'action=ot_edit', 'post'); ?>
-       <td class="dataTableContent" align="left"><?php echo $total_text; ?></td>
+        <td class="dataTableContent" align="left"><?php echo $total_text; ?></td>
         <td class="dataTableContent" align="left"><?php echo xtc_draw_input_field('title', $ototal['title'], 'size=40'); ?></td>
         <td class="dataTableContent" align="left" width="20%"><?php echo xtc_draw_input_field('value', $ototal['value']); ?></td>
         <td class="dataTableContent" align="left">
@@ -255,7 +239,7 @@ defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.'
       </form>
       <td>
         <?php
-          echo xtc_draw_form('ot_delete', FILENAME_ORDERS_EDIT, 'action=ot_delete', 'post');
+         echo xtc_draw_form('ot_delete', FILENAME_ORDERS_EDIT, 'action=ot_delete', 'post');
           echo xtc_draw_hidden_field('oID', $_GET['oID']);
           echo xtc_draw_hidden_field('otID', $ototal['orders_total_id']);
           //BOF - web28 - 2011-06-13 - no display of BUTTON_DELETE by or_total

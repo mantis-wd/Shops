@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: index.php 3426 2012-08-13 15:39:17Z web28 $
+   $Id: index.php 4201 2013-01-10 20:00:34Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -125,43 +125,41 @@
                 </div>
               </td>
             </tr>
-            <?php
+           <?php
             // BOC flth new permission fix system
-            if ($folder_flag || $file_flag) {
-              $host = isset($_POST['path']) ? $_POST['host'] : rtrim(getenv('HTTP_HOST'),'/');
-              $path = isset($_POST['path']) ? $_POST['path'] : basename(DIR_FS_CATALOG).'/';
-              $port = isset($_POST['port']) ? $_POST['port'] : '21';
-              $login = isset($_POST['login']) ? $_POST['login'] : '';
-              ?>
-              <tr>
-                <td>
-                  <div id="permissions" class="popout">
-                      <?php if (!empty($ftp_message)) echo $ftp_message; ?>
-                      <div class="left" >
-                        <?php echo FTP_CHANGE_PERM_EXPLAIN; ?><br />
-                      </div>
-                      <div class="right">
-                        <form name="ftp" action="index.php" method="post">
-                          <label for="host"><?php echo FTP_HOST; ?>:</label>
-                            <?php echo xtc_draw_input_field_installer('host', $host, '', 'id="host"'); ?><br />
-                          <label for="port"><?php echo FTP_PORT; ?>:</label>
-                            <?php echo xtc_draw_input_field_installer('port', $port, '', 'id="port"'); ?><br />
-                          <label for="path"><?php echo FTP_PATH; ?>:</label>
-                            <?php echo xtc_draw_input_field_installer('path', $path, '', 'id="path"'); ?><br />
-                          <label for="login"><?php echo FTP_LOGIN; ?>:</label>
-                            <?php echo xtc_draw_input_field_installer('login', $login, '', 'id="login"'); ?><br />
-                          <label for="password"><?php echo FTP_PASSWORD; ?>:</label>
-                            <?php echo xtc_draw_password_field_installer('password', $password, '', 'id="password"'); ?><br />
-                          <?php echo xtc_draw_hidden_field_installer('action', 'ftp'); ?>
-                          <input type="submit" value="<?php echo CONNECT_FTP; ?>" />
-                        </form>
-                      </div>
-                    <br style="clear:both;" />
-                  </div>
-                </td>
-              </tr>
-              <?php
-            }
+            $host = isset($_POST['path']) ? $_POST['host'] : rtrim(getenv('HTTP_HOST'),'/');
+            $path = isset($_POST['path']) ? $_POST['path'] : basename(DIR_FS_CATALOG).'/';
+            $port = isset($_POST['port']) ? $_POST['port'] : '21';
+            $login = isset($_POST['login']) ? $_POST['login'] : '';
+            ?>
+            <tr>
+              <td>
+                <div id="permissions" class="popout">
+                    <?php if (!empty($ftp_message)) echo $ftp_message; ?>
+                    <div class="left" >
+                      <?php echo FTP_CHANGE_PERM_EXPLAIN; ?><br />
+                    </div>
+                    <div class="right">
+                      <form name="ftp" action="index.php" method="post">
+                        <label for="host"><?php echo FTP_HOST; ?>:</label>
+                          <?php echo xtc_draw_input_field_installer('host', $host, '', 'id="host"'); ?><br />
+                        <label for="port"><?php echo FTP_PORT; ?>:</label>
+                          <?php echo xtc_draw_input_field_installer('port', $port, '', 'id="port"'); ?><br />
+                        <label for="path"><?php echo FTP_PATH; ?>:</label>
+                          <?php echo xtc_draw_input_field_installer('path', $path, '', 'id="path"'); ?><br />
+                        <label for="login"><?php echo FTP_LOGIN; ?>:</label>
+                          <?php echo xtc_draw_input_field_installer('login', $login, '', 'id="login"'); ?><br />
+                        <label for="password"><?php echo FTP_PASSWORD; ?>:</label>
+                          <?php echo xtc_draw_password_field_installer('password', $password, '', 'id="password"'); ?><br />
+                        <?php echo xtc_draw_hidden_field_installer('action', 'ftp'); ?>
+                        <input type="submit" value="<?php echo CONNECT_FTP; ?>" />
+                      </form>
+                    </div>
+                  <br style="clear:both;" />
+                </div>
+              </td>
+            </tr>
+            <?php
             // EOC flth new permission fix system
             ?>
           <?php } ?>
@@ -209,15 +207,15 @@
                   </tr>
                 </table>
                 <?php // BOF - web28 - 2010.12.13 - NEW db-upgrade ?>
-                  <?php if ($error_flag==false) { ?>
+                <?php if ($error_flag==false) { ?>
                   <input type="hidden" name="action" value="process" />
                   <table width="95%" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                      <?php /* if($upgrade) { ?>
+                      <?php if($upgrade) { ?>
                         <td style="padding-left:4px"><img src="images/icons/arrow02.gif" width="13" height="6" alt="" /></td>
                         <td><?php echo TEXT_DB_UPGRADE; ?></td>
                         <td  style="padding-right:10px"><?php echo xtc_draw_checkbox_field_installer('db_upgrade','',true); //enable upgrade by default ?></td>
-                      <?php } */ ?>
+                      <?php }?>
                       <td align="right"><input type="image" src="buttons/<?php echo $lang;?>/button_continue.gif"></td>
                     </tr>
                   </table>
@@ -234,7 +232,7 @@
     </table>
     <br />
     <div align="center" style="font-family:Arial, sans-serif; font-size:11px;"><?php echo TEXT_FOOTER; ?></div>
-    <div align="center" style="padding-top:5px; font-size:11px;">Installer 106 rev8</div>
+    <div align="center" style="padding-top:5px; font-size:11px;">Installer 107 rev1</div>
     <div align="center" style="padding-top:5px; font-size:11px;"><?php echo $support; ?></div>
   </body>
 </html>

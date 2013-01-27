@@ -1,12 +1,12 @@
 <?php
 
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_check_categories_status.inc.php 1009 2005-07-11 16:19:29Z mz $
+   $Id: xtc_check_categories_status.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
 
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/

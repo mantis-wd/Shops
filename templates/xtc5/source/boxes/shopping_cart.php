@@ -1,6 +1,6 @@
 <?php
   /* -----------------------------------------------------------------------------------------
-   $Id: shopping_cart.php 3072 2012-06-18 15:01:13Z hhacker $
+   $Id: shopping_cart.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -18,7 +18,7 @@
 
   $box_smarty = new smarty;
 
-  $box_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+  $box_smarty->assign('tpl_path', DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
 
   // define defaults
   $products_in_cart = array ();

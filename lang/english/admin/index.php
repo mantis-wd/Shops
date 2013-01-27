@@ -1,16 +1,17 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: index.php 899 2005-04-29 02:40:57Z hhgag $
+   $Id: index.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    --------------------------------------------------------------
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(index.php,v 1.5 2002/03/30); www.oscommerce.com
-   (c) 2003	 nextcommerce (index.php,v 1.5 2003/08/14); www.nextcommerce.org
+   (c) 2003 nextcommerce (index.php,v 1.5 2003/08/14); www.nextcommerce.org
+   (c) 2006 XT-Commerce (index.php 899 2005-04-29)
 
    Released under the GNU General Public License
    --------------------------------------------------------------*/
@@ -29,15 +30,10 @@ define('BOX_ENTRY_LIVE_DISCUSSIONS', 'Live Discussions');
 define('BOX_ENTRY_CVS_REPOSITORY', 'CVS Repository');
 define('BOX_ENTRY_INFORMATION_PORTAL', 'Information Portal');
 
-define('BOX_ENTRY_CUSTOMERS', 'Customers:');
-define('BOX_ENTRY_PRODUCTS', 'Products:');
-define('BOX_ENTRY_REVIEWS', 'Reviews:');
-
 define('BOX_CONNECTION_PROTECTED', 'You are protected by a %s secure SSL Connection.');
 define('BOX_CONNECTION_UNPROTECTED', 'You are <font color="#ff0000">not</font> protected by a secure SSL connection.');
 define('BOX_CONNECTION_UNKNOWN', 'unknown');
 
-define('BOX_HEADING_CONFIGURATION', 'Configuration');
 define('BOX_CONFIGURATION_MYSTORE', 'My Shop');
 define('BOX_CONFIGURATION_LOGGING', 'Logging Informations');
 define('BOX_CONFIGURATION_CACHE', 'Cache Options');

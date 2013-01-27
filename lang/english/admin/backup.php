@@ -1,16 +1,17 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: backup.php 899 2005-04-29 02:40:57Z hhgag $
+   $Id: backup.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    --------------------------------------------------------------
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(backup.php,v 1.21 2002/06/15); www.oscommerce.com
    (c) 2003	 nextcommerce (backup.php,v 1.4 2003/08/14); www.nextcommerce.org
+   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License
    --------------------------------------------------------------*/
@@ -51,8 +52,12 @@ define('SUCCESS_LAST_RESTORE_CLEARED', 'Success: The last restoration date has b
 define('SUCCESS_DATABASE_SAVED', 'Success: The database has been saved.');
 define('SUCCESS_DATABASE_RESTORED', 'Success: The database has been restored.');
 define('SUCCESS_BACKUP_DELETED', 'Success: The backup has been removed.');
+define('SUCCESS_BACKUP_UPLOAD', 'Success: The backup file has been uploaded.');
 
 //TEXT_COMPLETE_INSERTS
 define('TEXT_COMPLETE_INSERTS', "<b>Complete 'INSERT's</b><br> - field names are entered into each row INSERT (increased backup)");
 
+//UTF-8 convert
+define('TEXT_CONVERT_TO_UTF', 'Convert database to UTF-8');
+define('TEXT_IMPORT_UTF', 'Restore UTF-8 database');
 ?>

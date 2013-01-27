@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: application_bottom.php 3298 2012-07-26 09:41:18Z web28 $
+   $Id: application_bottom.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -12,8 +12,8 @@
    (c) 2002-2003 osCommerce(application_bottom.php,v 1.14 2003/02/10); www.oscommerce.com
    (c) 2003  nextcommerce (application_bottom.php,v 1.6 2003/08/13); www.nextcommerce.org
    (c) 2003 XT-Commerce
-
-   Released under the GNU General Public License
+   
+   Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
 
 // page parse time
@@ -35,9 +35,10 @@ if ((GZIP_COMPRESSION == 'true') && ($ext_zlib_loaded == true) && ($ini_zlib_out
 
 // econda tracking
 if (TRACKING_ECONDA_ACTIVE == 'true') {
-  require_once (DIR_WS_INCLUDES . 'econda/econda.php');
+  require_once (DIR_FS_EXTERNAL . 'econda/econda.php');
 }
 
 // end of page
 echo '</body>';
 echo '</html>';
+?>

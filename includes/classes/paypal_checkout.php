@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: paypal_checkout.php 3417 2012-08-11 12:09:26Z web28 $
+   $Id: paypal_checkout.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -29,6 +29,9 @@ if (defined('PAYPAL_API_VERSION')) {
   define('PROXY_HOST', '127.0.0.1');
   define('PROXY_PORT', '808');
   define('VERSION', PAYPAL_API_VERSION);
+  if(!defined('TABLE_PAYPAL'))define('TABLE_PAYPAL', 'paypal');
+  if(!defined('TABLE_PAYPAL_STATUS_HISTORY'))define('TABLE_PAYPAL_STATUS_HISTORY', 'paypal_status_history');
+
   class paypal_checkout {
     var $API_UserName,
         $API_Password,
@@ -53,18 +56,18 @@ if (defined('PAYPAL_API_VERSION')) {
     function paypal_checkout() {
       // Stand: 27.03.2010
       if(PAYPAL_MODE=='sandbox'){
-        $this->API_UserName    = PAYPAL_API_SANDBOX_USER;
-        $this->API_Password    = PAYPAL_API_SANDBOX_PWD;
+        $this->API_UserName   = PAYPAL_API_SANDBOX_USER;
+        $this->API_Password   = PAYPAL_API_SANDBOX_PWD;
         $this->API_Signature  = PAYPAL_API_SANDBOX_SIGNATURE;
-        $this->API_Endpoint    = 'https://api-3t.sandbox.paypal.com/nvp';
+        $this->API_Endpoint   = 'https://api-3t.sandbox.paypal.com/nvp';
         $this->EXPRESS_URL    = 'https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=';
         $this->GIROPAY_URL    = 'https://www.sandbox.paypal.com/webscr?cmd=_complete-express-checkout&token=';
         $this->IPN_URL        = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
       }elseif(PAYPAL_MODE=='live'){
-        $this->API_UserName    = PAYPAL_API_USER;
-        $this->API_Password    = PAYPAL_API_PWD;
+        $this->API_UserName   = PAYPAL_API_USER;
+        $this->API_Password   = PAYPAL_API_PWD;
         $this->API_Signature  = PAYPAL_API_SIGNATURE;
-        $this->API_Endpoint    = 'https://api-3t.paypal.com/nvp';
+        $this->API_Endpoint   = 'https://api-3t.paypal.com/nvp';
         $this->EXPRESS_URL    = 'https://www.paypal.com/webscr?cmd=_express-checkout&token=';
         $this->GIROPAY_URL    = 'https://www.paypal.com/webscr?cmd=_complete-express-checkout&token=';
         $this->IPN_URL        = 'https://www.paypal.com/cgi-bin/webscr';
@@ -186,9 +189,9 @@ if (defined('PAYPAL_API_VERSION')) {
             $order_gs+= ($order_totals[$i]['value'] < 0) ? $order_totals[$i]['value'] : $order_totals[$i]['value'] *(-1);
             break;
           ///  customers bonus
-          case 'ot_bonus_fee':
-            $order_gs+= ($order_totals[$i]['value'] < 0) ? $order_totals[$i]['value'] : $order_totals[$i]['value'] *(-1);
-            break;
+          //case 'ot_bonus_fee':
+          //  $order_gs+= ($order_totals[$i]['value'] < 0) ? $order_totals[$i]['value'] : $order_totals[$i]['value'] *(-1);
+          //  break;
           case 'ot_payment':
             if($order_totals[$i]['value'] < 0) {
               // Rabatt aus Fremd Modul
@@ -335,9 +338,9 @@ if (defined('PAYPAL_API_VERSION')) {
             $order_gs+= ($order_totals[$i]['value'] < 0) ? $order_totals[$i]['value'] : $order_totals[$i]['value'] *(-1);
             break;
           ///  customers bonus
-          case 'ot_bonus_fee':
-            $order_gs+= ($order_totals[$i]['value'] < 0) ? $order_totals[$i]['value'] : $order_totals[$i]['value'] *(-1);
-            break;
+          //case 'ot_bonus_fee':
+          //  $order_gs+= ($order_totals[$i]['value'] < 0) ? $order_totals[$i]['value'] : $order_totals[$i]['value'] *(-1);
+          //  break;
           case 'ot_payment':
             if($order_totals[$i]['value'] < 0) {
               // Rabatt aus Fremd Modul
@@ -744,7 +747,7 @@ if (defined('PAYPAL_API_VERSION')) {
                         campaigns_leads = '" . $leads . "'
                         where campaigns_id = '" . $refID . "'");
         } else {
-          xtc_db_query("UPDATE " . TABLE_CUSTOMERS . " 
+          xtc_db_query("UPDATE " . TABLE_CUSTOMERS . "
                            SET refferers_id = '".$_SESSION['tracking']['refID']."'
                          WHERE customers_id = '".(int) $_SESSION['customer_id']."'");
         }
@@ -1056,7 +1059,7 @@ if (defined('PAYPAL_API_VERSION')) {
         $i++;
       }
       if($express_call && PAYPAL_EXP_WARN!='') {
-        $tmp_products .='&L_NAME'.$i.'='.urlencode($this->mn_iconv($_SESSION['language_charset'], "UTF-8",substr(html_entity_decode(PAYPAL_EXP_WARN),0,127))).
+        $tmp_products .='&L_NAME'.$i.'='.urlencode($this->mn_iconv($_SESSION['language_charset'], "UTF-8",substr(PAYPAL_EXP_WARN,0,127))).
                         '&L_NUMBER'.$i.'='.
                         '&L_QTY'.$i.'=0'.
                         '&L_AMT'.$i.'=0';
@@ -1064,7 +1067,7 @@ if (defined('PAYPAL_API_VERSION')) {
       }
       if($express_call && PAYPAL_EXP_VORL!='' && PAYPAL_EXP_VERS!=0) {
         $products_sum_amt+=PAYPAL_EXP_VERS;
-        $tmp_products .='&L_NAME'.$i.'='.urlencode($this->mn_iconv($_SESSION['language_charset'], "UTF-8",substr(html_entity_decode(PAYPAL_EXP_VORL),0,127))).
+        $tmp_products .='&L_NAME'.$i.'='.urlencode($this->mn_iconv($_SESSION['language_charset'], "UTF-8",substr(PAYPAL_EXP_VORL,0,127))).
                         '&L_NUMBER'.$i.'='.
                         '&L_QTY'.$i.'=1'.
                         '&L_AMT'.$i.'='.urlencode(number_format(PAYPAL_EXP_VERS, $xtPrice->get_decimal_places($order->info['currency']), '.', ','));
@@ -1519,6 +1522,9 @@ if (defined('PAYPAL_API_VERSION')) {
     }
   /*************************************************************/
     function mn_iconv($t1,$t2,$string){
+      if(function_exists('mb_convert_encoding')) {
+        return mb_convert_encoding($string, $t1, 'HTML-ENTITIES');
+      }
       // Stand: 29.04.2009
       if(function_exists('iconv')) {
         return iconv($t1, $t2, $string);

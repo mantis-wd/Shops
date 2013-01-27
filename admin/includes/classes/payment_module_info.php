@@ -1,11 +1,11 @@
 <?php
-/* --------------------------------------------------------------
-   $Id: payment_module_info.php 950 2005-05-14 16:45:21Z mz $   
+  /* --------------------------------------------------------------
+   $Id: payment_module_info.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    --------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)

@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: install_finished.php 3072 2012-06-18 15:01:13Z hhacker $
+   $Id: install_finished.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -27,7 +27,7 @@
 <html>
   <head>
     <title>modified eCommerce Shopsoftware Installer - Finished</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset;?>" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style type="text/css">
       body { background: #eee; font-family: Arial, sans-serif; font-size: 12px;}
       table,td,div { font-family: Arial, sans-serif; font-size: 12px;}
@@ -93,6 +93,6 @@
       </tr>
     </table>
     <br />
-    <div align="center" style="font-family:Arial, sans-serif; font-size:11px;"><?php echo TEXT_FOOTER; ?><br /><img src='http://images.modified-shop.org/modified106.gif' border='0' alt='modified eCommerce Shopsoftware'></div>
+    <div align="center" style="font-family:Arial, sans-serif; font-size:11px;"><?php echo TEXT_FOOTER; ?><br /><img src='http://images.modified-shop.org/modified106tutf8.gif' border='0' alt='modified eCommerce Shopsoftware'></div>
   </body>
 </html>

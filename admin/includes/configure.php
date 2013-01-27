@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: configure.php 3072 2012-06-18 15:01:13Z hhacker $
+   $Id: configure.php 4352 2013-01-23 12:38:17Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -50,6 +50,8 @@
   define('DIR_FS_CATALOG_MODULES', DIR_FS_CATALOG . 'includes/modules/');
   define('DIR_FS_BACKUP', DIR_FS_ADMIN . 'backups/');
   define('DIR_FS_INC', DIR_FS_CATALOG . 'inc/');
+  define('DIR_WS_EXTERNAL', DIR_WS_CATALOG . 'includes/external/');
+  define('DIR_FS_EXTERNAL', DIR_FS_CATALOG . 'includes/external/');
   define('DIR_WS_FILEMANAGER', DIR_WS_MODULES . 'fckeditor/editor/filemanager/browser/default/');
 
   // define our database connection

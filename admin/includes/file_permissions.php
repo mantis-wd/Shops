@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: file_permissions.php 3119 2012-06-23 14:45:52Z Tomcraft1980 $
+   $Id: file_permissions.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

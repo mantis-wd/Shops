@@ -1,16 +1,17 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: http_client.php 899 2005-04-29 02:40:57Z hhgag $   
+   $Id: http_client.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
-   based on: 
+   based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-   (c) 2002-2003 osCommerce(http_client.php,v 1.1 2002/11/01); www.oscommerce.com 
-   (c) 2003	 nextcommerce (http_client.php,v 1.5 2003/08/13); www.nextcommerce.org
+   (c) 2002-2003 osCommerce(http_client.php,v 1.1 2002/11/01); www.oscommerce.com
+   (c) 2003 nextcommerce (http_client.php,v 1.5 2003/08/13); www.nextcommerce.org
+   (c) 2006 xt:Commerce (http_client.php 899 2005-04-29)
 
    Released under the GNU General Public License
    Copyright 2001 Leo West <west_leo@yahoo-REMOVE-.com> Net_HTTP_Client v0.6
@@ -56,7 +57,7 @@
  * @seeAlso connect
  **/
     function httpClient($host = '', $port = '') {
-      if (xtc_not_null($host)) {
+      if (!empty($host)) {
         $this->connect($host, $port);
       }
     }
@@ -106,7 +107,7 @@
     function setHeaders($headers) {
       if (is_array($headers)) {
         reset($headers);
-        while (list($name, $value) = each($headers)) {
+        foreach($headers as $name => $value) { //Dokuman - 2011-07-26 - Change while with foreach for performance
           $this->requestHeaders[$name] = $value;
         }
       }
@@ -141,7 +142,7 @@
     function Connect($host, $port = '') {
       $this->url['scheme'] = 'http';
       $this->url['host'] = $host;
-      if (xtc_not_null($port)) $this->url['port'] = $port;
+      if (!empty($port)) $this->url['port'] = $port;
 
       return true;
     }
@@ -198,7 +199,7 @@
  * @param uri string URI of the document
  * @param query_params array parameters to send in the form "parameter name" => value
  * @return string response status code (200 if ok)
- * @example 
+ * @example
  * $params = array( "login" => "tiger", "password" => "secret" );
  * $http->post( "/login.php", $params );
  **/
@@ -208,7 +209,7 @@
       if (is_array($query_params)) {
         $postArray = array();
         reset($query_params);
-        while (list($k, $v) = each($query_params)) {
+        foreach($query_params as $k => $v) { //Dokuman - 2011-07-26 - Change while with foreach for performance
           $postArray[] = urlencode($k) . '=' . urlencode($v);
         }
 
@@ -288,17 +289,17 @@
  *  - 20x : request processed OK
  *  - 30x : document moved
  *  - 40x : client error ( bad url, document not found, etc...)
- *  - 50x : server error 
+ *  - 50x : server error
  * @see RFC2616 "Hypertext Transfer Protocol -- HTTP/1.1"
  **/
     function getStatus() {
       return $this->reply;
     }
 
-/** 
+/**
  * getStatusMessage return the full response status, of the form "CODE Message"
  * eg. "404 Document not found"
- * @return string the message 
+ * @return string the message
  **/
     function getStatusMessage() {
       return $this->replyString;
@@ -308,7 +309,7 @@
  * @scope only protected or private methods below
  **/
 
-/** 
+/**
  * send a request
  * data sent are in order
  * a) the command
@@ -330,7 +331,7 @@
           $port = $this->url['port'];
         }
 
-        if (!xtc_not_null($port)) $port = 80;
+        if (!!empty($port)) $port = 80;
 
         //BOF - DokuMan - 2010-07-06 - added timeout value
         /*
@@ -343,7 +344,7 @@
         }
         //EOF - DokuMan - 2010-07-06 - added timeout value
 
-        if (xtc_not_null($this->requestBody)) {
+        if (!empty($this->requestBody)) {
           $this->addHeader('Content-Length', strlen($this->requestBody));
         }
 
@@ -351,12 +352,12 @@
         $cmd = $command . "\r\n";
         if (is_array($this->requestHeaders)) {
           reset($this->requestHeaders);
-          while (list($k, $v) = each($this->requestHeaders)) {
+          foreach($this->requestHeaders as $k => $v) { //Dokuman - 2011-07-26 - Change while with foreach for performance
             $cmd .= $k . ': ' . $v . "\r\n";
           }
         }
 
-        if (xtc_not_null($this->requestBody)) {
+        if (!empty($this->requestBody)) {
           $cmd .= "\r\n" . $this->requestBody;
         }
 
@@ -399,7 +400,7 @@
         $finished = ($str == $lastLine);
         if (!$finished) {
           list($hdr, $value) = explode(': ', $str, 2); // Hetfield - 2009-08-18 - replaced deprecated function split with explode to be ready for PHP >= 5.3
-          // nasty workaround broken multiple same headers (eg. Set-Cookie headers) @FIXME 
+          // nasty workaround broken multiple same headers (eg. Set-Cookie headers) @FIXME
           if (isset($headers[$hdr])) {
             $headers[$hdr] .= '; ' . trim($value);
           } else {
@@ -414,7 +415,7 @@
 /**
  * processBody() reads the body from the socket
  * the body is the "real" content of the reply
- * @return string body content 
+ * @return string body content
  * @scope private
  **/
     function processBody() {

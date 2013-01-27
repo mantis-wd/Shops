@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: install_step6.php 2999 2012-06-11 08:27:32Z dokuman $
+   $Id: install_step6.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -625,7 +625,7 @@
 <html>
   <head>
     <title>modified eCommerce Shopsoftware Installer - STEP 6 / Shopinformation</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset;?>" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <?php require('includes/form_check.js.php'); ?>
     <style type="text/css">
       body { background: #eee; font-family: Arial, sans-serif; font-size: 12px;}

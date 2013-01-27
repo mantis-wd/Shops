@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_wysiwyg.inc.php 2867 2012-05-14 11:57:08Z web28 $
+   $Id: xtc_wysiwyg.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -62,7 +62,7 @@ function xtc_wysiwyg($type, $lang, $langID = '') {
       break;
     // WYSIWYG editor categories_description textarea named categories_description[langID]
     case 'categories_description':
-      $val ='var oFCKeditor = new FCKeditor( \'categories_description['.$langID.']\', \'100%\', \'300\' ) ;
+      $val ='var oFCKeditor = new FCKeditor( \'categories_description['.$langID.']\', \'600\', \'300\' ) ;
              oFCKeditor.BasePath = "'.$path.'" ;
              oFCKeditor.Config["LinkBrowserURL"] = "'.$filemanager.$file_path.$sid.'" ;
              oFCKeditor.Config["ImageBrowserURL"] = "'.$filemanager.$image_path.$sid.'" ;
@@ -150,7 +150,7 @@ function xtc_wysiwyg($type, $lang, $langID = '') {
                }
              </script>';
       break;
-    // WYSIWYG editor shop offline
+// WYSIWYG editor shop offline
     case 'shop_offline':
       $val ='<script type="text/javascript" src="'.$js_src.'"></script>
              <script type="text/javascript">

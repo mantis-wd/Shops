@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: english.php 3447 2012-08-21 12:10:42Z dokuman $
+   $Id: english.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -18,7 +18,7 @@
    Third Party contributions:
    Customers Status v3.x (c) 2002-2003 Copyright Elari elari@free.fr | www.unlockgsm.com/dload-osc/ | CVS : http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/elari/?sortby=date#dirlist
 
-   Released under the GNU General Public License 
+   Released under the GNU General Public License
    --------------------------------------------------------------*/
 
 // look in your $PATH_LOCALE/locale directory for available locales..
@@ -26,7 +26,7 @@
 // on FreeBSD 4.0 I use 'en_US.ISO_8859-1'
 // this may not work under win32 environments..
 
-setlocale(LC_TIME, 'en_GB@euro', 'en_GB', 'en-GB', 'en', 'en_GB.ISO_8859-1', 'English','en_GB.ISO_8859-15');
+setlocale(LC_TIME, 'en_GB@euro', 'en_GB', 'en-GB', 'en', 'en_GB.ISO_8859-1', 'English', 'en_UTF-8', 'English');
 define('DATE_FORMAT_SHORT', '%d/%m/%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A %d %B, %Y'); // this is used for strftime()
 define('DATE_FORMAT', 'd/m/Y');  // this is used for strftime()
@@ -78,6 +78,7 @@ define('BOX_HEADING_LOCALIZATION', 'Languages/Currencies');
 define('BOX_HEADING_TEMPLATES','Templates');
 define('BOX_HEADING_LOCATION_AND_TAXES', 'Location / Tax');
 define('BOX_HEADING_CATALOG', 'Catalog');
+define('BOX_MODULE_NEWSLETTER','Newsletter');
 
 define('BOX_CONTENT','Content Manager');
 define('TEXT_ALLOWED', 'Permission');
@@ -104,7 +105,8 @@ define('BOX_CONFIGURATION_18', 'VAT Reg No');
 define('BOX_CONFIGURATION_19', 'Partner');
 define('BOX_CONFIGURATION_22', 'Search-Options');
 define('BOX_CONFIGURATION_24', 'PIWIK &amp; Google Analytics');
-define('BOX_CONFIGURATION_1000', 'My Admin');
+define('BOX_CONFIGURATION_40', 'Popup Window Options');
+define('BOX_CONFIGURATION_1000', 'Adminarea Options');
 
 define('BOX_MODULES', 'Payment-/Shipping-/Billing-Modules');
 define('BOX_PAYMENT', 'Payment Systems');
@@ -156,13 +158,13 @@ define('BOX_GV_ADMIN_QUEUE', 'Gift Voucher Queue');
 define('BOX_GV_ADMIN_MAIL', 'Mail Gift Voucher');
 define('BOX_GV_ADMIN_SENT', 'Gift Vouchers sent');
 define('BOX_COUPON_ADMIN','Coupon Admin');
-define('BOX_TOOLS_BLACKLIST','Creditcard-Blacklist');
-define('BOX_IMPORT','Import/Export'); 
+define('BOX_IMPORT','Import/Export');
 define('BOX_PRODUCTS_VPE','Packing unit');
 define('BOX_CAMPAIGNS_REPORT','Campaign report');
 define('BOX_ORDERS_XSELL_GROUP','Cross-sell groups');
 define('BOX_REMOVEOLDPICS','Remove old pictures'); // Remove old pictures - franky_n - 20110105
 define('BOX_JANOLAW','janolaw AGB Hosting'); // Tomcraft - 2011-06-17 - Added janolaw AGB hosting service
+define('BOX_PARCEL_CARRIERS','Parcel carriers'); //Dokuman - 2012-11-16 - Track & Trace functionality
 define('BOX_HAENDLERBUND','H&auml;ndlerbund AGB Service'); // Tomcraft - 2012-12-08 - Added haendlerbund AGB interface
 
 define('TXT_GROUPS','<b>Groups</b>:');
@@ -174,7 +176,7 @@ define('TXT_TOOLS','Tools');
 define('TEXT_ACCOUNTING','Admin-access for:');
 
 /******* SHOPGATE **********/
-include_once (DIR_FS_CATALOG.'includes/shopgate/base/lang/english/admin/english.php');
+include_once DIR_FS_EXTERNAL.'/shopgate/base/lang/english/admin/english.php';
 /******* SHOPGATE **********/
 
 // javascript messages
@@ -304,9 +306,12 @@ define('TEXT_DISPLAY_NUMBER_OF_TAX_CLASSES', 'Displaying <b>%d</b> to <b>%d</b> 
 define('TEXT_DISPLAY_NUMBER_OF_TAX_ZONES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> Tax Zones)');
 define('TEXT_DISPLAY_NUMBER_OF_TAX_RATES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> Tax Rates)');
 define('TEXT_DISPLAY_NUMBER_OF_ZONES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> zones)');
+define('TEXT_DISPLAY_NUMBER_OF_CARRIERS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> carriers)');
 
+define('PREVNEXT_BUTTON_FIRST', '&lt;&lt;FIRST');
 define('PREVNEXT_BUTTON_PREV', '&lt;&lt;');
 define('PREVNEXT_BUTTON_NEXT', '&gt;&gt;');
+define('PREVNEXT_BUTTON_LAST', 'LAST&gt;&gt;');
 
 define('TEXT_DEFAULT', 'Default');
 define('TEXT_SET_DEFAULT', 'Set as default');
@@ -454,7 +459,7 @@ define('BOX_HEADING_CONFIGURATION2','Advanced Configuration');
 // EOF - Tomcraft - 2009-11-02 - New admin top menu
 
 // BOF - Tomcraft - 2009-11-28 - Included xs:booster
-define('BOX_HEADING_XSBOOSTER','xs:booster');	
+define('BOX_HEADING_XSBOOSTER','xs:booster');
 define('BOX_XSBOOSTER_LISTAUCTIONS','List Auctions');
 define('BOX_XSBOOSTER_ADDAUCTIONS','Add Auctions');
 define('BOX_XSBOOSTER_CONFIG','Base Configuration');
@@ -470,7 +475,7 @@ define('ASB_QUICK_SEARCH_EMAIL', 'E-Mail Address:');
 //BOF - web28 - 2010.05.30 - accounting - set all checkboxes , countries - set all flags
 define('BUTTON_SET','Check All');
 define('BUTTON_UNSET','Uncheck All');
-//EOF - web28 - 2010.05.30 - accounting - set all checkboxes 
+//EOF - web28 - 2010.05.30 - accounting - set all checkboxes
 
 //BOF - DokuMan - 2010-08-12 - added possibility to reset admin statistics
 define('TEXT_ROWS','Row');
@@ -482,9 +487,9 @@ define('BUTTON_CLOSE_WINDOW' , 'Close Window');
 //EOF - web28 - 2010-11-13 - add BUTTON_CLOSE_WINDOW
 
 //BOF - hendrik - 2011-05-14 - independent invoice number and date
-define('ENTRY_INVOICE_NUMBER',  'Invoice number:'); 
-define('ENTRY_INVOICE_DATE',    'Invoice date:'); 
-//EOF - hendrik - 2011-05-14 - independent invoice number and date 
+define('ENTRY_INVOICE_NUMBER',  'Invoice number:');
+define('ENTRY_INVOICE_DATE',    'Invoice date:');
+//EOF - hendrik - 2011-05-14 - independent invoice number and date
 
 //BOF - web28 - 2010-07-06 - added missing error text
 define('ENTRY_VAT_ERROR', '&nbsp;<span class="errorText">OUT OF RANGE VAT Reg.</span>');

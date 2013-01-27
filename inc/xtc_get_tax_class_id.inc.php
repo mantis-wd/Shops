@@ -1,11 +1,11 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_get_tax_class_id.inc.php 899 2005-04-29 02:40:57Z hhgag $
+   $Id: xtc_get_tax_class_id.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
 

@@ -1,84 +1,99 @@
 <?php
-
 /* -----------------------------------------------------------------------------------------
-   $Id: cod.php 1003 2005-07-10 18:58:52Z mz $   
+   $Id: cod.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(cod.php,v 1.28 2003/02/14); www.oscommerce.com 
-   (c) 2003	 nextcommerce (cod.php,v 1.7 2003/08/24); www.nextcommerce.org
+   (c) 2003   nextcommerce (cod.php,v 1.7 2003/08/24); www.nextcommerce.org
+   (c) 2006 XT-Commerce (cod.php 1003 2005-07-10)
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
 
 class cod {
 
-	var $code, $title, $description, $enabled;
+  var $code, $title, $description, $enabled;
+  // BOF - Hendrik - 2010-08-11 - php5 compatible
+  //function cod() {
+  function __construct() {
+  // EOF - Hendrik - 2010-08-11 - php5 compatible
+    global $order,$xtPrice;
 
-	function cod() {
-		global $order,$xtPrice;
+    $this->code = 'cod';
+    $this->title = MODULE_PAYMENT_COD_TEXT_TITLE;
+    $this->description = MODULE_PAYMENT_COD_TEXT_DESCRIPTION;
+    $this->sort_order = MODULE_PAYMENT_COD_SORT_ORDER;
+    $this->enabled = ((MODULE_PAYMENT_COD_STATUS == 'True') ? true : false);
+    $this->info = MODULE_PAYMENT_COD_TEXT_INFO;
+    $this->cost = '';
 
-		$this->code = 'cod';
-		$this->title = MODULE_PAYMENT_COD_TEXT_TITLE;
-		$this->description = MODULE_PAYMENT_COD_TEXT_DESCRIPTION;
-		$this->sort_order = MODULE_PAYMENT_COD_SORT_ORDER;
-		$this->enabled = ((MODULE_PAYMENT_COD_STATUS == 'True') ? true : false);
-		$this->info = MODULE_PAYMENT_COD_TEXT_INFO;
-		$this->cost = '';
+    if ((int) MODULE_PAYMENT_COD_ORDER_STATUS_ID > 0) {
+      $this->order_status = MODULE_PAYMENT_COD_ORDER_STATUS_ID;
+    }
 
-		if ((int) MODULE_PAYMENT_COD_ORDER_STATUS_ID > 0) {
-			$this->order_status = MODULE_PAYMENT_COD_ORDER_STATUS_ID;
-		}
+    if (is_object($order))
+      $this->update_status();
+  }
 
-		if (is_object($order))
-			$this->update_status();
-	}
+  function update_status() {
+    global $order;
+    
+     // BOF - Hendrik - 2010-07-15 - exlusion config for shipping modules
+    if( MODULE_PAYMENT_COD_NEG_SHIPPING != '' ) {
+      $neg_shpmod_arr = explode(',',MODULE_PAYMENT_COD_NEG_SHIPPING);
+      foreach( $neg_shpmod_arr as $neg_shpmod ) {
+        $nd=$neg_shpmod.'_'.$neg_shpmod;
+        if( $_SESSION['shipping']['id']==$nd || $_SESSION['shipping']['id']==$neg_shpmod ) { 
+          $this->enabled = false;
+          break;
+        }
+      }
+    } 
 
-	function update_status() {
-		global $order;
-		if ($_SESSION['shipping']['id'] == 'selfpickup_selfpickup') {
-			$this->enabled = false;
-		}
-		if (($this->enabled == true) && ((int) MODULE_PAYMENT_COD_ZONE > 0)) {
-			$check_flag = false;
-			$check_query = xtc_db_query("select zone_id from ".TABLE_ZONES_TO_GEO_ZONES." where geo_zone_id = '".MODULE_PAYMENT_COD_ZONE."' and zone_country_id = '".$order->delivery['country']['id']."' order by zone_id");
-			while ($check = xtc_db_fetch_array($check_query)) {
-				if ($check['zone_id'] < 1) {
-					$check_flag = true;
-					break;
-				}
-				elseif ($check['zone_id'] == $order->delivery['zone_id']) {
-					$check_flag = true;
-					break;
-				}
-			}
-
-			if ($check_flag == false) {
-				$this->enabled = false;
-			}
-		}
-
-	}
-
-	function javascript_validation() {
-		return false;
-	}
-
-	function selection() {
-		global $xtPrice,$order;
-		
-      if (MODULE_ORDER_TOTAL_COD_FEE_STATUS == 'true') {
+//    if ($_SESSION['shipping']['id'] == 'selfpickup_selfpickup') {
+//      $this->enabled = false;
+//    }
+     // EOF - Hendrik - 2010-07-15 - exlusion config for shipping modules
 
 
-        $cod_country = false;
 
-          //process installed shipping modules
-		  // BOF - Hetfield - 2009-08-18 - replaced deprecated function split with preg_split to be ready for PHP >= 5.3
+    if (($this->enabled == true) && ((int) MODULE_PAYMENT_COD_ZONE > 0)) {
+      $check_flag = false;
+      $check_query = xtc_db_query("select zone_id from ".TABLE_ZONES_TO_GEO_ZONES." where geo_zone_id = '".MODULE_PAYMENT_COD_ZONE."' and zone_country_id = '".$order->delivery['country']['id']."' order by zone_id");
+      while ($check = xtc_db_fetch_array($check_query)) {
+        if ($check['zone_id'] < 1) {
+          $check_flag = true;
+          break;
+        }
+        elseif ($check['zone_id'] == $order->delivery['zone_id']) {
+          $check_flag = true;
+          break;
+        }
+      }
+
+      if ($check_flag == false) {
+        $this->enabled = false;
+      }
+    }
+
+  }
+
+  function javascript_validation() {
+    return false;
+  }
+
+  function selection() {
+    global $xtPrice,$order;
+    $cod_country = false;
+    if (defined('MODULE_ORDER_TOTAL_COD_FEE_STATUS') && MODULE_ORDER_TOTAL_COD_FEE_STATUS == 'true') {
+      //process installed shipping modules
+      // BOF - Hetfield - 2009-08-18 - replaced deprecated function split with preg_split to be ready for PHP >= 5.3
           if ($_SESSION['shipping']['id'] == 'flat_flat') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_FLAT);
           if ($_SESSION['shipping']['id'] == 'item_item') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_ITEM);
           if ($_SESSION['shipping']['id'] == 'table_table') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_TABLE);
@@ -107,7 +122,7 @@ class cod {
  
           if ($_SESSION['shipping']['id'] == 'free_free') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_FREE);
           if ($_SESSION['shipping']['id'] == 'freeamount_freeamount') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_FREEAMOUNT_FREE);
-		  // EOF - Hetfield - 2009-08-18 - replaced deprecated function split with preg_split to be ready for PHP >= 5.3
+      // EOF - Hetfield - 2009-08-18 - replaced deprecated function split with preg_split to be ready for PHP >= 5.3
 
             for ($i = 0; $i < count($cod_zones); $i++) {
             if ($cod_zones[$i] == $order->delivery['country']['iso_code_2']) {
@@ -145,62 +160,74 @@ class cod {
         }
         $this->cost = '+ '.$cod_cost;
 
-        
       }
-		
-		
-		return array ('id' => $this->code, 'module' => $this->title, 'description' => $this->info,'module_cost'=>$this->cost);
-	}
+   
+    return array ('id' => $this->code, 'module' => $this->title, 'description' => $this->info,'module_cost'=>$this->cost);
+  }
 
-	function pre_confirmation_check() {
-		return false;
-	}
+  function pre_confirmation_check() {
+    return false;
+  }
 
-	function confirmation() {
-		return false;
-	}
+  function confirmation() {
+    return false;
+  }
 
-	function process_button() {
-		return false;
-	}
+  function process_button() {
+    return false;
+  }
 
-	function before_process() {
-		return false;
-	}
+  function before_process() {
+    return false;
+  }
 
-	function after_process() {
-		global $insert_id;
-		if ($this->order_status)
-			xtc_db_query("UPDATE ".TABLE_ORDERS." SET orders_status='".$this->order_status."' WHERE orders_id='".$insert_id."'");
+  function after_process() {
+    global $insert_id;
+    //BOF - DokuMan - 2010-08-23 - Also update status in TABLE_ORDERS_STATUS_HISTORY
+    //if ($this->order_status)
+    //  xtc_db_query("UPDATE ". TABLE_ORDERS ." SET orders_status='".$this->order_status."' WHERE orders_id='".$insert_id."'");
+    if (isset($this->order_status) && $this->order_status) {
+        xtc_db_query("UPDATE ".TABLE_ORDERS." SET orders_status='".$this->order_status."' WHERE orders_id='".$insert_id."'");
+        xtc_db_query("UPDATE ".TABLE_ORDERS_STATUS_HISTORY." SET orders_status_id='".$this->order_status."' WHERE orders_id='".$insert_id."'");
+    }
+    //EOF - DokuMan - 2010-08-23 - Also update status in TABLE_ORDERS_STATUS_HISTORY
+  }
 
-	}
+  function get_error() {
+    return false;
+  }
 
-	function get_error() {
-		return false;
-	}
+  function check() {
+    if (!isset ($this->_check)) {
+      $check_query = xtc_db_query("select configuration_value from ".TABLE_CONFIGURATION." where configuration_key = 'MODULE_PAYMENT_COD_STATUS'");
+      $this->_check = xtc_db_num_rows($check_query);
+    }
+    return $this->_check;
+  }
 
-	function check() {
-		if (!isset ($this->_check)) {
-			$check_query = xtc_db_query("select configuration_value from ".TABLE_CONFIGURATION." where configuration_key = 'MODULE_PAYMENT_COD_STATUS'");
-			$this->_check = xtc_db_num_rows($check_query);
-		}
-		return $this->_check;
-	}
+  function install() {
+    xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_COD_STATUS', 'True',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
+    xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_COD_ALLOWED', '', '6', '0', now())");
+    xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_COD_ZONE', '0', '6', '2', 'xtc_get_zone_class_title', 'xtc_cfg_pull_down_zone_classes(', now())");
+    xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_COD_SORT_ORDER', '0',  '6', '0', now())");
+    xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_COD_ORDER_STATUS_ID', '0','6', '0', 'xtc_cfg_pull_down_order_statuses(', 'xtc_get_order_status_name', now())");
+    
+    // BOF - Hendrik - 2010-07-15 - exlusion config for shipping modules
+    xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_COD_NEG_SHIPPING', 'selfpickup', '6', '99', now())");
+    // EOF - Hendrik - 2010-07-15 - exlusion config for shipping modules
+  }
 
-	function install() {
-		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_COD_STATUS', 'True',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
-		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_COD_ALLOWED', '', '6', '0', now())");
-		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_COD_ZONE', '0', '6', '2', 'xtc_get_zone_class_title', 'xtc_cfg_pull_down_zone_classes(', now())");
-		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_COD_SORT_ORDER', '0',  '6', '0', now())");
-		xtc_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_COD_ORDER_STATUS_ID', '0','6', '0', 'xtc_cfg_pull_down_order_statuses(', 'xtc_get_order_status_name', now())");
-	}
+  function remove() {
+    xtc_db_query("delete from ".TABLE_CONFIGURATION." where configuration_key in ('".implode("', '", $this->keys())."')");
+  }
 
-	function remove() {
-		xtc_db_query("delete from ".TABLE_CONFIGURATION." where configuration_key in ('".implode("', '", $this->keys())."')");
-	}
-
-	function keys() {
-		return array ('MODULE_PAYMENT_COD_STATUS', 'MODULE_PAYMENT_COD_ALLOWED', 'MODULE_PAYMENT_COD_ZONE', 'MODULE_PAYMENT_COD_ORDER_STATUS_ID', 'MODULE_PAYMENT_COD_SORT_ORDER');
-	}
+  function keys() {
+    return array (  'MODULE_PAYMENT_COD_STATUS', 
+                    'MODULE_PAYMENT_COD_ALLOWED', 
+                    'MODULE_PAYMENT_COD_ZONE', 
+                    'MODULE_PAYMENT_COD_ORDER_STATUS_ID', 
+                    'MODULE_PAYMENT_COD_SORT_ORDER',
+                    'MODULE_PAYMENT_COD_NEG_SHIPPING'         );       // Hendrik - 2010-07-15 - exlusion config for shipping modules
+  }
 }
 ?>

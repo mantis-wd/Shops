@@ -1,15 +1,16 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: ot_gv.php 899 2005-04-29 02:40:57Z hhgag $
+   $Id: ot_gv.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(ot_gv.php,v 1.1.2.1 2003/05/15); www.oscommerce.com
+   (c) 2006 XT-Commerce (ot_gv.php 899 2005-04-29)
 
    Released under the GNU General Public License
    -----------------------------------------------------------------------------------------
@@ -28,9 +29,11 @@
   define('MODULE_ORDER_TOTAL_GV_TITLE', 'Gift Vouchers');
   define('MODULE_ORDER_TOTAL_GV_HEADER', 'Gift Vouchers');
   define('MODULE_ORDER_TOTAL_GV_DESCRIPTION', 'Gift Vouchers');
-  define('SHIPPING_NOT_INCLUDED', ' [Shipping not included]');
-  define('TAX_NOT_INCLUDED', ' [Tax not included]');
-  define('MODULE_ORDER_TOTAL_GV_USER_PROMPT', 'Tick to use Gift Voucher account balance ->&nbsp;');
+  //BOF - DokuMan - 2010-08-31 - constants already defined in english.php
+  //define('SHIPPING_NOT_INCLUDED', ' [Shipping not included]');
+  //define('TAX_NOT_INCLUDED', ' [Tax not included]');
+  //EOF - DokuMan - 2010-08-31 - constants already defined in english.php
+  define('MODULE_ORDER_TOTAL_GV_USER_PROMPT', '<strong>Tick to use Gift Voucher account balance</strong>');
   define('TEXT_ENTER_GV_CODE', 'Enter Redeem Code&nbsp;&nbsp;');
   
   define('MODULE_ORDER_TOTAL_GV_STATUS_TITLE', 'Display Total');

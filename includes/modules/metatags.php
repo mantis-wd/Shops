@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: metatags.php 4321 2013-01-15 16:42:37Z web28 $
+   $Id: metatags.php 4324 2013-01-15 18:15:01Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -58,7 +58,7 @@
 
   $metaStopWords   =  ('versandkosten,zzgl,mwst,lieferzeit,aber,alle,alles,als,auch,auf,aus,bei,beim,beinahe,bin,bis,ist,dabei,dadurch,daher,dank,darum,danach,das,daß,dass,dein,deine,dem,den,der,des,dessen,dadurch,deshalb,die,dies,diese,dieser,diesen,diesem,dieses,doch,dort,durch,eher,ein,eine,einem,einen,einer,eines,einige,einigen,einiges,eigene,eigenes,eigener,endlich,euer,eure,etwas,fast,findet,für,gab,gibt,geben,hatte,hatten,hattest,hattet,heute,hier,hinter,ich,ihr,ihre,ihn,ihm,im,immer,in,ist,ja,jede,jedem,jeden,jeder,jedes,jener,jenes,jetzt,kann,kannst,kein,können,könnt,machen,man,mein,meine,mehr,mit,muß,mußt,musst,müssen,müßt,nach,nachdem,neben,nein,nicht,nichts,noch,nun,nur,oder,statt,anstatt,seid,sein,seine,seiner,sich,sicher,sie,sind,soll,sollen,sollst,sollt,sonst,soweit,sowie,und,uns,unser,unsere,unserem,unseren,unter,vom,von,vor,wann,warum,was,war,weiter,weitere,wenn,wer,werde,widmen,widmet,viel,viele,vieles,weil,werden,werdet,weshalb,wie,wieder,wieso,wir,wird,wirst,wohl,woher,wohin,wurdezum,zur,über');
   $metaGoWords     =  ('tracht,dirndl,kleid,mode,modern,bluse,trachten,hose,leder,schmuck,t-shirt,t-shirts,schuh,schuhe'); // Hier rein, was nicht gefiltert werden soll
-  $metaMinLength   =  5;     // Mindestlänge eines Keywords
+  $metaMinLength   =  3;     // Mindestlänge eines Keywords
   $metaMaxLength   =  18;    // Maximallänge eines Keywords
   $metaMaxKeywords =  15;    // Maximall Anzahl der Keywords
   $metaDesLength   =  150;   // maximale Länge der "description" (in Buchstaben)
@@ -183,7 +183,7 @@
   }
   function metaHtmlEntities($Text) {
     //BOF web28 2011-12-02 UFT-8
-    if($_SESSION['language_charset'] == 'utf-8') {
+    if(strtoupper($_SESSION['language_charset']) == 'UTF-8') {
       return $Text;
     }
     //EOF web28 2011-12-02 UFT-8
@@ -201,7 +201,13 @@
   function prepareWordArray($Text) {
     //$Text = str_replace(array('&nbsp;','\t','\r','\n','\b'),' ',strip_tags($Text));
     $Text = str_replace(array('&nbsp;','\t','\r','\n','\b'),' ',preg_replace("/<[^>]*>/",' ',$Text)); // <-- Besser bei Zeilenumbrüchen
-    $Text = htmlentities(metaNoEntities(strtolower($Text)), ENT_QUOTES, strtoupper($_SESSION['language_charset']));
+    //BOF DokuMan - 2012-06-12 - fix error "function.htmlentities: Invalid multibyte sequence in argument"
+    //$Text = htmlentities(metaNoEntities(strtolower($Text)), ENT_QUOTES, strtoupper($_SESSION['language_charset']));
+    if(strtoupper($_SESSION['language_charset']) == 'UTF-8') {
+      $Text = mb_convert_encoding($Text, "UTF-8", "UTF-8"); // workaround for possibly chopped characters with htmlentities
+    }
+    $Text = htmlentities(metaNoEntities(strtolower($Text)), ENT_COMPAT, strtoupper($_SESSION['language_charset']));
+    //EOF DokuMan - 2012-06-12 - fix error "function.htmlentities: Invalid multibyte sequence in argument"
     $Text = preg_replace("/\s\-|\-\s/",' ',$Text); // <-- Gegen Trenn- und Gedankenstriche
     $Text = preg_replace("/(&[^aoucizens][^;]*;)/",' ',$Text);
     $Text = preg_replace("/[^0-9a-z|\-|&|;]/",' ',$Text); // <-- Bindestriche drin lassen
@@ -281,7 +287,13 @@
         $Text = substr($Text,0,$Length).$Abk;
       }
     }
-    return htmlentities($Text, ENT_QUOTES, strtoupper($_SESSION['language_charset']));  // web28 - 2010-09-16 - FIX html entities
+    //BOF DokuMan - 2012-06-12 - fix error "function.htmlentities: Invalid multibyte sequence in argument"
+    //return htmlentities($Text, ENT_QUOTES, strtoupper($_SESSION['language_charset']));  // web28 - 2010-09-16 - FIX html entities
+    if(strtoupper($_SESSION['language_charset']) == 'UTF-8') {
+      $Text = mb_convert_encoding($Text, "UTF-8", "UTF-8"); // workaround for possibly chopped characters with htmlentities
+    }
+    return htmlentities($Text, ENT_COMPAT, strtoupper($_SESSION['language_charset']));
+    //EOF DokuMan - 2012-06-12 - fix error "function.htmlentities: Invalid multibyte sequence in argument"
   }
 // ---------------------------------------------------------------------------------------
 //  metaTitle und metaKeyWords, Rückgabe bzw. Formatierung

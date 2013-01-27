@@ -57,13 +57,24 @@ class InputFilter {
 	function process($source)
 	{
 		// Hetfield - 2010-03-01 - removed wrong placed code
-		// clean all elements in this array    
+		// clean all elements in this array
 		if (is_array($source)) {
 			// BOF Hetfield - 2010-03-15 - Bugfix missing brace at foreach
 			foreach ($source as $key => $value) {
 				// filter element for XSS and other 'bad' code etc.
 				$tmp_key = $key;
-				unset ($source[$key]);
+
+        // BOF - Hendrik - 2010-08-22 - xajax support
+        //unset ($source[$key]);
+        if(defined('XAJAX_SUPPORT') && XAJAX_SUPPORT=='true' ) {
+          if ($key != 'xajaxargs') {                     // imdxajax
+            unset ($source[$key]);
+          }
+        } else {
+          unset ($source[$key]);
+        }
+        // EOF - Hendrik - 2010-08-22 - xajax support                
+                
 				$key = $this->remove($this->decode($key));
 				if ($key != $tmp_key) {
 					return $source;

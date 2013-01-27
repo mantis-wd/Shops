@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: application.php 3072 2012-06-18 15:01:13Z hhacker $
+   $Id: application.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -17,9 +17,9 @@
   (c) 2011 Strato document-root function v. 1.00 by web28 - www.rpa-cpm.de
    --------------------------------------------------------------*/
 
-  define('INSTALL_CHARSET', 'iso-8859-15'); //iso-8859-15 oder utf-8
+  define('INSTALL_CHARSET', 'utf-8'); //
   define('DIR_MODIFIED_INSTALLER', '_installer');
-  define('MODIFIED_SQL', 'modified.sql');
+  define('MODIFIED_SQL', 'modified_utf8.sql');
   
   /*######################################*/
   
@@ -33,7 +33,7 @@
   } else {
     $charset = 'iso-8859-15';
     $character_set = 'latin1';
-    $collation = 'latin1_german1_ci'; 
+    $collation = 'latin1_german1_ci';
   }
 
   if (version_compare(PHP_VERSION, '5.1.0', '>=')) {

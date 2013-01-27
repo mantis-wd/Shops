@@ -1,31 +1,30 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: paypal.php 998 2005-07-07 14:18:20Z mz $   
+   $Id: paypal_ipn.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
-   based on: 
+   based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-   (c) 2002-2003 osCommerce(paypal.php,v 1.7 2002/04/17); www.oscommerce.com 
-   (c) 2003	 nextcommerce (paypal.php,v 1.4 2003/08/13); www.nextcommerce.org
+   (c) 2002-2003 osCommerce(paypal.php,v 1.7 2002/04/17); www.oscommerce.com
+   (c) 2003 nextcommerce (paypal.php,v 1.4 2003/08/13); www.nextcommerce.org
+   (c) 2005 XT-Commerce (paypal.php 998 2005-07-07)
 
-   Released under the GNU General Public License 
+   Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
 
-define('MODULE_PAYMENT_PAYPAL_IPN_TEXT_TITLE', 'PayPal');
-define('MODULE_PAYMENT_PAYPAL_IPN_TEXT_DESCRIPTION', 'PayPal IPN');
-//define('MODULE_PAYMENT_PAYPAL_IPN_LOGO','<img src="https://www.paypal.com/de_DE/DE/i/logo/lockbox_150x50.gif" />');
+define('MODULE_PAYMENT_PAYPAL_IPN_TEXT_TITLE', 'PayPal - Instant Payment Notification (IPN)');
+define('MODULE_PAYMENT_PAYPAL_IPN_TEXT_DESCRIPTION', 'Instant Payment Notification (IPN) is PayPals message service that sends a notification when a transaction is affected. Once IPN is integrated, sellers can automate their back office so they don’t have to wait for payments to come in to trigger order fulfillment. ');
 define('MODULE_PAYMENT_PAYPAL_IPN_LOGO','<img src="https://www.paypal.com/de_DE/DE/i/logo/lockbox_150x47.gif" align="middle" />');
-//define('MODULE_PAYMENT_PAYPAL_IPN_TEXT_INFO','Pay easily and safely with PayPal ' . MODULE_PAYMENT_PAYPAL_IPN_LOGO);
 define('MODULE_PAYMENT_PAYPAL_IPN_ALLOWED_TITLE' , 'Allowed zones');
 define('MODULE_PAYMENT_PAYPAL_IPN_ALLOWED_DESC' , 'Please enter the zones <b>separately</b> which should be allowed to use this modul (e. g. AT,DE (leave empty if you want to allow all zones))');
 define('MODULE_PAYMENT_PAYPAL_IPN_STATUS_TITLE' , 'Enable PayPal module');
 define('MODULE_PAYMENT_PAYPAL_IPN_STATUS_DESC' , 'Do you want to accept PayPal payments?');
 define('MODULE_PAYMENT_PAYPAL_IPN_ID_TITLE' , 'E-Mail Address');
-define('MODULE_PAYMENT_PAYPAL_IPN_ID_DESC' , 'The E-Mail address to be used for the PayPal service');
+define('MODULE_PAYMENT_PAYPAL_IPN_ID_DESC' , 'The E-Mail address to be used for the PayPal service (E-Mail address of the Paypal account)');
 define('MODULE_PAYMENT_PAYPAL_IPN_CURRENCY_TITLE' , 'Transaction currency');
 define('MODULE_PAYMENT_PAYPAL_IPN_CURRENCY_DESC' , 'The currency to be used for credit card transactions');
 define('MODULE_PAYMENT_PAYPAL_IPN_SORT_ORDER_TITLE' , 'Order of displayed data');
@@ -34,11 +33,10 @@ define('MODULE_PAYMENT_PAYPAL_IPN_ZONE_TITLE' , 'Payment zone');
 define('MODULE_PAYMENT_PAYPAL_IPN_ZONE_DESC' , 'If a zone is selected, this payment method is enabled only for that zone.');
 define('MODULE_PAYMENT_PAYPAL_IPN_ORDER_STATUS_ID_TITLE' , 'Order status for successful payments');
 define('MODULE_PAYMENT_PAYPAL_IPN_ORDER_STATUS_ID_DESC' , 'Sets the status of orders made with this module to that value');
-define('MODULE_PAYMENT_PAYPAL_IPN_TMP_STATUS_ID_TITLE','Order status for open payments'); 
+define('MODULE_PAYMENT_PAYPAL_IPN_TMP_STATUS_ID_TITLE','Order status for open payments');
 define('MODULE_PAYMENT_PAYPAL_IPN_TMP_STATUS_ID_DESC','Sets the status of orders made with this module to that value');
 define('MODULE_PAYMENT_PAYPAL_IPN_USE_CURL_TITLE', 'cURL');
 define('MODULE_PAYMENT_PAYPAL_IPN_USE_CURL_DESC', 'Use cURL or redirection.');
-
 define('MODULE_PAYMENT_PAYPAL_IPN_USE_CHECKOUT_TITLE', 'PayPal link order:');
 define('MODULE_PAYMENT_PAYPAL_IPN_USE_CHECKOUT_DESC', 'Display at the end of ordering process');
 define('MODULE_PAYMENT_PAYPAL_IPN_USE_EMAIL_TITLE', 'PayPal link E-Mail:');
@@ -89,7 +87,7 @@ define('MODULE_PAYMENT_PAYPAL_IPN_TXT_ORDER', " - Order: ");
 define('MODULE_PAYMENT_PAYPAL_IPN_VAR_CBT', "Return to vendor"); //cbt
 
 //Style Schaltfläche
-define('MODULE_PAYMENT_PAYPAL_IPN_STYLE_LINK', 'style="padding:5px; color:#555555; background: #f8f8f8; border: 1px solid #8c8c8c; text-decoration: none; cursor: pointer;"'); //Tomcraft 2010-06-23 define link color 
+define('MODULE_PAYMENT_PAYPAL_IPN_STYLE_LINK', 'style="padding:5px; color:#555555; background: #f8f8f8; border: 1px solid #8c8c8c; text-decoration: none; cursor: pointer;"'); //Tomcraft 2010-06-23 define link color
 define('MODULE_PAYMENT_PAYPAL_IPN_STYLE_TOP', '<div style="margin-top:25px;">');
 define('MODULE_PAYMENT_PAYPAL_IPN_STYLE_LOGO', '<div style="margin-top: 5px; float: left;">' . MODULE_PAYMENT_PAYPAL_IPN_LOGO . '</div>');
 define('MODULE_PAYMENT_PAYPAL_IPN_STYLE_TEXT', '<div style="clear: both; color:#496686; font-weight: bold; padding:10px;">' . MODULE_PAYMENT_PAYPAL_IPN_TXT_CHECKOUT2.'</div>');
@@ -122,4 +120,9 @@ define('MODULE_PAYMENT_PAYPAL_IPN_ERROR_SUB3','INVALID for PayPal payment proces
 define('MODULE_PAYMENT_PAYPAL_IPN_RETURN_HEADER','Many thanks!');
 define('MODULE_PAYMENT_PAYPAL_IPN_RETURN_TEXT1','Thank you for your PayPal payment of');
 define('MODULE_PAYMENT_PAYPAL_IPN_RETURN_TEXT2','for your order of');
+
+// BOF - Hendrik - 2010-08-11 - exlusion config for shipping modules
+define('MODULE_PAYMENT_PAYPAL_IPN_NEG_SHIPPING_TITLE', 'Exclusion in case of shipping');
+define('MODULE_PAYMENT_PAYPAL_IPN_NEG_SHIPPING_DESC', 'deactivate this payment if one of these shippingtypes are selected (list separated by comma)');
+// EOF - Hendrik - 2010-08-11 - exlusion config for shipping modules
 ?>

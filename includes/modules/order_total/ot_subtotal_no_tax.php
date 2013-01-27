@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: ot_subtotal_no_tax.php 3664 2012-09-21 16:09:38Z web28 $   
+   $Id: ot_subtotal_no_tax.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -34,21 +34,12 @@
     }
 
     function process() {
-      global $order, $xtPrice;      
+      global $order, $xtPrice;
       if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1) {
         //web28 - $order->info['total'] ist Nettosumme, enthält bereits Rabatte und Versandkosten und kann direkt übernommen werden
         $this->output[] = array('title' => $this->title . ':',
                                 'text' => '<strong>' . $xtPrice->xtcFormat($order->info['total'], true).'</strong>',
                                 'value' => $xtPrice->xtcFormat($order->info['total'], false));
-      } elseif (MODULE_ORDER_TOTAL_SUBTOTAL_NO_TAX_STATUS && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1) {
-        //BOC Nettopreis anzeigen, auch wenn Brutto bei Kundengruppe
-        //echo 'OTT'.$order->info['tax'];
-        $sub_total_price = $order->info['total']-$order->info['tax'];
- 
-        $this->output[] = array('title' => $this->title . ':',
-                                'text' => '<b>' . $xtPrice->xtcFormat($sub_total_price, true).'</b>',
-                                'value' => $xtPrice->xtcFormat($sub_total_price, false));
-        //EOC Nettopreis anzeigen, auch wenn Brutto bei Kundengruppe
       }
     }
 

@@ -1,18 +1,18 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: buttons.php 1125 2005-07-28 09:59:44Z novalis $   
+   $Id: buttons.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    --------------------------------------------------------------
-   based on: 
+   based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-   (c) 2002-2003 osCommerce(categories.php,v 1.22 2002/08/17); www.oscommerce.com 
-   (c) 2003	 nextcommerce (categories.php,v 1.10 2003/08/14); www.nextcommerce.org
+   (c) 2002-2003 osCommerce(categories.php,v 1.22 2002/08/17); www.oscommerce.com
+   (c) 2003 nextcommerce (categories.php,v 1.10 2003/08/14); www.nextcommerce.org
 
-   Released under the GNU General Public License 
+   Released under the GNU General Public License
    --------------------------------------------------------------*/
 
 // buttons
@@ -33,7 +33,7 @@ define('BUTTON_STATUS_OFF', 'Status inaktiv');
 define('BUTTON_EDIT_ATTRIBUTES', 'Attribute editieren');
 define('BUTTON_INSERT', 'Einf&uuml;gen');
 define('BUTTON_UPDATE', 'Aktualisieren');
-define('BUTTON_EXPORT', 'Exportieren');
+define('BUTTON_CURRENCY_UPDATE', 'W&auml;hrungskurse aktualisieren');
 define('BUTTON_REVIEW_APPROVE', 'OK');
 define('BUTTON_SEND_EMAIL', 'E-Mail senden');
 define('BUTTON_SEND_COUPON', 'Gutschein senden');
@@ -85,7 +85,18 @@ define('BUTTON_DELETE_CACHE', 'Cache leeren');
 define('BUTTON_DELETE_TEMP_CACHE', 'Templatecache leeren');
 // EOF - Dokuman - 2010-02-04 - delete cache files in admin section
 
-// BOF - web28 - 2011-07-13 - New Button
-define('BUTTON_VIEW_PRODUCT', 'Artikel ansehen');
-//EOF - web28 - 2011-07-13 - New Button
+//BOF - DokuMan - 2010-08-12 - added possibility to reset admin statistics
+define('BUTTON_RESET_PRODUCTS_PURCHASED', 'Alle Positionen zur&uuml;cksetzen');
+define('BUTTON_RESET_PRODUCTS_VIEWED', 'Alle Positionen zur&uuml;cksetzen');
+//EOF - DokuMan - 2010-08-12 - added possibility to reset admin statistics
+
+// BOF - web28 - 2010-08-21 - add  button view products
+define('BUTTON_VIEW_PRODUCT','Produktansicht');
+// EOF - web28 - 2010-08-21 - add  button view products
+
+//BOF - hendrik - 2011-05-14 - independent invoice number and date
+define('BUTTON_BILL', 'Neue Rechnungsnummer vergeben');
+//EOF - hendrik - 2011-05-14 - independent invoice number and date
+
+define('BUTTON_NEW_CARRIER', 'Neuer Paketdienstleister'); //Dokuman - 2012-11-16 - Track & Trace functionality
 ?>

@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: moneybookers_giropay.php 3598 2012-09-06 06:22:36Z dokuman $
+   $Id: moneybookers_giropay.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

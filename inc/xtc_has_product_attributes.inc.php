@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_has_product_attributes.inc.php 1589 2010-12-24 14:10:13Z dokuman $
+   $Id: xtc_has_product_attributes.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

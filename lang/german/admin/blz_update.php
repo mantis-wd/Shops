@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: blz_update.php 3499 2012-08-23 09:12:40Z dokuman $
+   $Id: blz_update.php 4204 2013-01-10 21:05:48Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

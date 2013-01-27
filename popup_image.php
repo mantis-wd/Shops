@@ -1,16 +1,16 @@
 <?php
-
 /* -----------------------------------------------------------------------------------------
-   $Id: popup_image.php 859 2005-04-14 18:15:06Z novalis $   
+   $Id: popup_image.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2004 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(popup_image.php,v 1.12 2001/12/12); www.oscommerce.com 
+   (c) 2006 XT-Commerce (popup_image.php 859 2005-04-14)
 
    Released under the GNU General Public License 
    -----------------------------------------------------------------------------------------
@@ -40,6 +40,7 @@ $size = GetImageSize("$img");
 $mo_images = xtc_get_products_mo_images((int) $_GET['pID']);
 $img = DIR_WS_THUMBNAIL_IMAGES.$products_values['products_image'];
 $osize = GetImageSize("$img");
+$bheight = 0;
 if ($mo_images != false) {
 	//$bwidth = $osize[0];
 	$bheight = $osize[1];
@@ -59,16 +60,25 @@ if ($mo_images != false) {
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $_SESSION['language_charset']; ?>" /> 
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <title><?php echo $products_values['products_name']; ?></title>
-<base href="<?php echo (getenv('HTTPS') == 'on' ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo 'templates/'.CURRENT_TEMPLATE.'/stylesheet.css'; ?>">
-<script type="text/javascript"><!--
+<?php /*
+//BOF - GTB - 2010-08-03 - Security Fix - Base
+<base href="<?php echo (getenv('HTTPS') == 'on' ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo 'templates/'.CURRENT_TEMPLATE.'/stylesheet.css'; ?>" />
+*/ ?>
+<link rel="stylesheet" type="text/css" href="<?php echo DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/stylesheet.css'; ?>" />
+<?php /*
+//EOF - GTB - 2010-08-03 - Security Fix - Base
+*/ ?>
+<script type="text/javascript">
+<!--
 var i=0;
 function resize() {
   if (navigator.appName == 'Netscape') i=40;
   window.resizeTo(<?php echo $size[0] ?> +105, <?php echo $size[1] + $bheight ?>+70+i);
   self.focus();
 }
-//--></script>
+//-->
+</script>
 </head>
 <body onload="resize();">
 

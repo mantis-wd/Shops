@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: stats_sales_report.php 1687 2011-01-23 12:12:04Z franky-n-xtcm $
+   $Id: stats_sales_report.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -184,10 +184,12 @@
 
   if ($srExp < 2) {
     // not for csv export
-    require (DIR_WS_INCLUDES.'head.php');
-    ?>    
-      </head>
-        <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF">
+
+
+require (DIR_WS_INCLUDES.'head.php');
+?>
+</head>
+<body>
           <?php
           if ($srExp < 1) {
             require(DIR_WS_INCLUDES . 'header.php');

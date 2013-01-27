@@ -148,13 +148,13 @@ require('../includes/application_top_export.php');
 define('STANDARD_GROUP',DEFAULT_CUSTOMERS_STATUS_ID);
 
 //KL02062005
-if (file_exists(DIR_FS_DOCUMENT_ROOT.'admin/includes/classes/image_manipulator.php'))
+if (file_exists(DIR_FS_DOCUMENT_ROOT.DIR_WS_ADMIN.'includes/classes/image_manipulator.php'))
 {
   // für XTC 2.x
-  include(DIR_FS_DOCUMENT_ROOT.'admin/includes/classes/image_manipulator.php');
+  include(DIR_FS_DOCUMENT_ROOT.DIR_WS_ADMIN.'includes/classes/image_manipulator.php');
 } else {
   // für XTC ab 3.x
-  include(DIR_FS_DOCUMENT_ROOT.'admin/includes/classes/'.IMAGE_MANIPULATOR);
+  include(DIR_FS_DOCUMENT_ROOT.DIR_WS_ADMIN.'includes/classes/'.IMAGE_MANIPULATOR);
 } //KL02062005_ENDE
 
 if ((isset($_POST['user']))and(isset($_POST['password']))) 
@@ -230,10 +230,13 @@ Aufruf des Scriptes mit <br><b><?php echo $PHP_SELF; ?>?user=<font color="red">A
       exit;
     }
 
-    if (!( ($check_customer['customers_password'] == $password) or 
-             ($check_customer['customers_password'] == md5($password)) or
-             ($check_customer['customers_password'] == md5(substr($password,2,40)))
-       ))
+    //BOF - DokuMan - 2011-09-29 - implement new password check
+    //if (!( ($check_customer['customers_password'] == $password) or 
+    //         ($check_customer['customers_password'] == md5($password)) or
+    //        ($check_customer['customers_password'] == md5(substr($password,2,40)))
+    //   ))
+    if (!xtc_validate_password($password, $check_customer['customers_password'], $email_address))
+    //EOF - DokuMan - 2011-09-29 - implement new password check
     {
       SendXMLHeader ();
       print_xml_status (108, $_POST['action'], 'WRONG PASSWORD', '', '', '');	  	

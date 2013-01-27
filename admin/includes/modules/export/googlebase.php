@@ -1,8 +1,8 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: googlebase.php 4280 2013-01-12 12:14:07Z Tomcraft1980 $
+   $Id: googlebase.php 4281 2013-01-12 12:17:04Z Tomcraft1980 $
 
-  modified eCommerce Shopsoftware
+   modified eCommerce Shopsoftware
    http://www.modified-shop.org
 
    Copyright (c) 2009 - 2013 [www.modified-shop.org]
@@ -124,7 +124,7 @@ class googlebase {
     $schema_xml_de = '<?xml version="1.0" encoding="UTF-8"?>'."\n".
                      '<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">'."\n".
                      "\t".'<channel>'."\n".
-                     "\t"."\t".'<title>'.encode_htmlspecialchars(TITLE).'</title>'."\n".
+                     "\t"."\t".'<title>'.htmlspecialchars(TITLE).'</title>'."\n".
                      "\t"."\t".'<description>'.META_DESCRIPTION.'</description>'."\n".
                      "\t"."\t".'<link>'.HTTP_SERVER.'</link>'."\n";
 

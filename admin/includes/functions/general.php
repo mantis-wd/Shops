@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: general.php 2752 2012-04-12 13:36:46Z tonne1 $
+   $Id: general.php 4347 2013-01-21 18:40:00Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -66,17 +66,17 @@
    * @param bool $protected
    * @return
   */
-function xtc_output_string($string, $translate = false, $protected = false) {
-  if ($protected == true) {
-    return encode_htmlspecialchars($string);
-  } else {
-    if ($translate == false) {
-      return xtc_parse_input_field_data($string, array('"' => '&quot;'));
+  function xtc_output_string($string, $translate = false, $protected = false) {
+    if ($protected == true) {
+      return htmlspecialchars($string);
     } else {
-      return xtc_parse_input_field_data($string, $translate);
+      if ($translate == false) {
+        return xtc_parse_input_field_data($string, array('"' => '&quot;'));
+      } else {
+        return xtc_parse_input_field_data($string, $translate);
+      }
     }
   }
-}
 
   /**
    * check_stock()
@@ -119,7 +119,7 @@ function xtc_output_string($string, $translate = false, $protected = false) {
   function xtc_set_categories_status($categories_id, $status) {
     if ($status == '1') {
       return xtc_db_query("update ".TABLE_CATEGORIES." set categories_status = '1' where categories_id = '".$categories_id."'");
-    }	elseif ($status == '0') {
+    } elseif ($status == '0') {
       return xtc_db_query("update ".TABLE_CATEGORIES." set categories_status = '0' where categories_id = '".$categories_id."'");
     } else {
       return -1;
@@ -148,7 +148,7 @@ function xtc_output_string($string, $translate = false, $protected = false) {
     }
   }
 
-// Set Admin Access Rights
+  // Set Admin Access Rights
   /**
    * xtc_set_admin_access()
    *
@@ -289,9 +289,9 @@ function xtc_output_string($string, $translate = false, $protected = false) {
     return strftime(DATE_FORMAT_LONG, mktime($hour, $minute, $second, $month, $day, $year));
   }
 
-// Output a raw date string in the selected locale date format
-// $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
-// NOTE: Includes a workaround for dates before 01/01/1970 that fail on windows servers
+  // Output a raw date string in the selected locale date format
+  // $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
+  // NOTE: Includes a workaround for dates before 01/01/1970 that fail on windows servers
   /**
    * xtc_date_short()
    *
@@ -341,15 +341,15 @@ function xtc_output_string($string, $translate = false, $protected = false) {
    * @return
    */
   function xtc_array_merge($array1, $array2, $array3 = '') {
-      if (!is_array($array1)) {
-        $array1 = array ();
-      }
-      if (!is_array($array2)) {
-        $array2 = array ();
-      }
-      if (!is_array($array3)) {
-        $array3 = array ();
-      }
+    if (!is_array($array1)) {
+      $array1 = array ();
+    }
+    if (!is_array($array2)) {
+      $array2 = array ();
+    }
+    if (!is_array($array3)) {
+      $array3 = array ();
+    }
     if (function_exists('array_merge')) {
       $array_merged = array_merge($array1, $array2, $array3);
     } else {
@@ -362,21 +362,6 @@ function xtc_output_string($string, $translate = false, $protected = false) {
           $array_merged[$key] = $val;
     }
     return (array) $array_merged;
-  }
-
-  function xtc_in_array($lookup_value, $lookup_array) {
-    if (function_exists('in_array')) {
-      if (in_array($lookup_value, $lookup_array))
-        return true;
-    } else {
-      reset($lookup_array);
-      while (list ($key, $value) = each($lookup_array)) {
-        if ($value == $lookup_value)
-          return true;
-      }
-    }
-
-    return false;
   }
 
   /**
@@ -565,6 +550,23 @@ function xtc_output_string($string, $translate = false, $protected = false) {
   }
 
   /**
+   * xtc_get_default_tax_class_method_name()
+   *
+   * @param mixed $country_id
+   * @return
+   */
+  function xtc_get_default_tax_class_method_name($method_id) {
+    $method_name = TEXT_NONE;
+    if ($method_id == 2) {
+      $method_name = TEXT_AUTO_PROPORTIONAL;
+    }
+    else if ($method_id == 3) {
+      $method_name = TEXT_AUTO_MAX;
+    }
+    return $method_name;
+  }
+
+  /**
    * xtc_get_zone_name()
    *
    * @param mixed $country_id
@@ -704,7 +706,7 @@ function xtc_output_string($string, $translate = false, $protected = false) {
     if (empty($country))
       $country = addslashes($address['country']);
     if (!empty($state))
-    $statecomma = $state.', ';
+      $statecomma = $state.', ';
     $fmt = $address_format['format'];
     eval ("\$address = \"$fmt\";");
     $address = stripslashes($address);
@@ -1122,7 +1124,7 @@ function xtc_output_string($string, $translate = false, $protected = false) {
    * @return
    */
   function xtc_get_countries($default = '', $status = '') {
-    $status = (!empty($status)) ? " where status = '" . $status ."' " : '';
+    $status = ($status != '') ? " where status = '" . $status ."' " : '';
     $countries_array = array ();
     if ($default) {
       $countries_array[] = array ('id' => STORE_COUNTRY, 'text' => $default);
@@ -1224,7 +1226,17 @@ function xtc_output_string($string, $translate = false, $protected = false) {
    */
   function xtc_cfg_pull_down_tax_classes($tax_class_id, $key = '') {
     $name = (($key) ? 'configuration['.$key.']' : 'configuration_value');
-    $tax_class_array = array (array ('id' => '0', 'text' => TEXT_NONE));
+    $tax_class_method = 0;
+    if (defined('SHIPPING_DEFAULT_TAX_CLASS_METHOD')) {
+      $tax_class_method = constant('SHIPPING_DEFAULT_TAX_CLASS_METHOD');
+    }
+    if ($tax_class_method == 2) {
+      $tax_class_array = array (array ('id' => '0', 'text' => TEXT_AUTO_PROPORTIONAL));
+    } else if ($tax_class_method == 3) {
+      $tax_class_array = array (array ('id' => '0', 'text' => TEXT_AUTO_MAX));
+    } else {
+      $tax_class_array = array (array ('id' => '0', 'text' => TEXT_NONE));
+    }
     $tax_class_query = xtc_db_query("select tax_class_id, tax_class_title from ".TABLE_TAX_CLASS." order by tax_class_title");
     while ($tax_class = xtc_db_fetch_array($tax_class_query)) {
       $tax_class_array[] = array ('id' => $tax_class['tax_class_id'], 'text' => $tax_class['tax_class_title']);
@@ -1429,38 +1441,6 @@ function xtc_output_string($string, $translate = false, $protected = false) {
                   'extensions' => get_loaded_extensions());
   }
 
-  function xtc_array_shift(& $array) {
-    if (function_exists('array_shift')) {
-      return array_shift($array);
-    } else {
-      $i = 0;
-      $shifted_array = array ();
-      reset($array);
-      while (list ($key, $value) = each($array)) {
-        if ($i > 0) {
-          $shifted_array[$key] = $value;
-        } else {
-          $return = $array[$key];
-        }
-        $i ++;
-      }
-      $array = $shifted_array;
-      return $return;
-    }
-  }
-
-  function xtc_array_reverse($array) {
-    if (function_exists('array_reverse')) {
-      return array_reverse($array);
-    } else {
-      $reversed_array = array ();
-      for ($i = sizeof($array) - 1; $i >= 0; $i --) {
-        $reversed_array[] = $array[$i];
-      }
-      return $reversed_array;
-    }
-  }
-
   /**
    * xtc_generate_category_path()
    *
@@ -1563,7 +1543,7 @@ function xtc_output_string($string, $translate = false, $protected = false) {
     xtc_db_query("delete from ".TABLE_ORDERS_STATUS_HISTORY." where orders_id = '".xtc_db_input($order_id)."'");
     xtc_db_query("delete from ".TABLE_ORDERS_TOTAL." where orders_id = '".xtc_db_input($order_id)."'");
     xtc_db_query("delete from ".TABLE_ORDERS_PRODUCTS_DOWNLOAD." where orders_id = '".xtc_db_input($order_id)."'");
-
+    
     /******** SHOPGATE **********/
     $sql_select="SHOW TABLES LIKE '".TABLE_SHOPGATE_ORDERS."'";
     $query = xtc_db_query($sql_select);
@@ -1801,6 +1781,12 @@ function xtc_output_string($string, $translate = false, $protected = false) {
    */
   function xtc_get_tax_class_title($tax_class_id) {
     if ($tax_class_id == '0') {
+      $tax_class_method = 0;
+      if (defined('SHIPPING_DEFAULT_TAX_CLASS_METHOD')) {
+        $tax_class_method = constant('SHIPPING_DEFAULT_TAX_CLASS_METHOD');
+      }
+      if ($tax_class_method == 2) return TEXT_AUTO_PROPORTIONAL;
+      if ($tax_class_method == 3) return TEXT_AUTO_MAX;
       return TEXT_NONE;
     } else {
       $classes_query = xtc_db_query("select tax_class_title from ".TABLE_TAX_CLASS." where tax_class_id = '".$tax_class_id."'");
@@ -1927,6 +1913,21 @@ function xtc_output_string($string, $translate = false, $protected = false) {
   }
 
   /**
+   * xtc_cfg_pull_down_default_tax_class_methods()
+   *
+   * @param mixed $parameters
+   * @param string $selected
+   * @return
+   */
+  function xtc_cfg_pull_down_default_tax_class_methods($method_id, $key = '') {
+    $name = (($key) ? 'configuration['.$key.']' : 'configuration_value');
+    $methods_array = array(array("id" => "1", "text" => TEXT_NONE),
+                           array("id" => "2", "text" => TEXT_AUTO_PROPORTIONAL),
+                           array("id" => "3", "text" => TEXT_AUTO_MAX));
+    return xtc_draw_pull_down_menu($name, $methods_array, $method_id);
+  }
+
+  /**
    * xtc_cfg_pull_down_order_statuses()
    *
    * @param mixed $order_status_id
@@ -1960,26 +1961,6 @@ function xtc_output_string($string, $translate = false, $protected = false) {
     return $status['orders_status_name'];
   }
 
-  ////
-  // Return a random value
-  function xtc_rand($min = null, $max = null) {
-    static $seeded;
-
-    if (!$seeded) {
-      mt_srand((double) microtime() * 1000000);
-      $seeded = true;
-    }
-
-    if (isset ($min) && isset ($max)) {
-      if ($min >= $max) {
-        return $min;
-      } else {
-        return mt_rand($min, $max);
-      }
-    } else {
-      return mt_rand();
-    }
-  }
   // nl2br() prior PHP 4.2.0 did not convert linefeeds on all OSs (it only converted \n)
   /**
    * xtc_convert_linefeeds()
@@ -1990,11 +1971,7 @@ function xtc_output_string($string, $translate = false, $protected = false) {
    * @return
    */
   function xtc_convert_linefeeds($from, $to, $string) {
-    if ((PHP_VERSION < "4.0.5") && is_array($from)) {
-      return preg_replace('/('.implode('|', $from).')/', $to, $string); // Hetfield - 2009-08-19 - replaced deprecated function ereg_replace with preg_replace to be ready for PHP >= 5.3
-    } else {
-      return str_replace($from, $to, $string);
-    }
+    return str_replace($from, $to, $string);
   }
 
   // Return all customers statuses for a specified language_id and return an array(array())

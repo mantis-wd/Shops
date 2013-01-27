@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: function.googleanalytics.php 2147 2011-09-01 07:15:14Z dokuman $
+   $Id: function.googleanalytics.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

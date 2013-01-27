@@ -1,16 +1,17 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: specials.php 899 2005-04-29 02:40:57Z hhgag $   
+   $Id: categories_specials.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    --------------------------------------------------------------
    based on: 
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(specials.php,v 1.10 2002/01/31); www.oscommerce.com 
-   (c) 2003	 nextcommerce (specials.php,v 1.4 2003/08/14); www.nextcommerce.org
+   (c) 2003 nextcommerce (specials.php,v 1.4 2003/08/14); www.nextcommerce.org
+   (c) 2006 XT-Commerce
 
    Released under the GNU General Public License 
    --------------------------------------------------------------*/
@@ -29,10 +30,8 @@ define('TEXT_INFO_NEW_PRICE', 'New Price:');
 define('TEXT_INFO_ORIGINAL_PRICE', 'Original Price:');
 define('TEXT_INFO_PERCENTAGE', 'Percentage:');
 define('TEXT_INFO_EXPIRES_DATE', 'Expires At:');
-
+define('TEXT_SPECIALS_SPECIAL_STATUS','Special status active');
 define('TEXT_INFO_HEADING_DELETE_SPECIALS', 'Delete Special');
 define('TEXT_INFO_DELETE_INTRO', 'Are you sure you want to delete the special products price?');
-
-define ('TEXT_SPECIALS_NO_PID', 'The item must first be stored, otherwise the discount can not be applied correctly');
-
+define('TEXT_SPECIALS_NO_PID', 'The item must first be stored, otherwise the discount can not be applied correctly');
 ?>

@@ -28,18 +28,18 @@
  * this file contains code based on:
  * (c) 2000 - 2001 The Exchange Project
  * (c) 2001 - 2003 osCommerce, Open Source E-Commerce Solutions
- * (c) 2003	 nextcommerce (account_history_info.php,v 1.17 2003/08/17); www.nextcommerce.org
+ * (c) 2003 - nextcommerce (account_history_info.php,v 1.17 2003/08/17); www.nextcommerce.org
  * (c) 2003 - 2006 XT-Commerce
  * Released under the GNU General Public License
  ***********************************************************************************
  *
- * $Id: pn_sofortueberweisung.php 304 2010-09-09 15:18:09Z poser $
+ * $Id: pn_sofortueberweisung.php 2547 2011-12-22 11:42:41Z dokuman $
  *
  */
 
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_TITLE', 'sofort&uuml;berweisung.de');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_KS_TEXT_TITLE', 'sofort&uuml;berweisung.de mit K&auml;uferschutz');
-define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION', '<div>' . (MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_STATUS != 'True' ? '<div align = "center"><a class="button" href=' . xtc_href_link(FILENAME_MODULES, 'set=payment&module=pn_sofortueberweisung&action=install&autoinstall=1', 'SSL') . '>Autoinstaller (empfohlen)</a></div><br />' : ''). '<br /><b>sofort&uuml;berweisung.de</b><br>Sobald der Kunde sofort&uuml;berweisung.de ausgew&auml;hlt hat und auf Bestellen klickt, wird eine tempor&auml;re Bestellung angelegt. Ist die Zahlung erfolgreich, wird die Bestellung fest in die Datenbank eingetragen. Bei Abbruch wird die Bestellung r&uuml;ckg&auml;ngig gemacht und die Bestellnummer verworfen, so dass bei der n&auml;chsten Bestellung die Bestellnummer um eins erh&ouml;ht wird.</div>');
+define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION', '<div>' . (defined('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_STATUS') && MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_STATUS != 'True' ? '<div align = "center"><a class="button" href=' . xtc_href_link(FILENAME_MODULES, 'set=payment&module=pn_sofortueberweisung&action=install&autoinstall=1', 'SSL') . '>Autoinstaller (empfohlen)</a></div><br />' : ''). '<br /><b>sofort&uuml;berweisung.de</b><br>Sobald der Kunde sofort&uuml;berweisung.de ausgew&auml;hlt hat und auf Bestellen klickt, wird eine tempor&auml;re Bestellung angelegt. Ist die Zahlung erfolgreich, wird die Bestellung fest in die Datenbank eingetragen. Bei Abbruch wird die Bestellung r&uuml;ckg&auml;ngig gemacht und die Bestellnummer verworfen, so dass bei der n&auml;chsten Bestellung die Bestellnummer um eins erh&ouml;ht wird.</div>');
 
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION_CHECKOUT_PAYMENT_IMAGE', '
      <table border="0" cellspacing="0" cellpadding="0">
@@ -47,10 +47,10 @@ define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION_CHECKOUT_PAYMENT_I
         <td valign="bottom"><a href="https://www.sofortueberweisung.de/funktionsweise" target="_blank">{{image}}</a></td>
       </tr>
       <tr>
-	 <td class="main"><br />%s</td>
+   <td class="main"><br />%s</td>
       </tr>
     </table>');
-	
+  
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION_CHECKOUT_PAYMENT_TEXT', 'Online-&Uuml;berweisung mit T&Uuml;V gepr&uuml;ftem Datenschutz ohne Registrierung. Bitte halten Sie Ihre Online-Banking-Daten (PIN/TAN) bereit.  Dienstleistungen/Waren werden bei Verf&uuml;gbarkeit SOFORT geliefert bzw. versendet!');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_KS_TEXT_DESCRIPTION_CHECKOUT_PAYMENT_TEXT', 'Direkt&uuml;berweisung mit K&auml;uferschutz: Dieser K&auml;uferschutz sichert Ihnen als Kunde bei Nichtlieferung eine Geld-zurück-Garantie zu. sofortüberweisung.de ist T&Uuml;V zertifiziert (Gepr&uuml;fter Datenschutz, Gepr&uuml;ftes Zahlungssystem). Bitte halten Sie Ihre Online-Banking-Daten (PIN/TAN) bereit. Dienstleistungen/Waren werden bei Verf&uuml;gbarkeit SOFORT geliefert bzw. versendet!');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION_CHECKOUT_PAYMENT_IMAGEALT', 'sofort&uuml;berweisung.de ist der kostenlose, T&Uuml;V-zertifizierte Zahlungsdienst der Payment Network AG. Ihre Vorteile: keine zus&auml;tzliche Registrierung, automatische Abbuchung von Ihrem Online-Bankkonto, h&ouml;chste Sicherheitsstandards und sofortiger Versand von Lagerware. F&uuml;r die Bezahlung mit sofort&uuml;berweisung.de ben&ouml;tigen Sie Ihre eBanking Zugangsdaten, d.h. Bankverbindung, Kontonummer, PIN und TAN.');
@@ -70,7 +70,7 @@ define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_HASH_ALGORITHM_TITLE', 'Hash-Algori
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_HASH_ALGORITHM_DESC', 'Der Hash-Algorithmus (unter Erweiterte Einstellungen / Passw&ouml;rter und Hashfunktionen)');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_SORT_ORDER_TITLE', 'Anzeigereihenfolge');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_SORT_ORDER_DESC', 'Reihenfolge der Anzeige. Kleinste Ziffer wird zuerst angezeigt');
-define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_ZONE_TITLE', 'Hash-Algorithmus: '.MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_HASH_ALGORITHM. '<br /><br />Zahlungszone');
+define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_ZONE_TITLE', 'Hash-Algorithmus: '. (defined('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_HASH_ALGORITHM')?MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_HASH_ALGORITHM:''). '<br /><br />Zahlungszone');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_ZONE_DESC', 'Wenn eine Zone ausgew&auml;hlt ist, gilt die Zahlungsmethode nur f&uuml;r diese Zone.');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_CURRENCY_TITLE', 'Transaktionsw&auml;hrung');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_CURRENCY_DESC', 'Empfangende W&auml;hrung laut sofort&uuml;berweisung.de Projekteinstellung');
@@ -91,10 +91,14 @@ define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_REASON_2_DESC', 'Im Verwendung
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_IMAGE_TITLE', 'Zahlungsauswahl Grafik / Text');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_IMAGE_DESC', 'Angezeigte Grafik / Text bei der Auswahl Zahlungsoptionen');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_KS_STATUS_TITLE', 'K&auml;uferschutz aktiviert');
-define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_KS_STATUS_DESC', 'Voraussetzung: Konto bei der <u><a href="http://www.sofort-bank.com" target="_blank">Sofort Bank</a></u> und Aktivierung in Ihren Projekteinstellungen. Bitte unbedingt &uuml;ber <u><a href="https://kaeuferschutz.sofort-bank.com/consumerProtections/index/'.MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_PROJECT_ID.'">diesen Link</a></u> vorher &uuml;berpr&uuml;fen und hier nur aktivieren wenn auch Ihr Projekt daf&uuml;r freigeschaltet wurde und damit verbunden die H&auml;ndlerbedingungen zum K&auml;uferschutz akzeptiert wurden.');
+define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_KS_STATUS_DESC', 'Voraussetzung: Konto bei der <u><a href="http://www.sofort-bank.com" target="_blank">Sofort Bank</a></u> und Aktivierung in Ihren Projekteinstellungen. Bitte unbedingt &uuml;ber <u><a href="https://kaeuferschutz.sofort-bank.com/consumerProtections/index/'.(defined('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_PROJECT_ID')?MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_PROJECT_ID:'').'">diesen Link</a></u> vorher &uuml;berpr&uuml;fen und hier nur aktivieren wenn auch Ihr Projekt daf&uuml;r freigeschaltet wurde und damit verbunden die H&auml;ndlerbedingungen zum K&auml;uferschutz akzeptiert wurden.');
 
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_ERROR_HEADING', 'Folgender Fehler wurde von sofort&uuml;berweisung.de w&auml;hrend des Prozesses gemeldet:');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_ERROR_MESSAGE', 'Zahlung via sofort&uuml;berweisung.de ist leider nicht m&ouml;glich oder wurde auf Kundenwunsch abgebrochen. Bitte w&auml;hlen Sie eine andere Zahlungsweise.');
 
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_INFO', 'Zahlen Sie bequem mit dem zertifizierten und gepr&uuml;ften Online Banking System Sofort&uuml;berweisung');
+
+// Hendrik - 11.08.2010 - exlusion config for shipping modules
+define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_NEG_SHIPPING_TITLE', 'Ausschlu&szlig; bei Versandmodulen');
+define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_NEG_SHIPPING_DESC', 'Dieses Zahlungsmodul deaktivieren wenn Versandmodul gew&auml;hlt (Komma separierte Liste)');
 ?>

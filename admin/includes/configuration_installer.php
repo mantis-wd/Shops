@@ -1,8 +1,7 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: configuration_installer.php 3582 2012-08-31 09:46:45Z web28 $
+   $Id: configuration_installer.php 4349 2013-01-21 18:50:26Z Tomcraft1980 $
    (c) 2012 by www.rpa-com.de
-   modified 1.06
    --------------------------------------------------------------*/
 
 defined('_VALID_XTC') or die('Direct Access to this location is not allowed.');
@@ -22,8 +21,8 @@ $values_group_update = array();
   $values[] = "(NULL, 'CHECKOUT_USE_PRODUCTS_SHORT_DESCRIPTION', 'false', '1', '40', NULL, NOW(), NULL, 'xtc_cfg_select_option(array(\'true\', \'false\'),');";
   $values[] = "(NULL, 'CHECKOUT_SHOW_PRODUCTS_IMAGES', 'true', '1', '41', NULL, NOW(), NULL, 'xtc_cfg_select_option(array(\'true\', \'false\'),');";
   //$values[] = "(NULL, 'CHECKOUT_SHOW_PRODUCTS_IMAGES_STYLE', 'max-width:90px;', '1', '42', NULL, NOW(), NULL, NULL);";
-  //$values[] = "(NULL, 'IBN_BILLNR', '1', '1', '99', NULL, NOW(), NULL, NULL);"; //modified 1.07
-  //$values[] = "(NULL, 'IBN_BILLNR_FORMAT', '{n}-{d}-{m}-{y}', '1', '99', NULL, NOW(), NULL, NULL);"; //modified 1.07
+  $values[] = "(NULL, 'IBN_BILLNR', '1', '1', '99', NULL, NOW(), NULL, NULL);";
+  $values[] = "(NULL, 'IBN_BILLNR_FORMAT', '{n}-{d}-{m}-{y}', '1', '99', NULL, NOW(), NULL, NULL);";
 
 //configuration_group_id 2 --- "Minimum Werte"
 
@@ -37,7 +36,7 @@ $values_group_update = array();
 //configuration_group_id 6 --- "Modul Optionen"
 
 //configuration_group_id 7 --- "Versandoptionen"
-  //$values[] = "(NULL, 'SHIPPING_DEFAULT_TAX_CLASS_METHOD', '1', 7, 7, NULL, NOW(), 'xtc_get_default_tax_class_method_name', 'xtc_cfg_pull_down_default_tax_class_methods(');"; //modified 1.07
+  $values[] = "(NULL, 'SHIPPING_DEFAULT_TAX_CLASS_METHOD', '1', 7, 7, NULL, NOW(), 'xtc_get_default_tax_class_method_name', 'xtc_cfg_pull_down_default_tax_class_methods(');";
 
 //configuration_group_id 8 --- "Artikel Listen Optionen"
   $values[] = "(NULL, 'SHOW_BUTTON_BUY_NOW', 'false', '8', '20', NULL, NOW(), NULL, 'xtc_cfg_select_option(array(\'true\', \'false\'),');";
@@ -80,8 +79,8 @@ $values_group_update = array();
   $values[] = "(NULL, 'AFTERBUY_IGNORE_GROUPE', '', '21', '8', NULL , NOW(), NULL , NULL);";
 
 //configuration_group_id 22 --- "Such-Optionen"
-  //$values[] = "(NULL, 'SEARCH_HIGHLIGHT', 'true', 22, 4, NULL, NOW(), NULL, 'xtc_cfg_select_option(array(\'true\', \'false\'),');";   //modified 1.07
-  //$values[] = "(NULL, 'SEARCH_HIGHLIGHT_STYLE', 'color:#000;background-color:#eee;border:dotted #000 1px;', 22, 5, NULL, NOW(), NULL, NULL);"; //modified 1.07
+  $values[] = "(NULL, 'SEARCH_HIGHLIGHT', 'true', 22, 4, NULL, NOW(), NULL, 'xtc_cfg_select_option(array(\'true\', \'false\'),');";
+  $values[] = "(NULL, 'SEARCH_HIGHLIGHT_STYLE', 'color:#000;background-color:#eee;border:dotted #000 1px;', 22, 5, NULL, NOW(), NULL, NULL);";
 
 //configuration_group_id 23 --- "Econda Tracking"
   $values_group[] = "(23,'Econda Tracking','Econda Tracking System',23,1);";
@@ -133,7 +132,7 @@ $values_group_update = array();
                            'configuration_key' => 'MAX_DISPLAY_ORDER_RESULTS'
                            );
 
-  //configuration_group_id 111125 --- "Paypal"
+//configuration_group_id 111125 --- "Paypal"
 
 //##############################//
 

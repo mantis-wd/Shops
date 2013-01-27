@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: install_step2.php 3072 2012-06-18 15:01:13Z hhacker $
+   $Id: install_step2.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -68,8 +68,6 @@
 
   $db_error = false;
   xtc_db_connect_installer($db['DB_SERVER'], $db['DB_SERVER_USERNAME'], $db['DB_SERVER_PASSWORD']);
-  $sql = 'ALTER DATABASE '.$db['DB_DATABASE'].' DEFAULT CHARACTER SET '.$character_set.' COLLATE '.$collation.";";
-  @mysql_query($sql);
 
   //check MySQL *server* version
   if (!$db_error) {
@@ -90,7 +88,9 @@
     }
   }
   //check db permission
-  if (!$db_error) {    
+  if (!$db_error) {
+    $sql = 'ALTER DATABASE '.$db['DB_DATABASE'].' DEFAULT CHARACTER SET '.$character_set.' COLLATE '.$collation.";";
+    mysql_query($sql);
     xtc_db_test_create_db_permission($db['DB_DATABASE']);
   }
 
@@ -99,7 +99,7 @@
 <html>
   <head>
     <title>modified eCommerce Shopsoftware Installer - STEP 2 / DB Connection</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset;?>" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style type="text/css">
       body { background: #eee; font-family: Arial, sans-serif; font-size: 12px;}
       table,td,div { font-family: Arial, sans-serif; font-size: 12px;}
@@ -137,7 +137,7 @@
           <table width="95%" border="0" cellpadding="0" cellspacing="0">
             <tr>
               <td>
-                <?php
+                <?php                  
                   if ($db_error) {
                 ?>
                 <br />
@@ -188,7 +188,7 @@
                     <td><h1><?php echo TEXT_CONNECTION_SUCCESS; ?></h1></td>
                   </tr>
                 </table>
-                <?php
+                <?php 
                   if($_POST['install_db'] == 1) {
                 ?>
                   <div style="border:1px solid #ccc; background:#fff; padding:10px;">
@@ -203,7 +203,7 @@
                 ?>
                   <div style="border:1px solid #ccc; background:#ff0000; color:#fff; padding:10px;"><?php echo $db_warning; ?></div>
                 <?php
-                  }
+                  }                  
                   if($_POST['install_db'] == 1) {
                      echo '<form name="install" action="install_step3.php" method="post">';
                      $install_db = 1;
@@ -212,21 +212,21 @@
                   }
                   if($_POST['install_cfg'] == 1) {
                     $create_config = 1;
-                  }
+                  }                  
                   echo draw_hidden_fields();
                 ?>
                 <br />
                 <table border="0" width="100%" cellspacing="0" cellpadding="0">
-                  <tr>
+                  <tr>                    
                     <td align="right">
                       <a href="install_step1.php?db=<?php echo $install_db;?>&cfg=<?php echo $create_config;?>"><img src="buttons/<?php echo $lang;?>/button_cancel.gif" border="0" alt="Cancel"></a>
                       <input type="image" src="buttons/<?php echo $lang;?>/button_continue.gif">
-                    </td>
+                    </td>                    
                   </tr>
                 </table>
               </form>
               <?php
-                }
+                }                
               ?>
               </td>
             </tr>

@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: product_attributes.php 3045 2012-06-16 20:06:59Z hhacker $
+   $Id: product_attributes.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -10,7 +10,7 @@
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(product_info.php,v 1.94 2003/05/04); www.oscommerce.com
-   (c) 2003      nextcommerce (product_info.php,v 1.46 2003/08/25); www.nextcommerce.org
+   (c) 2003  nextcommerce (product_info.php,v 1.46 2003/08/25); www.nextcommerce.org
    (c) 2006 xt:Commerce (product_attributes.php 1255 2005-09-28); www.xt-commerce.de
 
    Released under the GNU General Public License
@@ -80,7 +80,7 @@ if ($product->getAttributesCount() > 0) {
                                                             );
       } else {
         if ($products_options['options_values_price'] != '0.00') {
-          $CalculateCurr = ($product->data['products_tax_class_id'] == 0) ? true : false; //FIX several currencies on product attributes
+          $CalculateCurr = ($product->data['products_tax_class_id'] == 0) ? true : false;
           $price = $xtPrice->xtcFormat($products_options['options_values_price'], false, $product->data['products_tax_class_id'],$CalculateCurr);
         }
 
@@ -103,7 +103,7 @@ if ($product->getAttributesCount() > 0) {
                                                             'MODEL' => $products_options['attributes_model'],
                                                             'PRICE' => $xtPrice->xtcFormat($price, true),
                                                             'FULL_PRICE' => $xtPrice->xtcFormat($full, true),
-                                                            'PLAIN_PRICE' => $xtPrice->xtcFormat($price,false),
+                                                            'PLAIN_PRICE' => $xtPrice->xtcFormat($price, false),
                                                             'STOCK' => $products_options['attributes_stock'],
                                                             'SORTORDER' => $products_options['sortorder'],
                                                             'PREFIX' => $products_options['price_prefix']

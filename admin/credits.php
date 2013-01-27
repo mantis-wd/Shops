@@ -19,39 +19,38 @@
 require('includes/application_top.php');
 require (DIR_WS_INCLUDES.'head.php');
 ?>
-    <style type="text/css">
-      #credits {
-        margin: 5px;
-        padding: 0px 20px;
-        background-color: #F7F7F7;
-        font-family: Verdana, Arial, sans-serif;
-        font-size: 12px;
-      }
-      #contentHead dt {
-        float: right;
-      }
-      #contentHead dd {
-        padding-left: 35px;
-      }
-      #credits dl dt {
-        color: #D68000;
-        font-size: 12px;
-        font-weight: bold;
-      }
-      dl#person dt {
-        color: black;
-        font-weight: bold;
-        float: left;
-        font-size: 12px;
-      }
-
-      dl#person dd {
-        margin-left: 90px;
-        font-size: 12px;
-      }
-    </style>
-  </head>
-  <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF">
+  <style type="text/css">
+    #credits {
+      margin: 5px;
+      padding: 0px 20px;
+      background-color: #F7F7F7;
+      font-family: Verdana, Arial, sans-serif;
+      font-size: 12px;
+    }
+    #contentHead dt {
+      float: right;
+    }
+    #contentHead dd {
+      padding-left: 35px;
+    }
+    #credits dl dt {
+      color: #D68000;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    dl#person dt {
+      color: black;
+      font-weight: bold;
+      float: left;
+      font-size: 12px;
+    }
+    dl#person dd {
+      margin-left: 90px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
     <!-- header //-->
     <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
     <!-- header_eof //-->

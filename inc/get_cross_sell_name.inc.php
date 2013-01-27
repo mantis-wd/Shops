@@ -1,12 +1,14 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: get_cross_sell_name.inc.php 1232 2005-09-21 15:29:07Z mz $
+   $Id: get_cross_sell_name.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2005 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
+   based on:
+   (c) 2005 XT-Commerce
 
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/

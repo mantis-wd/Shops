@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: german.php 3569 2012-08-30 15:39:18Z web28 $
+   $Id: german.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -18,7 +18,8 @@
    Third Party contributions:
    Customers Status v3.x (c) 2002-2003 Copyright Elari elari@free.fr | www.unlockgsm.com/dload-osc/ | CVS : http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/elari/?sortby=date#dirlist
 
-   Released under the GNU General Public License 
+   Coding: utf-8[äöüßÄÖÜ]
+   Released under the GNU General Public License
    --------------------------------------------------------------*/
 
 // look in your $PATH_LOCALE/locale directory for available locales..
@@ -26,7 +27,7 @@
 // on FreeBSD 4.0 I use 'de_DE.ISO_8859-1'
 // this may not work under win32 environments..
 
-setlocale(LC_TIME, 'de_DE@euro', 'de_DE', 'de-DE', 'de', 'ge', 'de_DE.ISO_8859-1', 'German','de_DE.ISO_8859-15');
+setlocale(LC_TIME, 'de_DE@euro', 'de_DE', 'de-DE', 'de', 'ge', 'de_DE.ISO_8859-1', 'German', 'de_UFT-8', 'German');
 define('DATE_FORMAT_SHORT', '%d.%m.%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A, %d. %B %Y'); // this is used for strftime()
 define('DATE_FORMAT', 'd.m.Y');  // this is used for strftime()
@@ -158,13 +159,13 @@ define('BOX_GV_ADMIN_MAIL', 'Gutschein E-Mail');
 define('BOX_GV_ADMIN_SENT', 'Gutscheine versandt');
 define('BOX_HEADING_COUPON_ADMIN','Rabatt Coupons');
 define('BOX_COUPON_ADMIN','Coupon Admin');
-define('BOX_TOOLS_BLACKLIST','Kreditkarten-Blacklist');
 define('BOX_IMPORT','Import/Export');
 define('BOX_PRODUCTS_VPE','Verpackungseinheit');
 define('BOX_CAMPAIGNS_REPORT','Kampagnen Report');
 define('BOX_ORDERS_XSELL_GROUP','Cross-Marketing Gruppen');
 define('BOX_REMOVEOLDPICS','Alte Bilder l&ouml;schen'); // Remove old pictures - franky_n - 20110105
 define('BOX_JANOLAW','janolaw AGB Hosting'); // Tomcraft - 2011-06-17 - Added janolaw AGB hosting service
+define('BOX_PARCEL_CARRIERS','Paketdienstleister'); //Dokuman - 2012-11-16 - Track & Trace functionality
 define('BOX_HAENDLERBUND','H&auml;ndlerbund AGB Service'); // Tomcraft - 2012-12-08 - Added haendlerbund AGB interface
 
 define('TXT_GROUPS','<b>Gruppen</b>:');
@@ -176,7 +177,7 @@ define('TXT_TOOLS','Zusatzprogramme');
 define('TEXT_ACCOUNTING','Zugriffseinstellungen f&uuml;r:');
 
 /******* SHOPGATE **********/
-include_once (DIR_FS_CATALOG.'includes/shopgate/base/lang/german/admin/german.php');
+include_once DIR_FS_EXTERNAL.'/shopgate/base/lang/german/admin/german.php';
 /******* SHOPGATE **********/
 
 // javascript messages
@@ -306,9 +307,12 @@ define('TEXT_DISPLAY_NUMBER_OF_TAX_CLASSES', 'Angezeigt werden <b>%d</b> bis <b>
 define('TEXT_DISPLAY_NUMBER_OF_TAX_ZONES', 'Angezeigt werden <b>%d</b> bis <b>%d</b> (von insgesamt <b>%d</b> Steuerzonen)');
 define('TEXT_DISPLAY_NUMBER_OF_TAX_RATES', 'Angezeigt werden <b>%d</b> bis <b>%d</b> (von insgesamt <b>%d</b> Steuers&auml;tzen)');
 define('TEXT_DISPLAY_NUMBER_OF_ZONES', 'Angezeigt werden <b>%d</b> bis <b>%d</b> (von insgesamt <b>%d</b> Bundesl&auml;ndern)');
+define('TEXT_DISPLAY_NUMBER_OF_CARRIERS', 'Angezeigt werden <b>%d</b> bis <b>%d</b> (von insgesamt <b>%d</b> Paketdienstleistern)');
 
+define('PREVNEXT_BUTTON_FIRST', '&lt;&lt;ERSTE');
 define('PREVNEXT_BUTTON_PREV', '&lt;&lt;');
 define('PREVNEXT_BUTTON_NEXT', '&gt;&gt;');
+define('PREVNEXT_BUTTON_LAST', 'LETZTE&gt;&gt;');
 
 define('TEXT_DEFAULT', 'Standard');
 define('TEXT_SET_DEFAULT', 'als Standard definieren');
@@ -473,7 +477,7 @@ define('ASB_QUICK_SEARCH_EMAIL', 'E-Mail Adresse: ');
 //BOF - web28 - 2010.05.30 - accounting - set all checkboxes , countries - set all flags
 define('BUTTON_SET','Alle aktivieren');
 define('BUTTON_UNSET','Alle deaktivieren');
-//EOF - web28 - 2010.05.30 - accounting - set all checkboxes 
+//EOF - web28 - 2010.05.30 - accounting - set all checkboxes
 
 //BOF - DokuMan - 2010-08-12 - added possibility to reset admin statistics
 define('TEXT_ROWS','Zeile');
@@ -485,9 +489,9 @@ define('BUTTON_CLOSE_WINDOW' , 'Fenster schliessen');
 //EOF - web28 - 2010-11-13 - added BUTTON_CLOSE_WINDOW
 
 //BOF - hendrik - 2011-05-14 - independent invoice number and date
-define('ENTRY_INVOICE_NUMBER',  'Rechnungsnummer:'); 
-define('ENTRY_INVOICE_DATE',    'Rechnungdatum:'); 
-//EOF - hendrik - 2011-05-14 - independent invoice number and date  
+define('ENTRY_INVOICE_NUMBER',  'Rechnungsnummer:');
+define('ENTRY_INVOICE_DATE',    'Rechnungdatum:');
+//EOF - hendrik - 2011-05-14 - independent invoice number and date
 
 //BOF - web28 - 2010-07-06 - added missing error text
 define('ENTRY_VAT_ERROR', '&nbsp;<span class="errorText">Ung&uuml;ltge USt-IdNr.</span>');

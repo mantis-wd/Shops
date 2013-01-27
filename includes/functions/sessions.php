@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: sessions.php 3570 2012-08-30 16:15:47Z web28 $
+   $Id: sessions.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -17,7 +17,7 @@
    ---------------------------------------------------------------------------------------*/
 
    define('SESSION_LIFE_ADMIN_DEFAULT', 7200);
-
+   
    @ini_set("session.gc_maxlifetime", 1440);
    @ini_set("session.gc_probability", 100);
 

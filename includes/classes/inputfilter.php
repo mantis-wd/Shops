@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-$Id: inputfilter.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+$Id: inputfilter.php 3333 2012-07-27 10:47:56Z gtb-modified $
 
 modified eCommerce Shopsoftware
 http://www.modified-shop.org
@@ -58,7 +58,7 @@ class Inputfilter {
                 switch($key) {
                   //remove tags
                   case 'search':
-                  case 'search_email':                      
+                  case 'search_email':   
                   case 'searchoption':
                   case 'search_optionsname':
                   case 'product_search':

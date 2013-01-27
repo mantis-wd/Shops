@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: english.php 2721 2012-03-23 20:12:07Z Tomcraft1980 $
+   $Id: english.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -25,8 +25,9 @@
 define('TITLE', STORE_NAME);
 define('HEADER_TITLE_TOP', 'Main page');
 define('HEADER_TITLE_CATALOG', 'Catalogue');
-define('HTML_PARAMS','dir="ltr" xml:lang="en"');
-@setlocale(LC_TIME, 'en_GB@euro', 'en_GB', 'en-GB', 'en', 'en_GB.ISO_8859-1', 'English','en_GB.ISO_8859-15');
+define('HTML_PARAMS','xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr"');
+//@setlocale(LC_TIME, 'en_GB@euro', 'en_GB', 'en-GB', 'en', 'en_GB.UTF-8', 'English');
+@setlocale(LC_TIME, 'en_US.UTF-8', 'en_US@euro', 'en_US', 'en-US', 'en', 'en_US.ISO_8859-1', 'English','en_US.ISO_8859-15');
 
 //BOF - Dokuman - 2009-06-03 - correct english date format
 define('DATE_FORMAT_SHORT', '%d/%m/%Y');  // this is used for strftime()
@@ -34,7 +35,7 @@ define('DATE_FORMAT_LONG', '%A %d %B, %Y'); // this is used for strftime()
 define('DATE_FORMAT', 'd/m/Y');  // this is used for strftime()
 define('DATE_TIME_FORMAT', DATE_FORMAT_SHORT . ' %H:%M:%S');
 define('DOB_FORMAT_STRING', 'dd/mm/jjjj');
- 
+
 function xtc_date_raw($date, $reverse = false) {
   if ($reverse) {
     return substr($date, 3, 2) . substr($date, 0, 2) . substr($date, 6, 4);
@@ -45,7 +46,7 @@ function xtc_date_raw($date, $reverse = false) {
 //EOF - Dokuman - 2009-06-03 - correct english date format
 
 // BOF - vr - 2009-12-11 - Added language dependent currency code
-// if USE_DEFAULT_LANGUAGE_CURRENCY is true, use the following currency when changing language, 
+// if USE_DEFAULT_LANGUAGE_CURRENCY is true, use the following currency when changing language,
 // instead of staying with the applications default currency
 define('LANGUAGE_CURRENCY', 'EUR');
 // EOF - vr - 2009-12-11 - Added language dependent currency code
@@ -73,8 +74,8 @@ define('BOX_MANUFACTURER_INFO_HOMEPAGE', '%s Homepage');
 define('BOX_MANUFACTURER_INFO_OTHER_PRODUCTS', 'More products');
 
 define('BOX_HEADING_ADD_PRODUCT_ID','Add to cart');
-  
-define('BOX_LOGINBOX_STATUS','Customer group:');     
+
+define('BOX_LOGINBOX_STATUS','Customer group:');
 define('BOX_LOGINBOX_DISCOUNT','Product discount');
 define('BOX_LOGINBOX_DISCOUNT_TEXT','Discount');
 define('BOX_LOGINBOX_DISCOUNT_OT','');
@@ -198,9 +199,10 @@ define('IMAGE_BUTTON_UPDATE_CART', 'Update shopping cart');
 define('IMAGE_BUTTON_WRITE_REVIEW', 'Write evaluation');
 define('IMAGE_BUTTON_ADMIN', 'Admin');
 define('IMAGE_BUTTON_PRODUCT_EDIT', 'Edit product');
-// BOF - vr - 2010-02-20 removed double definition 
+define('IMAGE_BUTTON_CONTENT_EDIT', 'Edit content');
+// BOF - vr - 2010-02-20 removed double definition
 // define('IMAGE_BUTTON_LOGIN', 'Login');
-// EOF - vr - 2010-02-20 removed double definition 
+// EOF - vr - 2010-02-20 removed double definition
 define('IMAGE_BUTTON_SEND', 'Send'); //DokuMan - 2010-03-15 - Added button description for contact form
 define('IMAGE_BUTTON_CONTINUE_SHOPPING', 'Continue shopping'); //Hendrik - 2010-11-12 - used in default template ...shopping_cart.html
 
@@ -246,8 +248,8 @@ define('TEXT_UNKNOWN_TAX_RATE', 'Unknown tax rate');
  *
  */
 
-define('WARNING_INSTALL_DIRECTORY_EXISTS', 'Warning: The installation directory is still available on: %s. Please delete this directory for security reasons!');
-define('WARNING_CONFIG_FILE_WRITEABLE', 'Warning: The modified eCommerce Shopsoftware is able to write to the configuration directory: %s. That represents a possible safety hazard - please correct the user access rights for this directory!');
+define('WARNING_INSTALL_DIRECTORY_EXISTS', 'Warning: The installation directory is still available on: ' . dirname($_SERVER['SCRIPT_FILENAME']) . '/_installer. Please delete this directory for security reasons!');
+define('WARNING_CONFIG_FILE_WRITEABLE', 'Warning: The modified eCommerce Shopsoftware is able to write to the configuration directory: ' . dirname($_SERVER['SCRIPT_FILENAME']) . '/includes/configure.php. That represents a possible safety hazard - please correct the user access rights for this directory!');
 define('WARNING_SESSION_DIRECTORY_NON_EXISTENT', 'Warning: Directory for sesssions doesn&acute;t exist: ' . xtc_session_save_path() . '. Sessions will not work until this directory has been created!');
 define('WARNING_SESSION_DIRECTORY_NOT_WRITEABLE', 'Warning: The modified eCommerce Shopsoftware is not able to write into the session directory: ' . xtc_session_save_path() . '. Sessions will not work until the user access rights for this directory have been changed!');
 define('WARNING_SESSION_AUTO_START', 'Warning: session.auto_start is activated (enabled) - Please deactivate (disable) this PHP feature in php.ini and restart your web server!');
@@ -273,6 +275,7 @@ define('SUB_TITLE_OT_DISCOUNT','Discount:');
 
 define('TAX_ADD_TAX','incl. ');
 define('TAX_NO_TAX','plus ');
+define('TAX_SHORT_DISPLAY',' VAT '); //DokuMan - 2010-09-28 - display VAT description multilingually
 
 define('NOT_ALLOWED_TO_SEE_PRICES','You do not have the permission to see the prices ');
 define('NOT_ALLOWED_TO_SEE_PRICES_TEXT','You do not have the permission to see the prices, please create an account.');
@@ -432,9 +435,9 @@ define('ERROR_INVALID_FINISDATE_COUPON','Your voucher is already expired.');
 define('PERSONAL_MESSAGE', '%s writes:');
 
 //Popup Window
-// BOF - DokuMan - 2010-02-25 removed double definition 
+// BOF - DokuMan - 2010-02-25 removed double definition
 //define('TEXT_CLOSE_WINDOW', 'Close window.');
-// EOF - DokuMan - 2010-02-25 removed double definition 
+// EOF - DokuMan - 2010-02-25 removed double definition
 
 /*
  *
@@ -466,16 +469,16 @@ define('YOUR_PRICE','your price ');
 // BOF - Tomcraft - 2009-10-09 - Added text-constant for unit price
 define('UNIT_PRICE','unit price ');
 // EOF - Tomcraft - 2009-10-09 - Added text-constant for unit price
-define('ONLY',' Now only ');// DokuMan - Werbung mit durchgestrichenen Statt-Preisen ist zulässig
+define('ONLY',' Now only ');// DokuMan - Werbung mit durchgestrichenen Statt-Preisen ist zulÃ¤ssig
 define('FROM','from ');
 define('YOU_SAVE','you save ');
-define('INSTEAD','Our previous price ');// DokuMan - Werbung mit durchgestrichenen Statt-Preisen ist zulässig
+define('INSTEAD','Our previous price ');// DokuMan - Werbung mit durchgestrichenen Statt-Preisen ist zulÃ¤ssig
 define('TXT_PER',' per ');
 define('TAX_INFO_INCL','%s VAT incl.');
 define('TAX_INFO_EXCL','%s VAT excl.');
 define('TAX_INFO_ADD','%s VAT plus.');
 define('SHIPPING_EXCL','excl.');
-define('SHIPPING_COSTS','Shipping costs'); 
+define('SHIPPING_COSTS','Shipping costs');
 
 // changes 3.0.4 SP2
 define('SHIPPING_TIME','Shipping time: ');
@@ -490,14 +493,36 @@ define('_MODULE_UNDEFINED_SHIPPING_RATE', 'Shipping costs cannot be calculated a
 
 //Dokuman - 2009-08-21 - Added 'delete account' functionality for customers
 define('NAVBAR_TITLE_1_ACCOUNT_DELETE', 'Your account');
-define('NAVBAR_TITLE_2_ACCOUNT_DELETE', 'Delete account');	
+define('NAVBAR_TITLE_2_ACCOUNT_DELETE', 'Delete account');
 
-//contact-form error messages
+//contact-form messages
 define('ERROR_EMAIL','<p><b>Your e-mail address:</b> None or invalid input!</p>');
 define('ERROR_VVCODE','<p><b>Security code:</b> No match, please enter your security code again!</p>');
 define('ERROR_MSG_BODY','<p><b>Your message:</b> No input!</p>');
+// BOF - DokuMan - 2010-09-06 - combined contact form messages in one language file
+define('EMAIL_COMPANY', 'Company: ');
+define('EMAIL_STREET', 'Street: ');
+define('EMAIL_POSTCODE', 'Postcode: ');
+define('EMAIL_CITY', 'City: ');
+define('EMAIL_PHONE', 'Telephone: ');
+define('EMAIL_FAX', 'Fax: ');
+define('EMAIL_SENT_BY', 'Sent by %s %s at %s to %s clock');
+define('EMAIL_NOTIFY', 'Attention, this e-mail can NOT be answered with -ANSWER THE SENDER-!');
+define('EMAIL_NAME', 'Name: ');
+define('EMAIL_EMAIL', 'E-mail: ');
+define('EMAIL_MESSAGE', 'Message: ');
+// EOF - DokuMan - 2010-09-06 - combined contact form messages in one language file
 
-// BOF - web28 - 2010-05-07 - PayPal API Modul
+// BOF - DokuMan - 2010-09-06 - combined checkout_confirmation messages in one language file
+//Table Header checkout_confirmation.php
+define('HEADER_QTY', 'Number');
+define('HEADER_ARTICLE', 'Item');
+define('HEADER_MODEL', 'Product model');
+define('HEADER_SINGLE', 'Single price');
+define('HEADER_TOTAL','Total');
+// EOF - DokuMan - 2010-09-06 - combined checkout_confirmation messages in one language file
+
+// BOF - Tomcraft - 2009-10-03 - Paypal Express Modul
 define('NAVBAR_TITLE_PAYPAL_CHECKOUT','PayPal-Checkout');
 define('PAYPAL_ERROR','PayPal abort');
 define('PAYPAL_NOT_AVIABLE','PayPal Express is not available.<br />Please select another method of payment<br />or try again later.<br />');
@@ -514,10 +539,10 @@ define('PAYPAL_EXP_VERS','12.90');
 define('PAYPAL_ADRESSE','The country in your PayPal dispatch address is not registered in our shop.<br />Please contact us.<br />Thanks for you understanding.<br />From PayPal received country: ');
 // 17.09.11
 define('PAYPAL_AMMOUNT_NULL','The order sum which can be expected (without dispatch) is directly 0.<br />Thus PayPal express is not available.<br />Please select another payment means.<br />Thanks for your understanding.<br />');
-// EOF - web28 - 2010-05-07 - PayPal API Modul
+// EOF - Tomcraft - 2009-10-03 - Paypal Express Modul
 
 define('BASICPRICE_VPE_TEXT','in this volume only '); // Hetfield - 2009-11-26 - Added language definition for vpe at graduated prices
-//web - 2010-07-11 - Preisanzeige bei Staffelpreisen (größte Staffel)
+//web - 2010-07-11 - Preisanzeige bei Staffelpreisen (grÃ¶ÃŸte Staffel)
 define('GRADUATED_PRICE_MAX_VALUE', 'from');
 
 // BOF - DokuMan - 2011-09-20 - E-Mail SQL errors
@@ -525,5 +550,5 @@ define('ERROR_SQL_DB_QUERY','We are sorry, but an database error has occurred so
 define('ERROR_SQL_DB_QUERY_REDIRECT','You will be redirected back to our home page in %s seconds!');
 // EOF - DokuMan - 2011-09-20 - E-Mail SQL errors
 
-define('TEXT_AGB_CHECKOUT','Please take note of our General Terms & Conditions %s and Cancellation Policy %s');
+define('TEXT_AGB_CHECKOUT','Please take note of our general terms & conditions %s,<br/>as well as our cancellation policy %s');
 ?>

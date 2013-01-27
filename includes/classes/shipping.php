@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: shipping.php 2807 2012-04-29 18:11:28Z web28 $
+   $Id: shipping.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -96,7 +96,7 @@
           }
         }
 
-         for ($i=0, $size = sizeof($include_quotes); $i<$size; $i++) {
+        for ($i=0, $size = sizeof($include_quotes); $i<$size; $i++) {
           $quotes = $GLOBALS[$include_quotes[$i]]->quote($method);
           // BOF - Tomcraft - 2011-02-01 - Paypal Express Modul
           // if (is_array($quotes)) $quotes_array[] = $quotes;
@@ -122,7 +122,7 @@
           $class = substr($value, 0, strrpos($value, '.'));
           if (isset($GLOBALS[$class]) && $GLOBALS[$class]->enabled) {
             $quotes = $GLOBALS[$class]->quotes;
-           //BOF - Dokuman - 2009-10-02 - set undefined index
+            //BOF - Dokuman - 2009-10-02 - set undefined index
             //$size = sizeof($quotes['methods']);
             $size = isset($quotes['methods']) && is_array($quotes['methods']) ? sizeof($quotes['methods']) : 0;
             //BOF - Dokuman - 2009-10-02 - set undefined index

@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: configuration.php 3130 2012-06-28 11:17:12Z Tomcraft1980 $
+   $Id: configuration.php 4318 2013-01-14 14:33:39Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -10,7 +10,7 @@
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce(configuration.php,v 1.8 2002/01/04); www.oscommerce.com
-   (c) 2003	 nextcommerce (configuration.php,v 1.16 2003/08/25); www.nextcommerce.org
+   (c) 2003 nextcommerce (configuration.php,v 1.16 2003/08/25); www.nextcommerce.org
    (c) 2006 XT-Commerce
 
    Released under the GNU General Public License
@@ -145,11 +145,11 @@ define('MAX_DISPLAY_MANUFACTURER_NAME_LEN_DESC' , 'In der Hersteller Box; Maximu
 define('MAX_DISPLAY_NEW_REVIEWS_TITLE' , 'Neue Bewertungen');
 define('MAX_DISPLAY_NEW_REVIEWS_DESC' , 'Maximum Anzahl an neuen Bewertungen die angezeigt werden sollen');
 define('MAX_RANDOM_SELECT_REVIEWS_TITLE' , 'Auswahlpool der Bewertungen');
-define('MAX_RANDOM_SELECT_REVIEWS_DESC' , 'Aus wieviel Bewertungen sollen die zuf&auml;llig angezeigten Bewertungen in der Box ausgew&auml;hlt werden?');
+define('MAX_RANDOM_SELECT_REVIEWS_DESC' , 'Aus wie viel Bewertungen sollen die zuf&auml;llig angezeigten Bewertungen in der Box ausgew&auml;hlt werden?');
 define('MAX_RANDOM_SELECT_NEW_TITLE' , 'Auswahlpool der Neuen Artikel');
-define('MAX_RANDOM_SELECT_NEW_DESC' , 'Aus wieviel neuen Artikeln sollen die zuf&auml;llig angezeigten neuen Artikel in der Box ausgew&auml;hlt werden?');
+define('MAX_RANDOM_SELECT_NEW_DESC' , 'Aus wie viel neuen Artikeln sollen die zuf&auml;llig angezeigten neuen Artikel in der Box ausgew&auml;hlt werden?');
 define('MAX_RANDOM_SELECT_SPECIALS_TITLE' , 'Auswahlpool der Sonderangebote');
-define('MAX_RANDOM_SELECT_SPECIALS_DESC' , 'Aus wieviel Sonderangeboten sollen die zuf&auml;llig angezeigten Sonderangebote in der Box ausgew&auml;hlt werden?');
+define('MAX_RANDOM_SELECT_SPECIALS_DESC' , 'Aus wie viel Sonderangeboten sollen die zuf&auml;llig angezeigten Sonderangebote in der Box ausgew&auml;hlt werden?');
 define('MAX_DISPLAY_CATEGORIES_PER_ROW_TITLE' , 'Anzahl an Warengruppen');
 define('MAX_DISPLAY_CATEGORIES_PER_ROW_DESC' , 'Anzahl an Warengruppen die pro Zeile in den &Uuml;bersichten angezeigt werden sollen.');
 define('MAX_DISPLAY_PRODUCTS_NEW_TITLE' , 'Neue Artikel Liste');
@@ -600,8 +600,14 @@ define('AFTERBUY_IGNORE_GROUPE_DESC', 'welche Kundengruppen sollen ignoiert werd
 // Search-Options
 define('SEARCH_IN_DESC_TITLE','Suche in Produktbeschreibungen');
 define('SEARCH_IN_DESC_DESC','Aktivieren um die Suche in den Produktbeschreibungen (Kurz + Lang) zu erm&ouml;glichen');
-define('SEARCH_IN_ATTR_TITLE','Suche in Produkt- Attributen');
+define('SEARCH_IN_ATTR_TITLE','Suche in Produkt-Attributen');
 define('SEARCH_IN_ATTR_DESC','Aktivieren um die Suche in den Produktattributen (z.B. Farbe, L&auml;nge) zu erm&ouml;glichen');
+# BOF - h-h-h - 2011-04-13 - Highlight Search Terms
+define('SEARCH_HIGHLIGHT_TITLE','Hervorheben von Suchbegriffen');
+define('SEARCH_HIGHLIGHT_DESC','Aktivieren um die Suchebegriffe in den Ergebnissen hervorzuheben');
+define('SEARCH_HIGHLIGHT_STYLE_TITLE','Gestaltung der Hervorhebungen');
+define('SEARCH_HIGHLIGHT_STYLE_DESC','CSS f&uuml;r die Suchergebnis-Hervorhebungen (z.B. Schriftfarbe, Hintergrundfarbe, Rahmen, usw.)');
+# EOF - h-h-h - 2011-04-13 - Highlight Search Terms
 
 // changes for 3.0.4 SP2
 define('REVOCATION_ID_TITLE','Widerrufsrecht ID');

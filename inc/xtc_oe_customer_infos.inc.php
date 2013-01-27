@@ -9,9 +9,8 @@
    -----------------------------------------------------------------------------------------
    based on:
    (c) 2003	 nextcommerce (xtc_get_products_price.inc.php,v 1.13 2003/08/20); www.nextcommerce.org
-   (c) 2003 XT-Commerce
    
-   Released under the GNU General Public License
+   Released under the GNU General Public License 
    -----------------------------------------------------------------------------------------
    Third Party contribution:
 

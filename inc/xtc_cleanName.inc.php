@@ -1,15 +1,14 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_cleanName.inc.php 1319 2005-10-23 10:35:15Z mz $
+   $Id: xtc_cleanName.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
 
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
-
 
  function xtc_cleanName($name) {
  	$search_array=array('ä','Ä','ö','Ö','ü','Ü','ß','&auml;','&Auml;','&ouml;','&Ouml;','&uuml;','&Uuml;','&szlig;');
@@ -20,5 +19,4 @@
      $name=preg_replace($replace_param,'-',$name);    
      return $name;
  }
-
 ?>

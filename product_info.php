@@ -29,16 +29,16 @@ $smarty = new Smarty;
 
 // redirect
 if (!isset($_GET['products_id']) && !isset($_GET['info']) && !isset($_GET['action'])) {
-  xtc_redirect(xtc_href_link(FILENAME_DEFAULT, '', 'NONSSL'));
+    xtc_redirect(xtc_href_link(FILENAME_DEFAULT, '', 'NONSSL'));
 }
 
 /* web28 -2013-01-07 - comment out because cPath is allready set in includes/application_top.php or includes/modules/set_ids_by_url_parameters.php
 if (isset($_GET['products_id'])) {
-	$cat = xtc_db_query("SELECT categories_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE products_id='".(int) $_GET['products_id']."'");
-	$catData = xtc_db_fetch_array($cat);
-	require_once (DIR_FS_INC.'xtc_get_path.inc.php');
-	if ($catData['categories_id'])
-		$cPath = xtc_input_validation(xtc_get_path($catData['categories_id']), 'cPath', '');
+  $cat = xtc_db_query("SELECT categories_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE products_id='".(int) $_GET['products_id']."'");
+  $catData = xtc_db_fetch_array($cat);
+  require_once (DIR_FS_INC.'xtc_get_path.inc.php');
+  if ($catData['categories_id'])
+    $cPath = xtc_input_validation(xtc_get_path($catData['categories_id']), 'cPath', '');
 }
 */
 
@@ -55,7 +55,7 @@ require_once (DIR_FS_INC.'xtc_draw_input_field.inc.php');
 require_once (DIR_FS_INC.'xtc_image_submit.inc.php');
 
 if (isset($_GET['action']) && $_GET['action'] == 'get_download') {
-	xtc_get_download((int)$_GET['cID']); 
+  xtc_get_download((int)$_GET['cID']);
 }
 
 include (DIR_WS_MODULES.'product_info.php');
@@ -65,7 +65,7 @@ require (DIR_WS_INCLUDES.'header.php');
 $smarty->assign('language', $_SESSION['language']);
 $smarty->caching = 0;
 if (!defined('RM'))
-	$smarty->load_filter('output', 'note');
+  $smarty->load_filter('output', 'note');
 $smarty->display(CURRENT_TEMPLATE.'/index.html');
 
 include ('includes/application_bottom.php');

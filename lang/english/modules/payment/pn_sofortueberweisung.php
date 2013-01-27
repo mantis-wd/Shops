@@ -28,18 +28,18 @@
  * this file contains code based on:
  * (c) 2000 - 2001 The Exchange Project
  * (c) 2001 - 2003 osCommerce, Open Source E-Commerce Solutions
- * (c) 2003	 nextcommerce (account_history_info.php,v 1.17 2003/08/17); www.nextcommerce.org
+ * (c) 2003 - nextcommerce (account_history_info.php,v 1.17 2003/08/17); www.nextcommerce.org
  * (c) 2003 - 2006 XT-Commerce
  * Released under the GNU General Public License
  ***********************************************************************************
  *
- * $Id: pn_sofortueberweisung.php 304 2010-09-09 15:18:09Z poser $
+ * $Id: pn_sofortueberweisung.php 2547 2011-12-22 11:42:41Z dokuman $
  *
  */
 
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_TITLE', 'DIRECTebanking.com');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_KS_TEXT_TITLE', 'DIRECTebanking.com with customer protection');
-define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION', '<div align="center">' . (MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_STATUS != 'True' ? '<a class="button" href=' . xtc_href_link(FILENAME_MODULES, 'set=payment&module=pn_sofortueberweisung&action=install&autoinstall=1', 'SSL') . '>Autoinstaller (empfohlen)</a><br />' : ''). '<br /><b>DIRECTebanking.com</b></div>');
+define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION', '<div align="center">' . (defined('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_STATUS') && MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_STATUS != 'True' ? '<a class="button" href=' . xtc_href_link(FILENAME_MODULES, 'set=payment&module=pn_sofortueberweisung&action=install&autoinstall=1', 'SSL') . '>Autoinstaller (empfohlen)</a><br />' : ''). '<br /><b>DIRECTebanking.com</b></div>');
 
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION_CHECKOUT_PAYMENT_IMAGE', '
      <table border="0" cellspacing="0" cellpadding="0">
@@ -47,10 +47,10 @@ define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION_CHECKOUT_PAYMENT_I
         <td valign="bottom"><a href="https://www.sofortueberweisung.de/funktionsweise" target="_blank">{{image}}</a></td>
       </tr>
       <tr>
-	 <td class="main"><br />%s</td>
+   <td class="main"><br />%s</td>
       </tr>
     </table>');
-	
+  
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION_CHECKOUT_PAYMENT_TEXT', 'DIRECTebanking.com is the free, ISO certified online payment system of the Payment Network AG. Your advantages: no additional registration, automatic debiting from your online bank account, highest safety standards and immediate shipping of stock goods. In order to pay with DIRECTebanking.com you need your eBanking login data, that is bank connection, account number, PIN and TAN.');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_KS_TEXT_DESCRIPTION_CHECKOUT_PAYMENT_TEXT', 'DIRECTebanking.com is the free, ISO certified online payment system of the Payment Network AG. Your advantages: customer protection, no additional registration, automatic debiting from your online bank account, highest safety standards and immediate shipping of stock goods. In order to pay with DIRECTebanking.com you need your eBanking login data, that is bank connection, account number, PIN and TAN.');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_DESCRIPTION_CHECKOUT_PAYMENT_IMAGEALT', 'DIRECTebanking.com is the free, ISO certified online payment system of the Payment Network AG. Your advantages: no additional registration, automatic debiting from your online bank account, highest safety standards and immediate shipping of stock goods. In order to pay with DIRECTebanking.com you need your eBanking login data, that is bank connection, account number, PIN and TAN.');
@@ -71,7 +71,7 @@ define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_HASH_ALGORITHM_TITLE', 'Hashing alg
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_HASH_ALGORITHM_DESC', 'The hashing algorithm (extended settings / passwords and hash algorithms)');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_SORT_ORDER_TITLE' , 'Sequence of display');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_SORT_ORDER_DESC' , 'Sequence of display. Lowest number is shown first.');
-define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_ZONE_TITLE', 'Hashing algorithm: '.MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_HASH_ALGORITHM. '<br /><br />Payment zone');
+define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_ZONE_TITLE', 'Hashing algorithm: '.(defined('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_HASH_ALGORITHM')?MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_HASH_ALGORITHM:''). '<br /><br />Payment zone');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_ZONE_TITLE' , 'Payment zone');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_ZONE_DESC' , 'If a zone is selected, the payment method is only valid for this zone.');
 
@@ -86,7 +86,7 @@ define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_RECEIVED_STATUS_ID_DESC', 'Order st
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_LOSS_STATUS_ID_TITLE', 'Order status following no receipt of the money');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_LOSS_STATUS_ID_DESC', 'Order status when no money was credited to your Sofort Bank account');
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_KS_STATUS_TITLE', 'Customer protection acitvated');
-define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_KS_STATUS_DESC', 'You need a bank account with <u><a href="http://www.sofort-bank.com" target="_blank">Sofort Bank</a></u> and customer protection must be enabled in your project settings. Please check with <u><a href="https://kaeuferschutz.sofort-bank.com/consumerProtections/index/'.MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_PROJECT_ID.'">this link</a></u> if customer protection is activated and enabled before enabling it here.');
+define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_KS_STATUS_DESC', 'You need a bank account with <u><a href="http://www.sofort-bank.com" target="_blank">Sofort Bank</a></u> and customer protection must be enabled in your project settings. Please check with <u><a href="https://kaeuferschutz.sofort-bank.com/consumerProtections/index/'.(defined('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_PROJECT_ID')?MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_PROJECT_ID:'').'">this link</a></u> if customer protection is activated and enabled before enabling it here.');
 
 
 
@@ -101,4 +101,9 @@ define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_ERROR_HEADING', 'The following
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_ERROR_MESSAGE', 'Payment via DIRECTebanking.com is unfortunately not possible or has been cancelled by the customer. Please select another payment method.');
 
 define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_TEXT_INFO', 'Pay easy with the certified and verified online banking system Sofort&uuml;berweisung');
+
+// Hendrik - 11.08.2010 - exlusion config for shipping modules
+define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_NEG_SHIPPING_TITLE', 'Exclusion in case of shipping');
+define('MODULE_PAYMENT_PN_SOFORTUEBERWEISUNG_NEG_SHIPPING_DESC', 'deactivate this payment if one of these shippingtypes are selected (list separated by comma)');
+
 ?>

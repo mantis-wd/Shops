@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: gv_send.php 1793 2011-02-10 13:32:53Z Tomcraft1980 $
+   $Id: gv_send.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -28,13 +28,14 @@
 
 require ('includes/application_top.php');
 
-if (ACTIVATE_GIFT_SYSTEM != 'true')
-  xtc_redirect(FILENAME_DEFAULT);
+if (ACTIVATE_GIFT_SYSTEM != 'true') xtc_redirect(FILENAME_DEFAULT);
 
 require ('includes/classes/http_client.php');
 require_once (DIR_FS_INC.'xtc_validate_email.inc.php');
 
 $smarty = new Smarty;
+$smarty->caching = false; //DokuMan - 2012-10-30 - avoid Smarty caching in order to display the correct data, if caching is enabled in shop backend
+
 // include boxes
 require (DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/source/boxes.php');
 
@@ -59,9 +60,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'send') {
   $gv_query = xtc_db_query("select amount from ".TABLE_COUPON_GV_CUSTOMER." where customer_id = '".$_SESSION['customer_id']."'");
   $gv_result = xtc_db_fetch_array($gv_query);
   $customer_amount = $gv_result['amount'];
-  $gv_amount = trim(str_replace(",", ".", $_POST['amount']));  
-  if (preg_match('/[^0-9\.]/', $gv_amount) && trim($gv_amount) != '') { // web28 - 2011-08-19 - Bugfix send amount
-  //if (preg_match('/[^0-9/.]/', $gv_amount)) { // Hetfield - 2009-08-19 - replaced deprecated function ereg with preg_match to be ready for PHP >= 5.3  
+  $gv_amount = trim(str_replace(",", ".", $_POST['amount']));
+  // BOF - GTB - 2010-08-10 - Bugfix send amount
+  if (preg_match('/[^0-9\.]/', $gv_amount) && trim($gv_amount) != '') { // web28 - 2011-08-19 - Bugfix send amount //DokuMan - 2011-11-18 - from SP1b
+  //if (preg_match('/[^0-9/.]/', $gv_amount)) { // Hetfield - 2009-08-19 - replaced deprecated function ereg with preg_match to be ready for PHP >= 5.3
+  // EOF - GTB - 2010-08-10 - Bugfix send amount
     $error = true;
     //BOF - Dokuman - 2010-10-28 - use messageStack to display error messages
     //$error_amount = ERROR_ENTRY_AMOUNT_CHECK;
@@ -100,7 +103,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'process') {
     $gv_email_subject = sprintf(EMAIL_GV_TEXT_SUBJECT, stripslashes($_POST['send_name']));
 
     $smarty->assign('language', $_SESSION['language']);
-    $smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');    
+    //BOF - GTB - 2010-08-03 - Security Fix - Base
+    $smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
+    //$smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+    //EOF - GTB - 2010-08-03 - Security Fix - Base
     $smarty->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/img/');
     $smarty->assign('GIFT_LINK', xtc_href_link(FILENAME_GV_REDEEM, 'gv_no='.$id1, 'NONSSL', false));
     $smarty->assign('AMMOUNT', $xtPrice->xtcFormat(str_replace(",", ".", $_POST['amount']), true));

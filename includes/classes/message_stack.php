@@ -1,16 +1,17 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: message_stack.php 799 2005-02-23 18:08:06Z novalis $   
+   $Id: message_stack.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    -----------------------------------------------------------------------------------------
-   based on: 
+   based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-   (c) 2002-2003 osCommerce(message_stack.php,v 1.1 2003/05/19); www.oscommerce.com 
-   (c) 2003	 nextcommerce (message_stack.php,v 1.9 2003/08/13); www.nextcommerce.org
+   (c) 2002-2003 osCommerce(message_stack.php,v 1.1 2003/05/19); www.oscommerce.com
+   (c) 2003 nextcommerce (message_stack.php,v 1.9 2003/08/13); www.nextcommerce.org
+   (c) 2006 XT-Commerce (message_stack.php 799 2005-02-23)
 
    Released under the GNU General Public License
    Example usage:
@@ -27,7 +28,12 @@
       $this->messages = array();
 
       if (isset($_SESSION['messageToStack'])) {
-        for ($i=0, $n=sizeof($_SESSION['messageToStack']); $i<$n; $i++) {
+        //BOF - DokuMan - 2011-12-19 - precount for performance
+        //for ($i=0, $n=sizeof($_SESSION['messageToStack']); $i<$n; $i++) {
+        $n=sizeof($_SESSION['messageToStack']);
+        for ($i=0; $i<$n; $i++) {
+        //EOF - DokuMan - 2011-12-19 - precount for performance
+          if (isset($_SESSION['messageToStack'][$i]['class'])) //DokuMan - 2010-08-31 - set undefined index
           $this->add($_SESSION['messageToStack'][$i]['class'], $_SESSION['messageToStack'][$i]['text'], $_SESSION['messageToStack'][$i]['type']);
         }
         unset($_SESSION['messageToStack']);
@@ -64,7 +70,11 @@
       $this->table_data_parameters = 'class="messageBox"';
 
       $output = array();
-      for ($i=0, $n=sizeof($this->messages); $i<$n; $i++) {
+      //BOF - DokuMan - 2011-12-19 - precount for performance
+      //for ($i=0, $n=sizeof($this->messages); $i<$n; $i++) {
+      $n=sizeof($this->messages);
+      for ($i=0; $i<$n; $i++) {
+      //EOF - DokuMan - 2011-12-19 - precount for performance
         if ($this->messages[$i]['class'] == $class) {
           $output[] = $this->messages[$i];
         }
@@ -76,7 +86,11 @@
     function size($class) {
       $count = 0;
 
-      for ($i=0, $n=sizeof($this->messages); $i<$n; $i++) {
+      //BOF - DokuMan - 2011-12-19 - precount for performance
+      //for ($i=0, $n=sizeof($this->messages); $i<$n; $i++) {
+      $n=sizeof($this->messages);
+      for ($i=0; $i<$n; $i++) {
+      //EOF - DokuMan - 2011-12-19 - precount for performance
         if ($this->messages[$i]['class'] == $class) {
           $count++;
         }

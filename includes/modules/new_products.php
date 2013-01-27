@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: new_products.php 1571 2010-12-10 12:38:05Z dokuman $
+   $Id: new_products.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -22,9 +22,10 @@
    ---------------------------------------------------------------------------------------*/
 
 $module_smarty = new Smarty;
-
-$module_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
-
+//BOF - GTB - 2010-08-03 - Security Fix - Base
+$module_smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
+//$module_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+//EOF - GTB - 2010-08-03 - Security Fix - Base
 
 //fsk18 lock
 $fsk_lock = '';
@@ -38,40 +39,36 @@ if (GROUP_CHECK == 'true') {
 }
 
 if ((!isset ($new_products_category_id)) || ($new_products_category_id == '0')) {
-
-    $new_products_query = "SELECT * FROM
-                         ".TABLE_PRODUCTS." p,
-                         ".TABLE_PRODUCTS_DESCRIPTION." pd
-                         WHERE p.products_id = pd.products_id
-                         and p.products_startpage = '1'
-                         ".$group_check."
-                         ".$fsk_lock."
-                         and p.products_status = '1'
-                         and pd.language_id = '".(int) $_SESSION['languages_id']."'
-                         order by p.products_startpage_sort ASC
-                         limit ".MAX_DISPLAY_NEW_PRODUCTS;
+  $new_products_query = "SELECT * FROM ".TABLE_PRODUCTS." p,
+                                       ".TABLE_PRODUCTS_DESCRIPTION." pd
+                                 WHERE p.products_id = pd.products_id
+                                   AND p.products_startpage = '1'
+                                       ".$group_check."
+                                       ".$fsk_lock."
+                                   AND p.products_status = '1'
+                                   AND pd.language_id = '".(int) $_SESSION['languages_id']."'
+                              ORDER BY p.products_startpage_sort ASC
+                                 LIMIT ".MAX_DISPLAY_NEW_PRODUCTS;
 } else {
-
   if (MAX_DISPLAY_NEW_PRODUCTS_DAYS != '0') {
     $date_new_products = date("Y.m.d", mktime(1, 1, 1, date("m"), date("d") - MAX_DISPLAY_NEW_PRODUCTS_DAYS, date("Y")));
     $days = " and p.products_date_added > '".$date_new_products."' ";
   }
-  $new_products_query = "SELECT * FROM
-                         ".TABLE_PRODUCTS." p,
-                         ".TABLE_PRODUCTS_DESCRIPTION." pd,
-                         ".TABLE_PRODUCTS_TO_CATEGORIES." p2c,
-                         ".TABLE_CATEGORIES." c
-                         where c.categories_status='1'
-                         and p.products_id = p2c.products_id
-                         and p.products_id = pd.products_id
-                         and p2c.categories_id = c.categories_id
-                         ".$group_check."
-                         ".$fsk_lock."
-                         and c.parent_id = '".$new_products_category_id."'
-                         and p.products_status = '1'
-                         and pd.language_id = '".(int) $_SESSION['languages_id']."'
-                         order by p.products_date_added DESC
-                         limit ".MAX_DISPLAY_NEW_PRODUCTS;
+  $new_products_query = "SELECT * FROM ".TABLE_PRODUCTS." p,
+                                       ".TABLE_PRODUCTS_DESCRIPTION." pd,
+                                       ".TABLE_PRODUCTS_TO_CATEGORIES." p2c,
+                                       ".TABLE_CATEGORIES." c
+                                 WHERE c.categories_status='1'
+                                   AND p.products_id = p2c.products_id
+                                   AND p.products_id = pd.products_id
+                                   AND p2c.categories_id = c.categories_id
+                                       ".$group_check."
+                                       ".$fsk_lock."
+                                   AND c.parent_id = '".$new_products_category_id."'
+                                   AND p.products_status = '1'
+                                   AND pd.language_id = '".(int) $_SESSION['languages_id']."'
+                              ORDER BY p.products_date_added DESC
+                                 LIMIT ".MAX_DISPLAY_NEW_PRODUCTS;
 }
 $row = 0;
 $module_content = array ();
@@ -93,7 +90,7 @@ if (sizeof($module_content) >= 1) {
   $module_smarty->assign('module_content', $module_content);
 
   // set cache ID
-   if (!CacheCheck()) {
+  if (!CacheCheck()) {
     $module_smarty->caching = 0;
     if ((!isset ($new_products_category_id)) || ($new_products_category_id == '0')) {
       $module = $module_smarty->fetch(CURRENT_TEMPLATE.'/module/new_products_default.html');

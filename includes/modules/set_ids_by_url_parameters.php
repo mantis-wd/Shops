@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: set_ids_by_url_parameters.php 3851 2012-11-06 10:33:23Z web28 $
+   $Id: set_ids_by_url_parameters.php 3952 2012-11-15 00:20:51Z Tomcraft1980 $
 
    Modified - community made shopping
    http://www.modified-shop.org
@@ -11,7 +11,7 @@
    ---------------------------------------------------------------------------------------*/
 
 // product URLS
-if (isset ($_GET['info'])) {
+if (isset($_GET['info'])) {
   $site = explode('_', $_GET['info']);
   $pID = $site[0];
   $actual_products_id = (int) str_replace('p', '', $pID);
@@ -24,14 +24,14 @@ if (!isset($product) || !is_object($product)) {
   $product = new product();
 }
 // category URLS
-if (isset ($_GET['cat'])) {
+if (isset($_GET['cat'])) {
   $site = explode('_', $_GET['cat']);
   $cID = $site[0];
   $cID = str_replace('c', '', $cID);
   $_GET['cPath'] = xtc_get_category_path($cID);
 }
 // manufacturer URLS
-if (isset ($_GET['manu'])) {
+if (isset($_GET['manu'])) {
   $site = explode('_', $_GET['manu']);
   $mID = $site[0];
   $mID = (int)str_replace('m', '', $mID);
@@ -39,9 +39,9 @@ if (isset ($_GET['manu'])) {
 }
 
 // calculate category path
-if (isset ($_GET['cPath'])) {
+if (isset($_GET['cPath'])) {
   $cPath = $_GET['cPath'] = xtc_input_validation($_GET['cPath'], 'cPath', '');
-} elseif (is_object($product) && !isset ($_GET['manufacturers_id'])) {
+} elseif (is_object($product) && !isset($_GET['manufacturers_id'])) {
   if ($product->isProduct()) {
     $cPath = xtc_get_product_path($actual_products_id);
   } else {

@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: german.php 2751 2012-04-12 13:28:06Z Tomcraft1980 $
+   $Id: german.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -12,22 +12,23 @@
    (c) 2002-2003 osCommerce(german.php,v 1.119 2003/05/19); www.oscommerce.com
    (c) 2003 nextcommerce (german.php,v 1.25 2003/08/25); www.nextcommerce.org
    (c) 2006 XT-Commerce
-   
-   Released under the GNU General Public License 
+
+   Coding: utf-8[äöüßÄÖÜ]
+   Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
 
 /*
- * 
+ *
  *  DATE / TIME
- * 
+ *
  */
- 
-define('TITLE', STORE_NAME);
-define('HEADER_TITLE_TOP', 'Startseite');    
-define('HEADER_TITLE_CATALOG', 'Katalog');
-define('HTML_PARAMS','dir="ltr" xml:lang="de"');
-@setlocale(LC_TIME, 'de_DE@euro', 'de_DE', 'de-DE', 'de', 'ge', 'de_DE.ISO_8859-1', 'German','de_DE.ISO_8859-15');
 
+define('TITLE', STORE_NAME);
+define('HEADER_TITLE_TOP', 'Startseite');
+define('HEADER_TITLE_CATALOG', 'Katalog');
+define('HTML_PARAMS','xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de" dir="ltr"');
+//@setlocale(LC_TIME, 'de_DE@euro', 'de_DE', 'de-DE', 'de', 'ge', 'de_DE.UTF-8', 'German');
+@setlocale(LC_TIME, 'de_DE.UTF-8' ,'de_DE@euro', 'de_DE', 'de-DE', 'de', 'ge', 'de_DE.ISO_8859-1', 'German','de_DE.ISO_8859-15');
 
 define('DATE_FORMAT_SHORT', '%d.%m.%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A, %d. %B %Y'); // this is used for strftime()
@@ -45,7 +46,7 @@ function xtc_date_raw($date, $reverse = false) {
 
 
 // BOF - vr - 2009-12-11 - Added language dependent currency code
-// if USE_DEFAULT_LANGUAGE_CURRENCY is true, use the following currency when changing language, 
+// if USE_DEFAULT_LANGUAGE_CURRENCY is true, use the following currency when changing language,
 // instead of staying with the applications default currency
 define('LANGUAGE_CURRENCY', 'EUR');
 // EOF - vr - 2009-12-11 - Added language dependent currency code
@@ -54,9 +55,9 @@ define('MALE', 'Herr');
 define('FEMALE', 'Frau');
 
 /*
- * 
+ *
  *  BOXES
- * 
+ *
  */
 
 // text for gift voucher redeeming
@@ -73,7 +74,7 @@ define('BOX_MANUFACTURER_INFO_HOMEPAGE', '%s Homepage');
 define('BOX_MANUFACTURER_INFO_OTHER_PRODUCTS', 'Mehr Artikel');
 
 define('BOX_HEADING_ADD_PRODUCT_ID','In den Korb legen');
-  
+
 define('BOX_LOGINBOX_STATUS','Kundengruppe: ');
 define('BOX_LOGINBOX_DISCOUNT','Artikelrabatt');
 define('BOX_LOGINBOX_DISCOUNT_TEXT','Rabatt');
@@ -97,9 +98,9 @@ define('JS_ERROR_SUBMITTED', 'Diese Seite wurde bereits best&auml;tigt. Klicken 
 define('ERROR_NO_PAYMENT_MODULE_SELECTED', '* Bitte w&auml;hlen Sie eine Zahlungsweise f&uuml;r Ihre Bestellung.');
 
 /*
- * 
+ *
  * ACCOUNT FORMS
- * 
+ *
  */
 
 define('ENTRY_COMPANY_ERROR', '');
@@ -144,11 +145,11 @@ define('ENTRY_PASSWORD_NEW_ERROR', 'Ihr neues Passwort muss aus mindestens ' . E
 define('ENTRY_PASSWORD_NEW_ERROR_NOT_MATCHING', 'Ihre Passw&ouml;rter stimmen nicht &uuml;berein.');
 
 /*
- * 
+ *
  *  RESULT PAGES
- * 
+ *
  */
- 
+
 define('TEXT_RESULT_PAGE', 'Seiten:');
 define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS', 'Zeige <strong>%d</strong> bis <strong>%d</strong> (von insgesamt <strong>%d</strong> Artikeln)');
 define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Zeige <strong>%d</strong> bis <strong>%d</strong> (von insgesamt <strong>%d</strong> Bestellungen)');
@@ -157,9 +158,9 @@ define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS_NEW', 'Zeige <strong>%d</strong> bis <st
 define('TEXT_DISPLAY_NUMBER_OF_SPECIALS', 'Zeige <strong>%d</strong> bis <strong>%d</strong> (von insgesamt <strong>%d</strong> Angeboten)');
 
 /*
- * 
+ *
  * SITE NAVIGATION
- * 
+ *
  */
 
 define('PREVNEXT_TITLE_PREVIOUS_PAGE', 'vorherige Seite');
@@ -169,18 +170,18 @@ define('PREVNEXT_TITLE_PREV_SET_OF_NO_PAGE', 'Vorhergehende %d Seiten');
 define('PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE', 'N&auml;chste %d Seiten');
 
 /*
- * 
+ *
  * PRODUCT NAVIGATION
- * 
+ *
  */
 
 define('PREVNEXT_BUTTON_PREV', '[&lt;&lt;&nbsp;vorherige]');
 define('PREVNEXT_BUTTON_NEXT', '[n&auml;chste&nbsp;&gt;&gt;]');
 
 /*
- * 
+ *
  * IMAGE BUTTONS
- * 
+ *
  */
 
 define('IMAGE_BUTTON_ADD_ADDRESS', 'Neue Adresse');
@@ -196,11 +197,12 @@ define('IMAGE_BUTTON_SEARCH', 'Suchen');
 define('IMAGE_BUTTON_UPDATE', 'Aktualisieren');
 define('IMAGE_BUTTON_UPDATE_CART', 'Warenkorb aktualisieren');
 define('IMAGE_BUTTON_WRITE_REVIEW', 'Bewertung schreiben');
-define('IMAGE_BUTTON_ADMIN', 'Admin'); 
+define('IMAGE_BUTTON_ADMIN', 'Admin');
 define('IMAGE_BUTTON_PRODUCT_EDIT', 'Produkt bearbeiten');
-// BOF - vr - 2010-02-20 removed double definition 
+define('IMAGE_BUTTON_CONTENT_EDIT', 'Inhalt bearbeiten');
+// BOF - vr - 2010-02-20 removed double definition
 // define('IMAGE_BUTTON_LOGIN', 'Anmelden');
-// EOF - vr - 2010-02-20 removed double definition 
+// EOF - vr - 2010-02-20 removed double definition
 define('IMAGE_BUTTON_SEND', 'Absenden'); //DokuMan - 2010-03-15 - Added button description for contact form
 define('IMAGE_BUTTON_CONTINUE_SHOPPING', 'Einkauf Fortsetzen'); //Hendrik - 2010-11-12 - used in default template ...shopping_cart.html
 
@@ -217,9 +219,9 @@ define('ICON_ERROR', 'Fehler');
 define('TEXT_PRINT', 'drucken'); //DokuMan - 2009-05-26 - Added description for 'account_history_info.php'
 
 /*
- * 
+ *
  *  GREETINGS
- * 
+ *
  */
 
 define('TEXT_GREETING_PERSONAL', 'Sch&ouml;n, dass Sie wieder da sind, <span class="greetUser">%s!</span> M&ouml;chten Sie sich unsere <a style="text-decoration:underline;" href="%s">neuen Artikel</a> ansehen?');
@@ -241,13 +243,13 @@ define('TEXT_NO_NEW_PRODUCTS', 'Keine neuen Artikel in den letzten '.MAX_DISPLAY
 define('TEXT_UNKNOWN_TAX_RATE', 'Unbekannter Steuersatz');
 
 /*
- * 
+ *
  * WARNINGS
- * 
+ *
  */
 
-define('WARNING_INSTALL_DIRECTORY_EXISTS', 'Warnung: Das Installationverzeichnis ist noch vorhanden auf: %s. Bitte l&ouml;schen Sie das Verzeichnis aus Gr&uuml;nden der Sicherheit!');
-define('WARNING_CONFIG_FILE_WRITEABLE', 'Warnung: Die modified eCommerce Shopsoftware kann in die Konfigurationsdatei schreiben: %s. Das stellt ein m&ouml;gliches Sicherheitsrisiko dar - bitte korrigieren Sie die Benutzerberechtigungen zu dieser Datei!');
+define('WARNING_INSTALL_DIRECTORY_EXISTS', 'Warnung: Das Installationverzeichnis ist noch vorhanden auf: ' . dirname($_SERVER['SCRIPT_FILENAME']) . '/_installer. Bitte l&ouml;schen Sie das Verzeichnis aus Gr&uuml;nden der Sicherheit!');
+define('WARNING_CONFIG_FILE_WRITEABLE', 'Warnung: Die modified eCommerce Shopsoftware kann in die Konfigurationsdatei schreiben: ' . dirname($_SERVER['SCRIPT_FILENAME']) . '/includes/configure.php. Das stellt ein m&ouml;gliches Sicherheitsrisiko dar - bitte korrigieren Sie die Benutzerberechtigungen zu dieser Datei!');
 define('WARNING_SESSION_DIRECTORY_NON_EXISTENT', 'Warnung: Das Verzeichnis f&uuml;r die Sessions existiert nicht: ' . xtc_session_save_path() . '. Die Sessions werden nicht funktionieren bis das Verzeichnis erstellt wurde!');
 define('WARNING_SESSION_DIRECTORY_NOT_WRITEABLE', 'Warnung: Die modified eCommerce Shopsoftware kann nicht in das Sessions Verzeichnis schreiben: ' . xtc_session_save_path() . '. Die Sessions werden nicht funktionieren bis die richtigen Benutzerberechtigungen gesetzt wurden!');
 define('WARNING_SESSION_AUTO_START', 'Warnung: session.auto_start ist aktiviert (enabled) - Bitte deaktivieren (disabled) Sie dieses PHP Feature in der php.ini und starten Sie den WEB-Server neu!');
@@ -267,12 +269,13 @@ define('ERROR_CHECKOUT_SHIPPING_NO_MODULE', 'Es ist keine Versandart vorhanden.'
 
 //  conditions check
 
-define('ERROR_CONDITIONS_NOT_ACCEPTED', '* Sofern Sie unsere Allgemeinen Gesch&auml;ftsbedingungen nicht akzeptieren,\n k&ouml;nnen wir Ihre Bestellung bedauerlicherweise nicht entgegennehmen!\n\n');
+define('ERROR_CONDITIONS_NOT_ACCEPTED', '* Sofern Sie unsere Allgemeinen Geschäftsbedingungen nicht akzeptieren,\n können wir Ihre Bestellung bedauerlicherweise nicht entgegennehmen!\n\n');
 
 define('SUB_TITLE_OT_DISCOUNT','Rabatt:');
 
 define('TAX_ADD_TAX','inkl. ');
 define('TAX_NO_TAX','zzgl. ');
+define('TAX_SHORT_DISPLAY',' MwSt. '); //DokuMan - 2010-09-28 - display VAT description multilingually
 
 define('NOT_ALLOWED_TO_SEE_PRICES','Sie k&ouml;nnen als Gast (bzw. mit Ihrem derzeitigen Status) keine Preise sehen');
 define('NOT_ALLOWED_TO_SEE_PRICES_TEXT','Sie haben keine Erlaubnis, Preise zu sehen. Erstellen Sie bitte ein Kundenkonto.');
@@ -286,9 +289,9 @@ define('TEXT_GUEST',' Gast');
 define('TEXT_SEARCH_ENGINE_AGENT','Suchmaschine');
 
 /*
- * 
+ *
  * ADVANCED SEARCH
- * 
+ *
  */
 
 define('TEXT_ALL_CATEGORIES', 'Alle Kategorien');
@@ -323,24 +326,24 @@ define('MAXIMUM_ORDER_VALUE_REACHED_2', '&uuml;berschritten.<br /> Bitte reduzie
 define('ERROR_INVALID_PRODUCT', 'Der von Ihnen gew&auml;hlte Artikel wurde nicht gefunden!');
 
 /*
- * 
+ *
  * NAVBAR TITLE
- * 
+ *
  */
 
-define('NAVBAR_TITLE_ACCOUNT', 'Ihr Konto');
-define('NAVBAR_TITLE_1_ACCOUNT_EDIT', 'Ihr Konto');
+define('NAVBAR_TITLE_ACCOUNT', 'Mein Konto');
+define('NAVBAR_TITLE_1_ACCOUNT_EDIT', 'Mein Konto');
 define('NAVBAR_TITLE_2_ACCOUNT_EDIT', 'Ihre pers&ouml;nliche Daten &auml;ndern');
-define('NAVBAR_TITLE_1_ACCOUNT_HISTORY', 'Ihr Konto');
+define('NAVBAR_TITLE_1_ACCOUNT_HISTORY', 'Mein Konto');
 define('NAVBAR_TITLE_2_ACCOUNT_HISTORY', 'Ihre get&auml;tigten Bestellungen');
-define('NAVBAR_TITLE_1_ACCOUNT_HISTORY_INFO', 'Ihr Konto');
+define('NAVBAR_TITLE_1_ACCOUNT_HISTORY_INFO', 'Mein Konto');
 define('NAVBAR_TITLE_2_ACCOUNT_HISTORY_INFO', 'Get&auml;tigte Bestellung');
 define('NAVBAR_TITLE_3_ACCOUNT_HISTORY_INFO', 'Bestellnummer %s');
-define('NAVBAR_TITLE_1_ACCOUNT_PASSWORD', 'Ihr Konto');
+define('NAVBAR_TITLE_1_ACCOUNT_PASSWORD', 'Mein Konto');
 define('NAVBAR_TITLE_2_ACCOUNT_PASSWORD', 'Passwort &auml;ndern');
-define('NAVBAR_TITLE_1_ADDRESS_BOOK', 'Ihr Konto');
+define('NAVBAR_TITLE_1_ADDRESS_BOOK', 'Mein Konto');
 define('NAVBAR_TITLE_2_ADDRESS_BOOK', 'Adressbuch');
-define('NAVBAR_TITLE_1_ADDRESS_BOOK_PROCESS', 'Ihr Konto');
+define('NAVBAR_TITLE_1_ADDRESS_BOOK_PROCESS', 'Mein Konto');
 define('NAVBAR_TITLE_2_ADDRESS_BOOK_PROCESS', 'Adressbuch');
 define('NAVBAR_TITLE_ADD_ENTRY_ADDRESS_BOOK_PROCESS', 'Neuer Eintrag');
 define('NAVBAR_TITLE_MODIFY_ENTRY_ADDRESS_BOOK_PROCESS', 'Eintrag &auml;ndern');
@@ -382,9 +385,9 @@ define('NAVBAR_GV_REDEEM', 'Gutschein einl&ouml;sen');
 define('NAVBAR_GV_SEND', 'Gutschein versenden');
 
 /*
- * 
+ *
  *  MISC
- * 
+ *
  */
 
 define('TEXT_NEWSLETTER','Sie m&ouml;chten immer auf dem Laufenden bleiben?<br />Kein Problem, tragen Sie sich in unseren Newsletter ein und Sie sind immer auf dem neuesten Stand.');
@@ -404,12 +407,12 @@ define('TEXT_CUSTOMER_GUEST',' Gast');
 
 define('TEXT_LINK_MAIL_SENDED','Ihre Anfrage nach einem neuen Passwort muss von Ihnen erst best&auml;tigt werden.<br />Deshalb wurde Ihnen vom System eine E-Mail mit einem Best&auml;tigungslink geschickt. Bitte klicken Sie nach Erhalt der E-Mail auf den mitgeschickten Link, um eine weitere E-Mail mit Ihrem neuen Anmelde-Passwort zu erhalten. Andernfalls wird Ihnen das neue Passwort nicht zugestellt oder eingerichtet!');
 define('TEXT_PASSWORD_MAIL_SENDED','Eine E-Mail mit einem neuen Anmelde-Passwort wurde Ihnen soeben zugestellt.<br />Bitte &auml;ndern Sie nach Ihrer n&auml;chsten Anmeldung Ihr Passwort wie gew&uuml;nscht.');
-define('TEXT_CODE_ERROR','Bitte geben Sie Ihre E-Mail-Adresse und den Sicherheitscode erneut ein. <br />Achten Sie dabei auf Tippfehler!');
-define('TEXT_EMAIL_ERROR','Bitte geben Sie Ihre E-Mail-Adresse und den Sicherheitscode erneut ein. <br />Achten Sie dabei auf Tippfehler!');
+define('TEXT_CODE_ERROR','Bitte geben Sie den Sicherheitscode erneut ein.<br />Achten Sie dabei auf Tippfehler!');
+define('TEXT_EMAIL_ERROR','Diese E-Mail Adresse ist bei uns nicht registriert.<br />Achten Sie dabei auf Tippfehler!');
 define('TEXT_NO_ACCOUNT','Leider m&uuml;ssen wir Ihnen mitteilen, dass Ihre Anfrage f&uuml;r ein neues Anmelde-Passwort entweder ung&uuml;ltig war oder abgelaufen ist.<br />Bitte versuchen Sie es erneut.');
 define('HEADING_PASSWORD_FORGOTTEN','Passwort vergessen?');
 define('TEXT_PASSWORD_FORGOTTEN','&Auml;ndern Sie Ihr Passwort in drei leichten Schritten.');
-define('TEXT_EMAIL_PASSWORD_FORGOTTEN','Best�tigungs-E-Mail f�r Passwort�nderung'); // � und � f�r korrekte E-Mail Betreffszeile lassen!
+define('TEXT_EMAIL_PASSWORD_FORGOTTEN','Bestätigungs-E-Mail für Passwortänderung'); // ä und ü für korrekte E-Mail Betreffszeile lassen!
 define('TEXT_EMAIL_PASSWORD_NEW_PASSWORD','Ihr neues Passwort');
 define('ERROR_MAIL','Bitte &uuml;berpr&uuml;fen Sie Ihre eingegebenen Daten im Formular');
 
@@ -432,16 +435,16 @@ define('ERROR_INVALID_FINISDATE_COUPON','Ihr Coupon ist bereits abgelaufen.');
 define('PERSONAL_MESSAGE', '%s schreibt:');
 
 //Popup Window
-// BOF - DokuMan - 2010-02-25 removed double definition 
+// BOF - DokuMan - 2010-02-25 removed double definition
 //define('TEXT_CLOSE_WINDOW', 'Fenster schliessen.');
-// EOF - DokuMan - 2010-02-25 removed double definition 
+// EOF - DokuMan - 2010-02-25 removed double definition
 
 /*
- * 
+ *
  *  COUPON POPUP
- * 
+ *
  */
- 
+
 define('TEXT_CLOSE_WINDOW', 'Fenster schliessen [x]');
 define('TEXT_COUPON_HELP_HEADER', 'Ihr Gutschein/Coupon wurde erfolgreich verbucht.');
 define('TEXT_COUPON_HELP_NAME', '<br /><br />Gutschein-/Couponbezeichnung: %s');
@@ -466,10 +469,10 @@ define('YOUR_PRICE','Ihr Preis ');
 // BOF - Tomcraft - 2009-10-09 - Added text-constant for unit price
 define('UNIT_PRICE','St&uuml;ckpreis ');
 // EOF - Tomcraft - 2009-10-09 - Added text-constant for unit price
-define('ONLY',' Jetzt nur ');// DokuMan - Werbung mit durchgestrichenen Statt-Preisen ist zul�ssig
+define('ONLY',' Jetzt nur ');// DokuMan - Werbung mit durchgestrichenen Statt-Preisen ist zulässig
 define('FROM','Ab ');
 define('YOU_SAVE','Sie sparen ');
-define('INSTEAD','Unser bisheriger Preis ');// DokuMan - Werbung mit durchgestrichenen Statt-Preisen ist zul�ssig
+define('INSTEAD','Unser bisheriger Preis ');// DokuMan - Werbung mit durchgestrichenen Statt-Preisen ist zulässig
 define('TXT_PER',' pro ');
 define('TAX_INFO_INCL','inkl. %s MwSt.');
 define('TAX_INFO_EXCL','exkl. %s MwSt.');
@@ -489,15 +492,37 @@ define('_MODULE_INVALID_SHIPPING_ZONE', 'Es ist leider kein Versand in dieses La
 define('_MODULE_UNDEFINED_SHIPPING_RATE', 'Die Versandkosten k&ouml;nnen im Moment nicht errechnet werden');
 
 //Dokuman - 2009-08-21 - Added 'delete account' functionality for customers
-define('NAVBAR_TITLE_1_ACCOUNT_DELETE', 'Ihr Konto');
+define('NAVBAR_TITLE_1_ACCOUNT_DELETE', 'Mein Konto');
 define('NAVBAR_TITLE_2_ACCOUNT_DELETE', 'Konto l&ouml;schen');
-	
-//contact-form error messages
+
+//contact-form messages
 define('ERROR_EMAIL','<p><b>Ihre E-Mail-Adresse:</b> Keine oder ung&uuml;ltige Eingabe!</p>');
 define('ERROR_VVCODE','<p><b>Sicherheitscode:</b> Keine &Uuml;bereinstimmung, bitte geben Sie den Sicherheitscode erneut ein!</p>');
-define('ERROR_MSG_BODY','<p><b>Ihre Nachricht:</b> Keine Eingabe!</p>');	
+// BOF - DokuMan - 2010-09-06 - combined contact form messages in one language file
+define('ERROR_MSG_BODY','<p><b>Ihre Nachricht:</b> Keine Eingabe!</p>');
+define('EMAIL_COMPANY', 'Firma: ');
+define('EMAIL_STREET', 'Strasse: ');
+define('EMAIL_POSTCODE', 'PLZ: ');
+define('EMAIL_CITY', 'Stadt: ');
+define('EMAIL_PHONE', 'Telefon: ');
+define('EMAIL_FAX', 'Fax: ');
+define('EMAIL_SENT_BY', '&Uuml;bermittelt von %s %s am %s um %s Uhr');
+define('EMAIL_NOTIFY', 'ACHTUNG, diese E-Mail kann NICHT mit -ABSENDER ANTWORTEN- beantwortet werden!');
+define('EMAIL_NAME', 'Name: ');
+define('EMAIL_EMAIL', 'Email: ');
+define('EMAIL_MESSAGE', 'Nachricht: ');
+// EOF - DokuMan - 2010-09-06 - combined contact form messages in one language file
 
-// BOF - web28 - 2010-05-07 - PayPal API Modul
+// BOF - DokuMan - 2010-09-06 - combined checkout_confirmation messages in one language file
+//Table Header checkout_confirmation.php
+define('HEADER_QTY', 'Anzahl');
+define('HEADER_ARTICLE', 'Artikel');
+define('HEADER_MODEL', 'Artikelnummer');
+define('HEADER_SINGLE', 'Einzelpreis');
+define('HEADER_TOTAL','Summe');
+// EOF - DokuMan - 2010-09-06 - combined checkout_confirmation messages in one language file
+
+// BOF - Tomcraft - 2009-10-03 - Paypal Express Modul
 define('NAVBAR_TITLE_PAYPAL_CHECKOUT','PayPal-Checkout');
 define('PAYPAL_ERROR','PayPal Abbruch');
 define('PAYPAL_NOT_AVIABLE','PayPal Express steht zur Zeit leider nicht zur Verf&uuml;gung.<br />Bitte w&auml;hlen Sie eine andere Zahlungsart<br />oder versuchen Sie es sp&auml;ter noch einmal.<br />Danke f&uuml;r Ihr Verst&auml;ndnis.<br />');
@@ -514,18 +539,173 @@ define('PAYPAL_EXP_VERS','6.90');
 define('PAYPAL_ADRESSE','Das Land in Ihrer PayPal-Versand-Adresse ist in unserem Shop nicht eingetragen.<br />Bitte nehmen Sie mit uns Kontakt auf.<br />Danke f&uuml;r Ihr Verst&auml;ndnis.<br />Von PayPal empfangenes Land: ');
 // 17.09.11
 define('PAYPAL_AMMOUNT_NULL','Die zu erwartende Auftrags-Summe (ohne Versand) ist gleich 0.<br />Dadurch steht PayPal Express nicht zur Verf&uuml;gung.<br />Bitte w&auml;hlen Sie eine andere Zahlungsart.<br />Danke f&uuml;r Ihr Verst&auml;ndnis.<br />');
-// EOF - web28 - 2010-05-07 - PayPal API Modul
+// EOF - Tomcraft - 2009-10-03 - Paypal Express Modul
+
 define('BASICPRICE_VPE_TEXT','bei dieser Menge nur '); // Hetfield - 2009-11-26 - Added language definition for vpe at graduated prices
-//web - 2010-07-11 - Preisanzeige bei Staffelpreisen (gr��te Staffel)
+//web - 2010-07-11 - Preisanzeige bei Staffelpreisen (größte Staffel)
 define('GRADUATED_PRICE_MAX_VALUE', 'ab');
 
-//web28 - 2010-08-20 - VERSANDKOSTEN WARENKORB
-define('_SHIPPING_TO', 'Versand nach ');
 
+// bof - hendrik 2011-07-17 - translations in current language
+// countries[ID of country in database] = name of country in this language if different from english name in database
+// you need only any entry if the name of this country in this language is different from english name (in database)
+$countries_names[2] = 'Albanien';
+$countries_names[3] = 'Algerien';
+$countries_names[4] = 'Amerikanisch Samoa';
+$countries_names[8] = 'Antarktika';
+$countries_names[9] = 'Antigua und Barbuda';
+$countries_names[10] = 'Argentinien';
+$countries_names[11] = 'Armenien';
+$countries_names[13] = 'Australien';
+$countries_names[14] = '&Ouml;sterreich';
+$countries_names[15] = 'Aserbaidschan';
+$countries_names[18] = 'Bangladesch';
+$countries_names[20] = 'Wei&szlig;russland';
+$countries_names[21] = 'Belgien';
+$countries_names[26] = 'Bolivien';
+$countries_names[27] = 'Bosnien und Herzegowina';
+$countries_names[29] = 'Bouvetinsel';
+$countries_names[30] = 'Brasilien';
+$countries_names[31] = 'Britisches Territorium im Indischen Ozean';
+$countries_names[32] = 'Sultanat Brunei';
+$countries_names[33] = 'Bulgarien';
+$countries_names[36] = 'Kambodscha';
+$countries_names[37] = 'Kamerun';
+$countries_names[38] = 'Kanada';
+$countries_names[39] = 'Cap Verde';
+$countries_names[40] = 'Kaimaninseln';
+$countries_names[41] = 'Zentralafrikanische Republik';
+$countries_names[42] = 'Tschad';
+$countries_names[44] = 'China';
+$countries_names[45] = 'Weihnachtsinsel';
+$countries_names[46] = 'Kokos-(Keeling) Inseln ';
+$countries_names[47] = 'Kolumbien';
+$countries_names[48] = 'Komoren';
+$countries_names[49] = 'Kongo';
+$countries_names[50] = 'Cookinseln';
+$countries_names[52] = 'Elfenbeink&uuml;ste';
+$countries_names[53] = 'Kroatien';
+$countries_names[54] = 'Kuba';
+$countries_names[55] = 'Zypern';
+$countries_names[56] = 'Tschechische Republik';
+$countries_names[57] = 'D&auml;nemark';
+$countries_names[58] = 'Dschibuti';
+$countries_names[60] = 'Dominikanische Republik';
+$countries_names[61] = 'Osttimor';
+$countries_names[63] = '&Auml;gypten';
+$countries_names[65] = '&Auml;quatorialguinea';
+$countries_names[66] = 'Eritrea';
+$countries_names[67] = 'Estland';
+$countries_names[68] = '&Auml;thiopien ';
+$countries_names[69] = 'Falklandinseln (Malvinen)';
+$countries_names[70] = 'F&auml;r&ouml;er-Inseln';
+$countries_names[71] = 'Fidschi';
+$countries_names[72] = 'Finnland';
+$countries_names[73] = 'Frankreich';
+$countries_names[74] = 'Metropolitan-Frankreich';
+$countries_names[75] = 'Franz&ouml;sisch Guiana';
+$countries_names[76] = 'Franz&ouml;sisch Polynesien';
+$countries_names[77] = 'Franz&ouml;sischen S&uuml;d- und Antarktisgebiete';
+$countries_names[80] = 'Georgien';
+$countries_names[81] = 'Deutschland';
+$countries_names[84] = 'Griechenland';
+$countries_names[85] = 'Gr&ouml;nland';
+$countries_names[91] = 'Guinea-Bissau';
+$countries_names[94] = 'Heard und McDonaldinseln';
+$countries_names[97] = 'Ungarn';
+$countries_names[98] = 'Island';
+$countries_names[99] = 'Indien';
+$countries_names[100] = 'Indonesien';
+$countries_names[101] = 'Iran (Islamische Republik)';
+$countries_names[102] = 'Irak';
+$countries_names[103] = 'Irland';
+$countries_names[105] = 'Italien';
+$countries_names[106] = 'Jamaika';
+$countries_names[108] = 'Jordanien';
+$countries_names[109] = 'Kasachstan';
+$countries_names[110] = 'Kenia';
+$countries_names[112] = 'Korea, Demokratische Voksrepublik';
+$countries_names[113] = 'Korea, Republik';
+$countries_names[115] = 'Kirgisistan';
+$countries_names[116] = 'Laos';
+$countries_names[117] = 'Lettland';
+$countries_names[118] = 'Libanon';
+$countries_names[121] = 'Libyen';
+$countries_names[123] = 'Litauen';
+$countries_names[124] = 'Luxemburg';
+$countries_names[125] = 'Macao';
+$countries_names[126] = 'Mazedonien, Ehemalige Jugoslawische Republik';
+$countries_names[127] = 'Madagaskar';
+$countries_names[130] = 'Malediven';
+$countries_names[133] = 'Marshallinseln';
+$countries_names[135] = 'Mauretanien';
+$countries_names[139] = 'Mikronesien, F&ouml;derierte Staaten von';
+$countries_names[140] = 'Moldawien, Republik';
+$countries_names[141] = 'Monako';
+$countries_names[142] = 'Mongolei';
+$countries_names[144] = 'Marokko';
+$countries_names[145] = 'Mosambik';
+$countries_names[146] = 'Myanmar (Birma)';
+$countries_names[150] = 'Niederlande';
+$countries_names[151] = 'Niederl&auml;ndische Antillen';
+$countries_names[152] = 'Neukaledonien';
+$countries_names[153] = 'Neuseeland';
+$countries_names[158] = 'Norfolkinsel';
+$countries_names[159] = 'N&ouml;rdliche Marianen';
+$countries_names[160] = 'Norwegen';
+$countries_names[165] = 'Papua-Neuguinea';
+$countries_names[168] = 'Philippinen';
+$countries_names[170] = 'Polen';
+$countries_names[173] = 'Katar, Emirat';
+$countries_names[174] = 'R&eacute;union';
+$countries_names[175] = 'Rum&auml;nien';
+$countries_names[176] = 'Russische F&ouml;deration';
+$countries_names[177] = 'Ruanda';
+$countries_names[178] = 'St. Kitts und Nevis';
+$countries_names[180] = 'St. Vincent und die Grenadinen';
+$countries_names[183] = 'S&atilde;o Tom&eacute; und Pr&iacute;ncipe';
+$countries_names[184] = 'Saudi Arabien';
+$countries_names[240] = 'Serbien';
+$countries_names[186] = 'Seychellen';
+$countries_names[188] = 'Singapur';
+$countries_names[189] = 'Slovakische Republik';
+$countries_names[190] = 'Slovenien';
+$countries_names[191] = 'Salomonen';
+$countries_names[193] = 'S&uuml;dafrika';
+$countries_names[194] = 'S&uuml;dgeorgien und die S&uuml;dlichen Sandwichinseln';
+$countries_names[195] = 'Spanien';
+$countries_names[198] = 'Saint-Pierre und Miquelon';
+$countries_names[201] = 'Spitzbergen und Jan Mayen Insel';
+$countries_names[203] = 'Schweden';
+$countries_names[204] = 'schweiz';
+$countries_names[205] = 'Syrien';
+$countries_names[207] = 'Tadschikistan';
+$countries_names[208] = 'Tansania, Vereinigte Republik';
+$countries_names[212] = 'Tonga';
+$countries_names[213] = 'Trinidad und Tobago';
+$countries_names[214] = 'Tunesien';
+$countries_names[215] = 'T&uuml;rkei';
+$countries_names[216] = 'Turkmenistan';
+$countries_names[217] = 'Turks- und Caicosinseln';
+$countries_names[221] = 'Vereinigte Arabische Emirate';
+$countries_names[222] = 'Gro&szlig;britannien';
+$countries_names[223] = 'Vereinigte Staaten von Amerika';
+$countries_names[226] = 'Usbekistan';
+$countries_names[228] = 'Vatikanstadt';
+$countries_names[230] = 'Vietnam';
+$countries_names[231] = 'Jungferninseln (Britisch)';
+$countries_names[232] = 'Jungferninseln (U.S.)';
+$countries_names[233] = 'Wallis und Futuna';
+$countries_names[234] = 'Westsahra';
+$countries_names[235] = 'Jemen';
+define('COUNTRIES_NAMES_CONVERT_SORT_FROM',  'ÄÖÜäöüéãíß'); // special chars
+define('COUNTRIES_NAMES_CONVERT_SORT_TO',    'aouaoueais'); // for sort convert before to
+// eof - hendrik 2011-07-17 - translations in current language
+  
 // BOF - DokuMan - 2011-09-20 - E-Mail SQL errors
 define('ERROR_SQL_DB_QUERY','Es tut uns leid, aber es ist ein Datenbankfehler aufgetreten.');
 define('ERROR_SQL_DB_QUERY_REDIRECT','Sie werden in %s Sekunden auf unsere Homepage weitergeleitet!');
 // EOF - DokuMan - 2011-09-20 - E-Mail SQL errors
 
-define('TEXT_AGB_CHECKOUT','Bitte nehmen Sie unsere AGB und Kundeninformation %s sowie unsere Widerrufsbelehrung %s zur Kenntnis.');
+define('TEXT_AGB_CHECKOUT','Bitte nehmen Sie unsere AGB und Kundeninformationen %s,<br/>sowie unsere Widerrufsbelehrung %s zur Kenntnis.');
 ?>

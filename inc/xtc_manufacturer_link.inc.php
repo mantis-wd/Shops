@@ -1,12 +1,14 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_manufacturer_link.inc.php 899 2005-04-29 02:40:57Z hhgag $
+   $Id: xtc_manufacturer_link.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
+   -----------------------------------------------------------------------------------------
+   based on:
    Copyright (c) 2005 XT-Commerce
-
 
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/

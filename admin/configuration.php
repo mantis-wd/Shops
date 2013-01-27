@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: configuration.php 3569 2012-08-30 15:39:18Z web28 $
+   $Id: configuration.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -36,7 +36,7 @@
         // moneybookers payment module version 2.4
         if ($_GET['gID']=='31') {
           if (isset($_POST['_PAYMENT_MONEYBOOKERS_EMAILID'])) {
-          $url = 'https://www.moneybookers.com/app/email_check.pl?email=' . urlencode($_POST['_PAYMENT_MONEYBOOKERS_EMAILID']) . '&cust_id=8644877&password=1a28e429ac2fcd036aa7d789ebbfb3b0';
+            $url = 'https://www.moneybookers.com/app/email_check.pl?email=' . urlencode($_POST['_PAYMENT_MONEYBOOKERS_EMAILID']) . '&cust_id=8644877&password=1a28e429ac2fcd036aa7d789ebbfb3b0';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -92,15 +92,15 @@
           }
         }
 
-        // DB Cache System [If Cache deactivated.. clean all cachefiles]
-        if (isset($_POST['DB_CACHE']) && $_POST['DB_CACHE'] == 'false') {
-          $handle = opendir(SQL_CACHEDIR);
-          while (($file = readdir($handle)) !== false) {
-            // Jump over files that are no sql-cache
-            if (strpos($file, 'sql_') !== 0) continue;
-            @unlink(SQL_CACHEDIR.$file);
-          }
+      // DB Cache System [If Cache deactivated.. clean all cachefiles]
+      if (isset($_POST['DB_CACHE']) && $_POST['DB_CACHE'] == 'false') {
+        $handle = opendir(SQL_CACHEDIR);
+        while (($file = readdir($handle)) !== false) {
+          // Jump over files that are no sql-cache
+          if (strpos($file, 'sql_') !== 0) continue;
+          @unlink(SQL_CACHEDIR.$file);
         }
+      }
 
         xtc_redirect(xtc_href_link(FILENAME_CONFIGURATION, 'gID=' . (int)$_GET['gID']));
         break;
@@ -137,12 +137,12 @@
 
   $cfg_group_query = xtc_db_query("select configuration_group_title, configuration_group_id from " . TABLE_CONFIGURATION_GROUP . " where configuration_group_id = '" . (int)$_GET['gID'] . "'"); // Hetfield - 2010-01-15 - multilanguage title in configuration
   $cfg_group = xtc_db_fetch_array($cfg_group_query);
-  
-  require (DIR_WS_INCLUDES.'head.php');
+
+require (DIR_WS_INCLUDES.'head.php');
 ?>
-    <script type="text/javascript" src="includes/general.js"></script>
-  </head>
-  <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF" onLoad="SetFocus();">
+  <script type="text/javascript" src="includes/general.js"></script>
+</head>
+<body onLoad="SetFocus();">
     <!-- header //-->
     <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
     <!-- header_eof //-->
@@ -165,10 +165,10 @@
                   <tr>
                     <td width="80" rowspan="2"><?php echo xtc_image(DIR_WS_ICONS.'heading_configuration.gif'); ?></td>
                     <td width="300" class="pageHeading">
-                      <?php
-                        $box_conf_gid = 'BOX_CONFIGURATION_'.$cfg_group['configuration_group_id'];
-                        echo (defined($box_conf_gid) && constant($box_conf_gid) != '' ? constant($box_conf_gid) : $cfg_group['configuration_group_title']);
-                      ?>
+                    <?php
+                    $box_conf_gid = 'BOX_CONFIGURATION_'.$cfg_group['configuration_group_id'];
+                    echo (defined($box_conf_gid) && constant($box_conf_gid) != '' ? constant($box_conf_gid) : $cfg_group['configuration_group_title']);
+                    ?>
                     </td>
                     <td rowspan="2" class="pageHeading">
                       <?php
@@ -196,7 +196,7 @@
                         echo AFTERBUY_URL;
                       case 19: // Google Conversion-Tracking
                       case 111125: // Paypal Express Modul
-                      case 31: // moneybookers payment module version 2.4 & paypal payment module                        
+                      case 31: // moneybookers payment module version 2.4 & paypal payment module
                         echo '<table class="infoBoxHeading" width="100%">
                                 <tr>
                                   <td width="150" align="center">
@@ -218,8 +218,8 @@
                                   <td></td>
                                 </tr>
                               </table>';
-                        if ($_GET['gID']=='31')
-                          echo MB_INFO;
+                        if ($_GET['gID'] == '31')
+                            echo MB_INFO;
                         break;
                     }
                   ?>
@@ -281,7 +281,7 @@
                                 $cInfo = new objectInfo($cInfo_array);
                               }
                               if ($configuration['set_function']) {
-                                eval('$value_field = ' . $configuration['set_function'] . '"' . encode_htmlspecialchars($configuration['configuration_value']) . '");');
+                                eval('$value_field = ' . $configuration['set_function'] . '"' . htmlspecialchars($configuration['configuration_value']) . '");');
                               } else {
                                 if ( $configuration['configuration_key'] == 'SMTP_PASSWORD') {
                                   $value_field = xtc_draw_password_field($configuration['configuration_key'], $configuration['configuration_value']);
@@ -290,21 +290,21 @@
                                 }
                               }
                               if (strstr($value_field,'configuration_value')) {
-                                $value_field=str_replace('configuration_value',$configuration['configuration_key'],$value_field);
+                                $value_field = str_replace('configuration_value', $configuration['configuration_key'],$value_field);
                               }
 
                               // catch up warnings if no language-text defined for configuration-key
                               $configuration_key_title = strtoupper($configuration['configuration_key'].'_TITLE');
                               $configuration_key_desc  = strtoupper($configuration['configuration_key'].'_DESC');
-                              if( defined($configuration_key_title) ) {                                          // if language definition
+                              if ( defined($configuration_key_title) ) {                        // if language definition
                                 $configuration_key_title = constant($configuration_key_title);
                                 $configuration_key_desc  = constant($configuration_key_desc);
-                              } else {                                                                          // if no language
-                                $configuration_key_title = $configuration['configuration_key'];                 // name = key
-                                $configuration_key_desc  = '&nbsp;';                                            // description = empty
+                              } else {                                                          // if no language
+                                $configuration_key_title = $configuration['configuration_key']; // name = key
+                                $configuration_key_desc  = '&nbsp;';                            // description = empty
                               }
                               if ($configuration_key_desc!=str_replace("<meta ","",$configuration_key_desc)) {
-                                $configuration_key_desc = encode_htmlentities($configuration_key_desc);
+                                $configuration_key_desc = htmlentities($configuration_key_desc);
                               }
                               echo '
                                     <tr>

@@ -1,21 +1,22 @@
 <?php
-/* --------------------------------------------------------------
-   $Id: sales_report.php 1311 2005-10-18 12:30:40Z mz $
+  /* --------------------------------------------------------------
+   $Id: sales_report.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
-   XT-Commerce - community made shopping
-   http://www.xt-commerce.com
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
 
-   Copyright (c) 2003 XT-Commerce
+   Copyright (c) 2009 - 2013 [www.modified-shop.org]
    --------------------------------------------------------------
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce coding standards; www.oscommerce.com
+   (c) 2006 xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License
    --------------------------------------------------------------
    Third Party contribution:
 
-   stats_sales_report (c) Charly Wilhelm  charly@yoshi.ch
+   stats_sales_report (c) Charly Wilhelm charly@yoshi.ch
 
    possible views (srView):
   1 yearly
@@ -44,7 +45,7 @@
 
    Released under the GNU General Public License
    --------------------------------------------------------------*/
-  defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.' ); 
+  defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.' );
 
   class sales_report {
     var $mode, $globalStartDate, $startDate, $endDate, $actDate, $showDate, $showDateEnd, $sortString, $status, $outlet;
@@ -53,15 +54,13 @@
       // startDate and endDate have to be a unix timestamp. Use mktime !
       // if set then both have to be valid startDate and endDate
       $this->mode = $mode;
-      $this->tax_include = DISPLAY_PRICE_WITH_TAX;
-
+      $this->tax_include = defined('DISPLAY_PRICE_WITH_TAX') ? DISPLAY_PRICE_WITH_TAX : '';
       $this->statusFilter = $statusFilter;
-      $this->paymentFilter = $payment;     
+      $this->paymentFilter = $payment;
       // get date of first sale
       $firstQuery = xtc_db_query("select UNIX_TIMESTAMP(min(date_purchased)) as first FROM " . TABLE_ORDERS);
       $first = xtc_db_fetch_array($firstQuery);
       $this->globalStartDate = mktime(0, 0, 0, date("m", $first['first']), date("d", $first['first']), date("Y", $first['first']));
-            
       $statusQuery = xtc_db_query("select * from ".TABLE_ORDERS_STATUS." where language_id='".$_SESSION['languages_id']."'");
       $i = 0;
       while ($outResp = xtc_db_fetch_array($statusQuery)) {
@@ -69,8 +68,6 @@
         $i++;
       }
       $this->status = $status;
-
-      
       if ($startDate == 0  or $startDate < $this->globalStartDate) {
         // set startDate to globalStartDate
         $this->startDate = $this->globalStartDate;
@@ -80,7 +77,6 @@
       if ($this->startDate > mktime(0, 0, 0, date("m"), date("d"), date("Y"))) {
         $this->startDate = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
       }
-
       if ($endDate > mktime(0, 0, 0, date("m"), date("d") + 1, date("Y"))) {
         // set endDate to tomorrow
         $this->endDate = mktime(0, 0, 0, date("m"), date("d") + 1, date("Y"));
@@ -90,21 +86,40 @@
       if ($this->endDate < $this->startDate + 24 * 60 * 60) {
         $this->endDate = $this->startDate + 24 * 60 * 60;
       }
-
       $this->actDate = $this->startDate;
-
       // query for order count
       $this->queryOrderCnt = "SELECT count(o.orders_id) as order_cnt FROM " . TABLE_ORDERS . " o";
-
       // queries for item details count
-      $this->queryItemCnt = "SELECT o.orders_id, op.products_id as pid, op.orders_products_id, op.products_name as pname,op.products_model as pmodel, sum(op.products_quantity) as pquant, sum(op.final_price/o.currency_value) as psum, op.products_tax as ptax FROM " . TABLE_ORDERS . " o, " . TABLE_ORDERS_PRODUCTS . " op WHERE o.orders_id = op.orders_id";
-
+      $this->queryItemCnt = "SELECT o.orders_id,
+                                    op.products_id as pid,
+                                    op.orders_products_id,
+                                    op.products_name as pname,
+                                    op.products_model as pmodel,
+                                    sum(op.products_quantity) as pquant,
+                                    sum(op.final_price/o.currency_value) as psum,
+                                    op.products_tax as ptax
+                               FROM " . TABLE_ORDERS . " o,
+                                    " . TABLE_ORDERS_PRODUCTS . " op
+                               WHERE o.orders_id = op.orders_id";
       // query for attributes
-      $this->queryAttr = "SELECT count(op.products_id) as attr_cnt, o.orders_id, opa.orders_products_id, opa.products_options, opa.products_options_values, opa.options_values_price, opa.price_prefix from " . TABLE_ORDERS_PRODUCTS_ATTRIBUTES . " opa, " . TABLE_ORDERS . " o, " . TABLE_ORDERS_PRODUCTS . " op WHERE o.orders_id = opa.orders_id AND op.orders_products_id = opa.orders_products_id";
-
+      $this->queryAttr = "SELECT count(op.products_id) as attr_cnt,
+                                 o.orders_id,
+                                 opa.orders_products_id,
+                                 opa.products_options,
+                                 opa.products_options_values,
+                                 opa.options_values_price,
+                                 opa.price_prefix
+                            from " . TABLE_ORDERS_PRODUCTS_ATTRIBUTES . " opa,
+                                 " . TABLE_ORDERS . " o,
+                                 " . TABLE_ORDERS_PRODUCTS . " op
+                           WHERE o.orders_id = opa.orders_id
+                             AND op.orders_products_id = opa.orders_products_id";
       // query for shipping
-      $this->queryShipping = "SELECT sum(ot.value/o.currency_value) as shipping FROM " . TABLE_ORDERS . " o, " . TABLE_ORDERS_TOTAL . " ot WHERE ot.orders_id = o.orders_id AND  ot.class = 'ot_shipping'";
-
+      $this->queryShipping = "SELECT sum(ot.value/o.currency_value) as shipping
+                                FROM " . TABLE_ORDERS . " o,
+                                     " . TABLE_ORDERS_TOTAL . " ot
+                               WHERE ot.orders_id = o.orders_id
+                                 AND ot.class = 'ot_shipping'";
       switch ($sort) {
         case '0':
           $this->sortString = "";
@@ -157,29 +172,22 @@
       if ($ed > $this->endDate) {
         $ed = $this->endDate;
       }
-
       $filterString = "";
       if ($this->statusFilter > 0) {
         $filterString .= " AND o.orders_status = " . $this->statusFilter . " ";
       }
-      
       if (!is_numeric($this->paymentFilter)) {
-      	$filterString .= " AND o.payment_method ='" . xtc_db_prepare_input($this->paymentFilter) . "' ";
+        $filterString .= " AND o.payment_method ='" . xtc_db_prepare_input($this->paymentFilter) . "' ";
       }
-      
       $rqOrders = xtc_db_query($this->queryOrderCnt . " WHERE o.date_purchased >= '" . xtc_db_input(date("Y-m-d\TH:i:s", $sd)) . "' AND o.date_purchased < '" . xtc_db_input(date("Y-m-d\TH:i:s", $ed)) . "'" . $filterString);
       $order = xtc_db_fetch_array($rqOrders);
-
       $rqShipping = xtc_db_query($this->queryShipping . " AND o.date_purchased >= '" . xtc_db_input(date("Y-m-d\TH:i:s", $sd)) . "' AND o.date_purchased < '" . xtc_db_input(date("Y-m-d\TH:i:s", $ed)) . "'" . $filterString);
       $shipping = xtc_db_fetch_array($rqShipping);
-
       $rqItems = xtc_db_query($this->queryItemCnt . " AND o.date_purchased >= '" . xtc_db_input(date("Y-m-d\TH:i:s", $sd)) . "' AND o.date_purchased < '" . xtc_db_input(date("Y-m-d\TH:i:s", $ed)) . "'" . $filterString . " group by pid " . $this->sortString);
-
       // set the return values
       $this->actDate = $ed;
       $this->showDate = $sd;
       $this->showDateEnd = $ed - 60 * 60 * 24;
-
       // execute the query
       $cnt = 0;
       $itemTot = 0;
@@ -188,7 +196,6 @@
         // to avoid rounding differences round for every quantum
         // multiply with the number of items afterwords.
         $price = $resp[$cnt]['psum'] / $resp[$cnt]['pquant'];
-
         // products_attributes
         // are there any attributes for this order_id ?
         $rqAttr = xtc_db_query($this->queryAttr . " AND o.date_purchased >= '" . xtc_db_input(date("Y-m-d\TH:i:s", $sd)) . "' AND o.date_purchased < '" . xtc_db_input(date("Y-m-d\TH:i:s", $ed)) . "' AND op.products_id = " . $resp[$cnt]['pid'] . $filterString . " group by products_options_values order by orders_products_id");
@@ -196,7 +203,6 @@
         while ($attr[$i] = xtc_db_fetch_array($rqAttr)) {
           $i++;
         }
-
         // values per date
         if ($i > 0) {
           $price2 = 0;
@@ -253,7 +259,6 @@
         $resp[$cnt]['psum'] = $resp[$cnt]['pquant'] * $price;
         $resp[$cnt]['order'] = $order['order_cnt'];
         $resp[$cnt]['shipping'] = $shipping['shipping'];
-
         // values per date and item
         $sumTot += $resp[$cnt]['psum'];
         $itemTot += $resp[$cnt]['pquant'];
@@ -262,8 +267,7 @@
         $resp[$cnt]['totitem'] = $itemTot;
         $cnt++;
       }
-
       return $resp;
     }
-}
+  }
 ?>
