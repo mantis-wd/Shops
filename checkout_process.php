@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: checkout_process.php 4318 2013-01-14 14:33:39Z Tomcraft1980 $
+   $Id: checkout_process.php 4370 2013-01-28 13:25:43Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -383,12 +383,14 @@ if (isset ($_SESSION['tmp_oID']) && is_numeric($_SESSION['tmp_oID'])) { // Dokum
         }
 
         // update attribute stock
-        xtc_db_query("UPDATE ".TABLE_PRODUCTS_ATTRIBUTES."
-                         SET attributes_stock=attributes_stock - '".$order->products[$i]['qty']."'
-                       WHERE products_id='".$order->products[$i]['id']."'
-                         AND options_values_id='".$order->products[$i]['attributes'][$j]['value_id']."'
-                         AND options_id='".$order->products[$i]['attributes'][$j]['option_id']."'
-                    ");
+        if (STOCK_LIMITED == 'true') {
+          xtc_db_query("UPDATE ".TABLE_PRODUCTS_ATTRIBUTES."
+                           SET attributes_stock=attributes_stock - '".$order->products[$i]['qty']."'
+                         WHERE products_id='".$order->products[$i]['id']."'
+                           AND options_values_id='".$order->products[$i]['attributes'][$j]['value_id']."'
+                           AND options_id='".$order->products[$i]['attributes'][$j]['option_id']."'
+                      ");
+        }
 
         $attributes_values = $main->getAttributes( $order->products[$i]['id'],
                                                    $order->products[$i]['attributes'][$j]['option_id'],
