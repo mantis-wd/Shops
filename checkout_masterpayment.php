@@ -72,7 +72,7 @@ $smarty->assign('tpl_path', CURRENT_TEMPLATE);
 
 if($action == 'response')
 {
-	require_once('includes/external/masterpayment/MasterpaymentResponse.class.php');  
+	require_once('includes/masterpayment/MasterpaymentResponse.class.php');  
 	$MasterpaymentResponse = new MasterpaymentResponse($_GET);
 	
 	if(@file_exists('lang/' . $_SESSION['language'] . '/masterpayment_callback.php'))
@@ -110,7 +110,7 @@ if($action == 'response')
   	$order_total_modules = new order_total;
   	$order_total_modules->process();
 	
-	require_once('includes/external/masterpayment/MasterpaymentRequest.class.php');  
+	require_once('includes/masterpayment/MasterpaymentRequest.class.php');  
 	$masterpayment = new MasterpaymentRequest();
 
 	if($masterpayment->init())
@@ -128,7 +128,7 @@ if($action == 'response')
 	$smarty->display(CURRENT_TEMPLATE . '/module/masterpayment_request.html');	
 	exit;
 } else {
-	require_once('includes/external/masterpayment/MasterpaymentActions.class.php');  
+	require_once('includes/masterpayment/MasterpaymentActions.class.php');  
 	$MasterpaymentActions = new MasterpaymentActions();
 	
 	$smarty->assign('language', $_SESSION['language']);

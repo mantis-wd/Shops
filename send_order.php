@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: send_order.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: send_order.php 1510 2010-11-22 13:24:04Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -10,39 +10,32 @@
    based on:
    (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
    (c) 2002-2003 osCommerce; www.oscommerce.com
-   (c) 2003 nextcommerce; www.nextcommerce.org
-   (c) 2006 xt:Commerce; www.xt-commerce.com
+   (c) 2003      nextcommerce; www.nextcommerce.org
+   (c) 2006      xt:Commerce; www.xt-commerce.com
 
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
 
-  // DokuMan - 2011-11-25 - do not allow direct access to the file
-  if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
-    die('Direct Access to this location is not allowed.');
-  }
+require_once (DIR_FS_INC.'xtc_get_order_data.inc.php');
+require_once (DIR_FS_INC.'xtc_get_attributes_model.inc.php');
+// check if customer is allowed to send this order!
+$order_query_check = xtc_db_query("SELECT customers_id
+                                     FROM ".TABLE_ORDERS."
+                                    WHERE orders_id='".$insert_id."'");
 
-  require_once (DIR_FS_INC.'xtc_get_attributes_model.inc.php');
-  // check if customer is allowed to send this order!
-  $order_query_check = xtc_db_query("SELECT customers_id
-                                       FROM ".TABLE_ORDERS."
-                                      WHERE orders_id='".$insert_id."'");
-
-  $order_check = xtc_db_fetch_array($order_query_check);
-  //BOF - web28 - 2010-03-20 - Send Order by Admin
-  //if ($_SESSION['customer_id'] == $order_check['customers_id'] ) {
-  if ($_SESSION['customer_id'] == $order_check['customers_id'] || $send_by_admin) {
-  //EOF - web28 - 2010-03-20 - Send Order by Admin
+$order_check = xtc_db_fetch_array($order_query_check);
+//BOF - web28 - 2010-03-20 - Send Order by Admin
+//if ($_SESSION['customer_id'] == $order_check['customers_id'] ) {
+if ($_SESSION['customer_id'] == $order_check['customers_id'] || $send_by_admin) {
+//EOF - web28 - 2010-03-20 - Send Order by Admin
 
   $order = new order($insert_id);
 
 // BOF - Tomcraft - 2009-10-03 - Paypal Express Modul
   if (isset($_SESSION['paypal_express_new_customer']) && $_SESSION['paypal_express_new_customer'] == 'true' && isset($_SESSION['ACCOUNT_PASSWORD']) && $_SESSION['ACCOUNT_PASSWORD'] == 'true') {
-    require_once (DIR_FS_INC.'xtc_create_random_value.inc.php');
+    require_once (DIR_FS_INC.'xtc_create_password.inc.php');
     require_once (DIR_FS_INC.'xtc_encrypt_password.inc.php');
-    //BOF - DokuMan - 2012-11-27 - use xtc_create_random_value() function instead of xtc_RandomString
-    //$password_encrypted = xtc_RandomString(10);
-    $password_encrypted = xtc_create_random_value(10);
-    //EOF - DokuMan - 2012-11-27 - use xtc_create_random_value() function instead of xtc_RandomString
+    $password_encrypted =  xtc_RandomString(10);
     $password = xtc_encrypt_password($password_encrypted);
     xtc_db_query("update " . TABLE_CUSTOMERS . " set customers_password = '" . $password . "' where customers_id = '" . (int) $_SESSION['customer_id'] . "'");
     $smarty->assign('NEW_PASSWORD', $password_encrypted);
@@ -58,38 +51,34 @@
   $smarty->assign('address_label_customer', xtc_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'));
   $smarty->assign('address_label_shipping', xtc_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'));
   $smarty->assign('address_label_payment', xtc_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'));
-
   $smarty->assign('csID', $order->customer['csID']);
 
   $order_total = $order->getTotalData($insert_id); //ACHTUNG für Bestellbestätigung  aus Admin Funktion in admin/includes/classes/order.php
   $smarty->assign('order_data', $order->getOrderData($insert_id)); //ACHTUNG für Bestellbestätigung  aus Admin Funktion in admin/includes/classes/order.php
   $smarty->assign('order_total', $order_total['data']);
 
-  // assign language to template for caching - Web28 2012-04-25 - change all $_SESSION['language'] to $order->info['language']
+  // assign language to template for caching Web28 2012-04-25 - change all $_SESSION['language'] to $order->info['language']
   $smarty->assign('language', $order->info['language']);
-  //BOF - GTB - 2010-08-03 - Security Fix - Base
-  $smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
-  //$smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
-  //EOF - GTB - 2010-08-03 - Security Fix - Base
+  $smarty->assign('tpl_path','templates/'.CURRENT_TEMPLATE.'/');
   $smarty->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/img/');
   //$smarty->assign('oID', $insert_id);
   $smarty->assign('oID', $order->info['order_id']); //DokuMan - 2011-08-31 - fix order_id assignment
 
   //shipping method
   if ($order->info['shipping_class'] != '') {
-    $shipping_class = explode('_', $order->info['shipping_class']);
+    $shipping_class = explode('_', $order->info['shipping_class']);    
     include (DIR_FS_CATALOG . 'lang/'.$order->info['language'].'/modules/shipping/'.$shipping_class[0].'.php');
     $shipping_method = constant(strtoupper('MODULE_SHIPPING_'.$shipping_class[0].'_TEXT_TITLE'));
   }
   $smarty->assign('SHIPPING_METHOD', $shipping_method);
-
+  
   //payment method
-  if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'no_payment') {
+  if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'no_payment') {    
     include_once (DIR_FS_CATALOG . 'lang/'.$order->info['language'].'/modules/payment/'.$order->info['payment_method'].'.php');
     $payment_method = constant(strtoupper('MODULE_PAYMENT_'.$order->info['payment_method'].'_TEXT_TITLE'));
   }
   $smarty->assign('PAYMENT_METHOD', $payment_method);
-
+  
   $smarty->assign('DATE', xtc_date_long($order->info['date_purchased']));
   $smarty->assign('NAME', $order->customer['name']);
 
@@ -113,14 +102,12 @@
   $smarty->assign('COMPANY', $order->customer['company']);
   $smarty->assign('STREET', $order->customer['street_address']);
   $smarty->assign('FIRSTNAME', $order->customer['firstname']);
-  $smarty->assign('LASTNAME', $order->customer['lastname']);
+    $smarty->assign('LASTNAME', $order->customer['lastname']);
   //EOF - web28 - 2010-08-20 - Erweiterung Variablen für Bestätigungsmail
 
   $smarty->assign('COMMENTS', $order->info['comments']);
   $smarty->assign('EMAIL', $order->customer['email_address']);
   $smarty->assign('PHONE',$order->customer['telephone']);
-
-  require_once(DIR_FS_EXTERNAL . 'billpay/utils/billpay_mail.php'); // DokuMan -2011-09-08 - BILLPAY payment module (in external directory)
 
   //BOF  - web28 - 2010-03-27 PayPal Bezahl-Link
   unset ($_SESSION['paypal_link']);
@@ -146,16 +133,21 @@
   //EOF  - web28 - 2010-03-27 PayPal Bezahl-Link
 
   // PAYMENT MODUL TEXTS
-  $payment_method_array = array('eustandardtransfer','moneyorder');
-  if (in_array($order->info['payment_method'],$payment_method_array)) {
-    $payment_text = defined('MODULE_PAYMENT_'.strtoupper($order->info['payment_method']).'_TEXT_DESCRIPTION') ? constant('MODULE_PAYMENT_'.strtoupper($order->info['payment_method']).'_TEXT_DESCRIPTION') : '';
-    $smarty->assign('PAYMENT_INFO_HTML', $payment_text);
-    $smarty->assign('PAYMENT_INFO_TXT', str_replace("<br />", "\n", $payment_text));
+  // EU Bank Transfer
+  if ($order->info['payment_method'] == 'eustandardtransfer') {
+    $smarty->assign('PAYMENT_INFO_HTML', MODULE_PAYMENT_EUTRANSFER_TEXT_DESCRIPTION);
+    $smarty->assign('PAYMENT_INFO_TXT', str_replace("<br />", "\n", MODULE_PAYMENT_EUTRANSFER_TEXT_DESCRIPTION));
+  }
+
+  // MONEYORDER
+  if ($order->info['payment_method'] == 'moneyorder') {
+    $smarty->assign('PAYMENT_INFO_HTML', MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION);
+    $smarty->assign('PAYMENT_INFO_TXT', str_replace("<br />", "\n", MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION));
   }
 
   //allow duty-note in email
-  if(isset($send_by_admin)) {
-    require(DIR_FS_CATALOG.DIR_WS_CLASSES.'main.php');
+  if(!is_object($main)) {
+    require_once(DIR_FS_CATALOG.'includes/classes/main.php');
     $main = new main();
   }
   $smarty->assign('DELIVERY_DUTY_INFO', $main->getDeliveryDutyInfo($order->delivery['country_iso_2']));
@@ -215,7 +207,7 @@
 
   //email attachments
   $email_attachments = defined('EMAIL_BILLING_ATTACHMENTS') ? EMAIL_BILLING_ATTACHMENTS : '';
-
+  
   // create subject
   $order_subject = str_replace('{$nr}', $insert_id, EMAIL_BILLING_SUBJECT_ORDER);
   $order_subject = str_replace('{$date}', xtc_date_long($order->info['date_purchased']), $order_subject); // Tomcraft - 2011-12-28 - Use date_puchased instead of current date in E-Mail subject
@@ -239,19 +231,19 @@
 
   // send mail to customer
   if (SEND_EMAILS == 'true' || $send_by_admin) {
-    xtc_php_mail(EMAIL_BILLING_ADDRESS,
-                 EMAIL_BILLING_NAME,
-                 $order->customer['email_address'],
-                 $order->customer['firstname'].' '.$order->customer['lastname'],
-                 '',
-                 EMAIL_BILLING_REPLY_ADDRESS,
-                 EMAIL_BILLING_REPLY_ADDRESS_NAME,
-                 $email_attachments,
-                 '',
-                 $order_subject,
-                 $html_mail,
-                 $txt_mail
-                );
+  xtc_php_mail(EMAIL_BILLING_ADDRESS,
+               EMAIL_BILLING_NAME,
+               $order->customer['email_address'],
+               $order->customer['firstname'].' '.$order->customer['lastname'],
+               '',
+               EMAIL_BILLING_REPLY_ADDRESS,
+               EMAIL_BILLING_REPLY_ADDRESS_NAME,
+               $email_attachments,
+               '',
+               $order_subject,
+               $html_mail,
+               $txt_mail
+               );
   }
 
   if (AFTERBUY_ACTIVATED == 'true') {

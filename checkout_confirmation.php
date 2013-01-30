@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: checkout_confirmation.php 4363 2013-01-26 12:18:13Z web28 $
+   $Id: checkout_confirmation.php 3252 2012-07-18 15:24:42Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -40,18 +40,15 @@ require (DIR_FS_CATALOG . 'templates/' . CURRENT_TEMPLATE . '/source/boxes.php')
 require_once (DIR_FS_INC . 'xtc_calculate_tax.inc.php');
 require_once (DIR_FS_INC . 'xtc_check_stock.inc.php');
 require_once (DIR_FS_INC . 'xtc_display_tax_value.inc.php');
-require_once (DIR_FS_INC . 'xtc_get_products_image.inc.php');
 
-// BOF - DokuMan - 2010-09-16 - unset temporary order id when going back to confirmation to avoid order fraud
-unset($_SESSION['tmp_oID']);
-// EOF - DokuMan - 2010-09-16 - unset temporary order id when going back to confirmation to avoid order fraud
 
-//BOF - DokuMan - 2010-09-06 - contact_us.php language file not needed any more, added constants to main language file
+
+
+
+
 // BOF - Tomcraft - 2009-10-02 - Include "Single Price" in checkout_confirmation
-//require (DIR_WS_LANGUAGES.$_SESSION['language'].'/checkout_confirmation.php');
+require (DIR_WS_LANGUAGES.$_SESSION['language'].'/checkout_confirmation.php');
 // EOF - Tomcraft - 2009-10-02 - Include "Single Price" in checkout_confirmation
-//EOF - DokuMan - 2010-09-06 - contact_us.php language file not needed any more, added constants to main language file
-
 // if the customer is not logged on, redirect them to the login page
 if (!isset ($_SESSION['customer_id']))
   xtc_redirect(xtc_href_link(FILENAME_LOGIN, '', 'SSL'));
@@ -110,16 +107,6 @@ $order_total_modules->collect_posts();
 $order_total_modules->pre_confirmation_check();
 // GV Code End
 
-// BOF - tonne1 2012-04-22 - moved up so GLOBALS is complete for OT process
-// load the selected shipping module
-require (DIR_WS_CLASSES . 'shipping.php');
-$shipping_modules = new shipping($_SESSION['shipping']);
-// EOF - tonne1 2012-04-22 - moved up so GLOBALS is complete for OT process
-
-//BOF - DokuMan - 2011-05-09 - Process the Order Total Modules Earlier on the Checkout Confirmation Page
-$order_total_modules->process();
-//EOF - DokuMan - 2011-05-09 - Process the Order Total Modules Earlier on the Checkout Confirmation Page
-
 // GV Code line changed
 if(isset($_SESSION['payment']) && $_SESSION['payment'] != 'no_payment') { //web28 - 2012-04-27 - fix for coupon amount == order total
   if ((is_array($payment_modules->modules) && (sizeof($payment_modules->modules) > 1) && (!is_object($$_SESSION['payment'])) && (!isset ($_SESSION['credit_covers']))) || (is_object($$_SESSION['payment']) && ($$_SESSION['payment']->enabled == false))) {
@@ -130,11 +117,9 @@ if(isset($_SESSION['payment']) && $_SESSION['payment'] != 'no_payment') { //web2
 if (is_array($payment_modules->modules)) {
   $payment_modules->pre_confirmation_check();
 }
-// BOF - tonne1 2012-04-22 - moved up so GLOBALS is complete for OT process
 // load the selected shipping module
-// require (DIR_WS_CLASSES . 'shipping.php');
-// $shipping_modules = new shipping($_SESSION['shipping']);
-// EOF - tonne1 2012-04-22 - moved up so GLOBALS is complete for OT process
+require (DIR_WS_CLASSES . 'shipping.php');
+$shipping_modules = new shipping($_SESSION['shipping']);
 
 // Stock Check
 $any_out_of_stock = false;
@@ -142,7 +127,7 @@ if (STOCK_CHECK == 'true') {
   for ($i = 0, $n = sizeof($order->products); $i < $n; $i++) {
     if (xtc_check_stock($order->products[$i]['id'], $order->products[$i]['qty'])) {
       $any_out_of_stock = true;
-    }
+   }
   }
   // Out of Stock
   if ((STOCK_ALLOW_CHECKOUT != 'true') && ($any_out_of_stock == true)) {
@@ -194,39 +179,30 @@ if ($order->info['payment_method'] != 'no_payment' && $order->info['payment_meth
 $smarty->assign('PAYMENT_EDIT', xtc_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
 
 if (MODULE_ORDER_TOTAL_INSTALLED) {
-  //BOF - DokuMan - 2011-05-09 - Process the Order Total Modules Earlier on the Checkout Confirmation Page
-  //$order_total_modules->process();
-  //EOF - DokuMan - 2011-05-09 - Process the Order Total Modules Earlier on the Checkout Confirmation Page
+  $order_total_modules->process();
   $total_block = $order_total_modules->output();
   $smarty->assign('TOTAL_BLOCK', $total_block);
 }
 
-// create payment information
 if (is_array($payment_modules->modules)) {
-  if ($confirmation = $payment_modules->confirmation()) {    
-    if (isset($confirmation['title'])) {
-      $smarty->assign('PAYMENT_INFORMATION_TITLE', $confirmation['title']);
-    }
-    if (isset($confirmation['fields'])) {
+  if ($confirmation = $payment_modules->confirmation()) {
+    $payment_info = '';//$confirmation['title'];
+    if (isset($confirmation['fields'])) { //DokuMan - 2010-09-17 - Undefined index
       $smarty->assign('PAYMENT_INFORMATION', $confirmation['fields']);
     }
   }
 }
 
-// create comments
 if (xtc_not_null($order->info['comments'])) {
-  $smarty->assign('ORDER_COMMENTS', nl2br(htmlspecialchars($order->info['comments'])) . xtc_draw_hidden_field('comments', $order->info['comments']));
+  $smarty->assign('ORDER_COMMENTS', nl2br(encode_htmlspecialchars($order->info['comments'])) . xtc_draw_hidden_field('comments', $order->info['comments']));
 }
 
-// create form tag
 if (isset ($$_SESSION['payment']->form_action_url) && (!isset($$_SESSION['payment']->tmpOrders) || !$$_SESSION['payment']->tmpOrders)) {
   $form_action_url = $$_SESSION['payment']->form_action_url;
 } else {
   $form_action_url = xtc_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL');
 }
 $smarty->assign('CHECKOUT_FORM', xtc_draw_form('checkout_confirmation', $form_action_url, 'post'));
-
-// create buttons
 $payment_button = '';
 if (is_array($payment_modules->modules)) {
   $payment_button .= $payment_modules->process_button();
@@ -238,7 +214,7 @@ $smarty->assign('CHECKOUT_BUTTON', xtc_image_submit('button_confirm_order.gif', 
 if (DISPLAY_REVOCATION_ON_CHECKOUT == 'true') {
   //revocation  
   $shop_content_data = $main->getContentData(REVOCATION_ID);
-  
+
   if ($shop_content_data['content_file'] != '') {
     ob_start();
     if (strpos($shop_content_data['content_file'], '.txt'))
@@ -254,13 +230,13 @@ if (DISPLAY_REVOCATION_ON_CHECKOUT == 'true') {
 
   $smarty->assign('REVOCATION', $revocation);
   $smarty->assign('REVOCATION_TITLE', $shop_content_data['content_heading']);
-  $smarty->assign('REVOCATION_LINK', $main->getContentLink(REVOCATION_ID, MORE_INFO,'SSL')); 
+  $smarty->assign('REVOCATION_LINK', $main->getContentLink(REVOCATION_ID, MORE_INFO,'SSL'));
 
   //agb
   $shop_content_data = $main->getContentData(3);
 
   $smarty->assign('AGB_TITLE', $shop_content_data['content_heading']);
-  $smarty->assign('AGB_LINK', $main->getContentLink(3, MORE_INFO,'SSL')); 
+  $smarty->assign('AGB_LINK', $main->getContentLink(3, MORE_INFO,'SSL'));
   $smarty->assign('TEXT_AGB_CHECKOUT', sprintf(TEXT_AGB_CHECKOUT,$main->getContentLink(3, MORE_INFO,'SSL') , $main->getContentLink(REVOCATION_ID, MORE_INFO,'SSL')));
 }
 

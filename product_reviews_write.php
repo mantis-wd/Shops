@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: product_reviews_write.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: product_reviews_write.php 3840 2012-11-04 12:47:14Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org

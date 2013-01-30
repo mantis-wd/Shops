@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: checkout_payment_address.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: checkout_payment_address.php 3784 2012-10-17 11:32:47Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
