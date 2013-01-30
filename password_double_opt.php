@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-  $Id: password_double_opt.php 3072 2012-06-18 15:01:13Z hhacker $
+  $Id: password_double_opt.php 4251 2013-01-11 15:18:36Z Tomcraft1980 $
 
   modified eCommerce Shopsoftware
   http://www.modified-shop.org
@@ -32,11 +32,21 @@ $case = 'double_opt';
 $info_message = TEXT_PASSWORD_FORGOTTEN;
 
 if (isset ($_GET['action']) && ($_GET['action'] == 'first_opt_in') && $_POST) {
+  //BOF - DokuMan - 2012-12-03 - allow new passwords only for customers (not guests) by account type
+  /*
   $check_customer_query = xtc_db_query("SELECT customers_email_address, 
                                                customers_id 
                                           FROM ".TABLE_CUSTOMERS." 
                                          WHERE customers_email_address = '".xtc_db_input($_POST['email'])."' 
                                            AND customers_status != ". DEFAULT_CUSTOMERS_STATUS_ID_GUEST);
+  */
+  $check_customer_query = xtc_db_query("SELECT customers_email_address, 
+                                             customers_id 
+                                        FROM ".TABLE_CUSTOMERS." 
+                                       WHERE customers_email_address = '".xtc_db_input($_POST['email'])."' 
+                                         AND account_type = 0");
+  //EOF - DokuMan - 2012-12-03 - allow new passwords only for customers (not guests) by account type
+
   $check_customer = xtc_db_fetch_array($check_customer_query);
 
   $vlcode = xtc_random_charcode(32);
@@ -44,7 +54,10 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'first_opt_in') && $_POST) {
 
   // assign language to template for caching
   $smarty->assign('language', $_SESSION['language']);
-  $smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+  //BOF - GTB - 2010-08-03 - Security Fix - Base
+  $smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
+  //$smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+  //EOF - GTB - 2010-08-03 - Security Fix - Base
   $smarty->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/img/');
 
   // assign vars
@@ -91,7 +104,10 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'verified')) {
     xtc_db_query("update ".TABLE_CUSTOMERS." set password_request_key = '' where customers_id = '".$check_customer['customers_id']."'");
     // assign language to template for caching
     $smarty->assign('language', $_SESSION['language']);
-    $smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+    //BOF - GTB - 2010-08-03 - Security Fix - Base
+    $smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
+    //$smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+    //EOF - GTB - 2010-08-03 - Security Fix - Base
     $smarty->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/img/');
 
     // assign vars
@@ -123,7 +139,7 @@ switch ($case) {
     $smarty->caching = 0;
     $main_content = $smarty->fetch(CURRENT_TEMPLATE.'/module/password_messages.html');
     break;
-    
+
   case 'second_opt_in' :
     $smarty->assign('text_heading', HEADING_PASSWORD_FORGOTTEN);
     $smarty->assign('info_message', $info_message);

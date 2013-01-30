@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: create_guest_account.php 2810 2012-04-30 16:16:59Z hhacker $
+   $Id: create_guest_account.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -14,6 +14,7 @@
    (c) 2006 XT-Commerce (create_guest_account.php 176 2007-02-15)
 
    Released under the GNU General Public License
+
    Guest account idea by Ingo T. <xIngox@web.de>
    ---------------------------------------------------------------------------------------*/
 
@@ -37,12 +38,13 @@ require (DIR_FS_CATALOG . 'templates/' . CURRENT_TEMPLATE . '/source/boxes.php')
 // include needed functions
 require_once (DIR_FS_INC . 'xtc_get_country_list.inc.php');
 require_once (DIR_FS_INC . 'xtc_validate_email.inc.php');
-//require_once (DIR_FS_INC . 'xtc_encrypt_password.inc.php');
 require_once (DIR_FS_INC . 'xtc_create_password.inc.php');
 require_once (DIR_FS_INC . 'xtc_get_geo_zone_code.inc.php');
+// needs to be included earlier to set the success message in the messageStack
+//  require(DIR_WS_LANGUAGES . $_SESSION['language'] . '/' . FILENAME_CREATE_ACCOUNT);
 
-$country = isset($_POST['country']) ? (int)$_POST['country'] : STORE_COUNTRY;
-$privacy = isset($_POST['privacy']) && $_POST['privacy'] == 'privacy' ? 'privacy' : '';
+  $country = isset($_POST['country']) ? (int)$_POST['country'] : STORE_COUNTRY;
+  $privacy = isset($_POST['privacy']) ? xtc_db_prepare_input($_POST['privacy']) : '';
 
 $process = false;
 if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
@@ -57,7 +59,7 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
     $dob = xtc_db_prepare_input($_POST['dob']);
   }
   $email_address = xtc_db_prepare_input($_POST['email_address']);
-  $confirm_email_address = isset($_POST['confirm_email_address']) ? xtc_db_prepare_input($_POST['confirm_email_address']) : 0;
+  $confirm_email_address = isset($_POST['confirm_email_address']) ? xtc_db_prepare_input($_POST['confirm_email_address']) : 0; // Hetfield - 2009-08-15 - confirm e-mail at registration
   if (ACCOUNT_COMPANY == 'true') {
     $company = xtc_db_prepare_input($_POST['company']);
   }
@@ -71,20 +73,24 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
   $postcode = xtc_db_prepare_input($_POST['postcode']);
   $city = xtc_db_prepare_input($_POST['city']);
   $zone_id = isset($_POST['zone_id']) ? xtc_db_prepare_input($_POST['zone_id']) : 0;
+
   if (ACCOUNT_STATE == 'true') {
     $state = isset($_POST['state']) ? xtc_db_prepare_input($_POST['state']) : '';
   }
+
   $telephone = xtc_db_prepare_input($_POST['telephone']);
   $fax = xtc_db_prepare_input($_POST['fax']);
-  $newsletter = ''; //no newsletter for guest accounts ???
-  //$password = xtc_db_prepare_input($_POST['password']);
-  //$confirmation = xtc_db_prepare_input($_POST['confirmation']);
+  $newsletter = '';
+  //$password = xtc_db_prepare_input($_POST['password']); //Dokuman - 2012-11-27 - password handover not needed with guest accounts
+  //$confirmation = xtc_db_prepare_input($_POST['confirmation']); //Dokuman - 2012-11-27 - password handover not needed with guest accounts
 
   $error = false;
 
-  if (ACCOUNT_GENDER == 'true' && $gender != 'm' && $gender != 'f') {
-    $error = true;
-    $messageStack->add('create_account', ENTRY_GENDER_ERROR);
+  if (ACCOUNT_GENDER == 'true') {
+    if ($gender != 'm' && $gender != 'f') {
+      $error = true;
+      $messageStack->add('create_account', ENTRY_GENDER_ERROR);
+    }
   }
 
   if (strlen($firstname) < ENTRY_FIRST_NAME_MIN_LENGTH) {
@@ -97,7 +103,7 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
     $messageStack->add('create_account', ENTRY_LAST_NAME_ERROR);
   }
 
-  if (ACCOUNT_DOB == 'true' && (is_numeric(xtc_date_raw($dob)) == false ||
+  if (ACCOUNT_DOB == 'true' && (is_numeric(xtc_date_raw($dob)) == false || 
       (@checkdate(substr(xtc_date_raw($dob), 4, 2), substr(xtc_date_raw($dob), 6, 2), substr(xtc_date_raw($dob), 0, 4)) == false))) {
     $error = true;
     $messageStack->add('create_account', ENTRY_DATE_OF_BIRTH_ERROR);
@@ -107,8 +113,10 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
   if (ACCOUNT_COMPANY_VAT_CHECK == 'true'){
     require_once (DIR_WS_CLASSES . 'vat_validation.php');
     $vatID = new vat_validation($vat, '', '', $country, true);
+
     $customers_status = $vatID->vat_info['status'];
     $customers_vat_id_status = isset($vatID->vat_info['vat_id_status']) ? $vatID->vat_info['vat_id_status'] : '';
+
     if (isset($vatID->vat_info['error']) && $vatID->vat_info['error']==1){
       $messageStack->add('create_account', ENTRY_VAT_ERROR);
       $error = true;
@@ -120,16 +128,15 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
     $customers_status = $_SESSION['xtb0']['DEFAULT_CUSTOMER_GROUP'];
   }
 
-  // email check
   if (strlen($email_address) < ENTRY_EMAIL_ADDRESS_MIN_LENGTH) {
     $error = true;
     $messageStack->add('create_account', ENTRY_EMAIL_ADDRESS_ERROR);
-  } elseif (xtc_validate_email($email_address) == false) {
-    $error = true;
-    $messageStack->add('create_account', ENTRY_EMAIL_ADDRESS_CHECK_ERROR);
   } elseif ($email_address != $confirm_email_address) {
     $error = true;
     $messageStack->add('create_account', ENTRY_EMAIL_ERROR_NOT_MATCHING);
+  } elseif (xtc_validate_email($email_address) == false) {
+    $error = true;
+    $messageStack->add('create_account', ENTRY_EMAIL_ADDRESS_CHECK_ERROR);
   }
 
   if (strlen($street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
@@ -162,8 +169,8 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
                                                FROM ".TABLE_ZONES."
                                               WHERE zone_country_id = '".(int)$country ."'
                                                AND (zone_id = '" . (int)$state . "'
-                                               OR zone_code = '" . xtc_db_input($state) . "'
-                                               OR zone_name LIKE '" . xtc_db_input($state) . "%')");
+                                               OR zone_code = '" . xtc_db_input($state) . "'  
+                                               OR zone_name = '" . xtc_db_input($state) . "')");
         if (xtc_db_num_rows($zone_query) == 1) {
         $zone = xtc_db_fetch_array($zone_query);
         $zone_id = $zone['zone_id'];
@@ -184,15 +191,17 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
     $messageStack->add('create_account', ENTRY_TELEPHONE_NUMBER_ERROR);
   }
 
-  if (DISPLAY_PRIVACY_CHECK == 'true' && empty($privacy)) {
+  if (DISPLAY_PRIVACY_CHECK == 'true') {
+    if(!isset($privacy) || empty($privacy) || $privacy!='privacy') {
     $error = true;
     $messageStack->add('create_account', ENTRY_PRIVACY_ERROR);
+    }
   }
-
+  
   if(isset($customers_status)) {
     $customers_status = (int)$customers_status;
   }
-
+  
   if (!isset($customers_status) || $customers_status == 0) {
     if (DEFAULT_CUSTOMERS_STATUS_ID_GUEST != 0) {
         $customers_status = DEFAULT_CUSTOMERS_STATUS_ID_GUEST;
@@ -292,7 +301,7 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
 	// campaign tracking
     if (isset($_SESSION['tracking']['refID'])) {
       $refID = $leads = 0;
-      $campaign_check = xtc_db_query("SELECT campaigns_id, campaigns_leads
+      $campaign_check = xtc_db_query("SELECT campaigns_id, campaigns_leads 
                                         FROM ".TABLE_CAMPAIGNS."
                                        WHERE campaigns_refID = '".$_SESSION['tracking']['refID']."'");
       if (xtc_db_num_rows($campaign_check) > 0) {
@@ -301,15 +310,13 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
 		$leads = $campaign['campaigns_leads'];
       }
       $leads++;
-      xtc_db_query("UPDATE " . TABLE_CUSTOMERS . "
+      xtc_db_query("UPDATE " . TABLE_CUSTOMERS . " 
 	                   SET refferers_id = '".$refID."'
                      WHERE customers_id = '".(int)$_SESSION['customer_id']."'");
       xtc_db_query("UPDATE " . TABLE_CAMPAIGNS . "
                        SET campaigns_leads = '".$leads."'
                      WHERE campaigns_id = '".$refID."'");
     }
-
-
 
     if ($newsletter == 1) {
       require_once (DIR_WS_CLASSES . 'class.newsletter.php');
@@ -361,7 +368,6 @@ if (ACCOUNT_DOB == 'true') {
 } else {
   $smarty->assign('birthdate', '0');
 }
-
 $smarty->assign('INPUT_EMAIL', xtc_draw_input_fieldNote(array ('name' => 'email_address','text' => '&nbsp;' . (xtc_not_null(ENTRY_EMAIL_ADDRESS_TEXT) ? '<span class="inputRequirement">' . ENTRY_EMAIL_ADDRESS_TEXT . '</span>' : '')), '',''));
 $smarty->assign('INPUT_CONFIRM_EMAIL', xtc_draw_input_fieldNote(array ('name' => 'confirm_email_address', 'text' => '&nbsp;'. (xtc_not_null(ENTRY_EMAIL_ADDRESS_TEXT) ? '<span class="inputRequirement">'.ENTRY_EMAIL_ADDRESS_TEXT.'</span>' : '')), '',''));
 

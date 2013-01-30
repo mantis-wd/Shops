@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: paypal_checkout.php 3137 2012-06-29 15:05:12Z Tomcraft1980 $
+   $Id: paypal_checkout.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -24,6 +24,8 @@
 include('includes/application_top.php');
 // create smarty elements
 $smarty = new Smarty;
+$smarty->caching = false; //DokuMan - 2012-10-30 - avoid Smarty caching in order to display the correct data, if caching is enabled in shop backend
+
 require(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/source/boxes.php');
 // include needed functions
 require_once(DIR_FS_INC.'xtc_address_label.inc.php');
@@ -333,7 +335,7 @@ if(xtc_count_shipping_modules() > 0) {
 
 if($order->info['total'] > 0) {
   if(isset($_GET['payment_error']) && is_object(${ $_GET['payment_error'] }) && ($error = ${$_GET['payment_error']}->get_error())) {
-    $smarty->assign('error', encode_htmlspecialchars($error['error']));
+    $smarty->assign('error', htmlspecialchars($error['error']));
   }
   $selection = $payment_modules->selection();
   $radio_buttons = 0;
@@ -387,12 +389,12 @@ $temp_prods=$order->products;
 $n=sizeof($temp_prods);
 for ($i=0; $i<$n; $i++) {
 //EOF - DokuMan - 2011-12-19 - precount for performance
-//	$temp_prods[$i]['details']='&nbsp;&#187;<a style="cursor:pointer" onclick="javascript:window.open(\''.xtc_href_link(FILENAME_PRINT_PRODUCT_INFO, 'products_id='.$temp_prods[$i]['id']).'\', \'popup\', \'toolbar=0, width=640, height=600\')" alt="" /><small>Details</small></a>';
-	$temp_prods[$i]['details']='&nbsp;&#187;<a href="'.xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($temp_prods[$i]['id'], $temp_prods[$i]['name'])).'" target="_blank"><small>Details</small></a>';
-	$image = xtc_get_products_image($temp_prods[$i]['id']);
-	if ($image!= '') {
-		$temp_prods[$i]['image']='<img height="60px" src="'.DIR_WS_THUMBNAIL_IMAGES.$image.'" alt="'.$temp_prods[$i]['name'].'" title="'.$temp_prods[$i]['name'].'" />';
-	}
+//  $temp_prods[$i]['details']='&nbsp;&#187;<a style="cursor:pointer" onclick="javascript:window.open(\''.xtc_href_link(FILENAME_PRINT_PRODUCT_INFO, 'products_id='.$temp_prods[$i]['id']).'\', \'popup\', \'toolbar=0, width=640, height=600\')" alt="" /><small>Details</small></a>';
+  $temp_prods[$i]['details']='&nbsp;&#187;<a href="'.xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($temp_prods[$i]['id'], $temp_prods[$i]['name'])).'" target="_blank"><small>Details</small></a>';
+  $image = xtc_get_products_image($temp_prods[$i]['id']);
+  if ($image!= '') {
+    $temp_prods[$i]['image']='<img height="60px" src="'.DIR_WS_THUMBNAIL_IMAGES.$image.'" alt="'.$temp_prods[$i]['name'].'" title="'.$temp_prods[$i]['name'].'" />';
+  }
   if (isset($temp_prods[$i]['attributes'])) { //Dokuman - 2012-05-31 - fix paypal_checkout notices
     $attributes_model='';
     reset($temp_prods[$i]['attributes']);
@@ -513,17 +515,17 @@ if(DISPLAY_REVOCATION_ON_CHECKOUT == 'true') {
 // August 2012 Zollkosten als Muster mit Group ID 15
 /*
 if($order->delivery['country_id'] !== STORE_COUNTRY):
-	if (GROUP_CHECK == 'true') {
-		$group_check = "and group_ids LIKE '%c_" . $_SESSION['customers_status']['customers_status_id'] . "_group%'";
-	}
-	$shop_content_query = "SELECT
+  if (GROUP_CHECK == 'true') {
+    $group_check = "and group_ids LIKE '%c_" . $_SESSION['customers_status']['customers_status_id'] . "_group%'";
+  }
+  $shop_content_query = "SELECT
                          content_text
                          FROM " . TABLE_CONTENT_MANAGER . "
                          WHERE content_group='15' " . $group_check . "
                          AND languages_id='" . $_SESSION['languages_id'] . "'";
-	$shop_content_query = xtc_db_query($shop_content_query);
-	$shop_content_data = xtc_db_fetch_array($shop_content_query);
-	$smarty->assign('CHECKOUT_ZOLL', $shop_content_data['content_text']);
+  $shop_content_query = xtc_db_query($shop_content_query);
+  $shop_content_data = xtc_db_fetch_array($shop_content_query);
+  $smarty->assign('CHECKOUT_ZOLL', $shop_content_data['content_text']);
 endif;
 */
 
@@ -533,7 +535,6 @@ if($kein_versand != 1) {
 }
 $payment_hidden = xtc_draw_hidden_field('payment','paypalexpress') . xtc_draw_hidden_field('act_payment','true');
 $smarty->assign('PAYMENT_HIDDEN', $payment_hidden);
-$smarty->caching = 0;
 $main_content = $smarty->fetch(CURRENT_TEMPLATE.'/module/checkout_paypal.html');
 $smarty->assign('main_content', $main_content);
 if(!defined('RM')) {

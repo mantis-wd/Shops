@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: print_product_info.php 3429 2012-08-17 10:09:04Z web28 $
+   $Id: print_product_info.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -20,19 +20,20 @@ include ('includes/application_top.php');
 
 // include needed functions
 require_once (DIR_FS_INC.'xtc_date_long.inc.php');
-require_once (DIR_FS_INC.'xtc_date_short.inc.php'); 
+require_once (DIR_FS_INC.'xtc_date_short.inc.php');
 require_once (DIR_FS_INC.'xtc_get_products_mo_images.inc.php');
 
 $allowed_tags = '<h1><h2><h3><h4><p><br><em><strong><b><i><ol><ul><li>';
+$module_content = array();
 
 // create smarty elements
 $info_smarty = new Smarty;
-$info_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
-$info_smarty->assign('charset', $_SESSION['language_charset'] ); 
+$info_smarty->assign('tpl_path',DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
+$info_smarty->assign('charset', $_SESSION['language_charset'] );
 
 if (isset($_GET['pID']) && $_GET['pID']!='') {
   $_GET['products_id'] = xtc_get_prid($_GET['pID']);
-  $info_smarty->assign('noprint',true); 
+  $info_smarty->assign('noprint',true);
 }
 if (isset($_GET['products_id']) && $_GET['products_id']!='') {
   $product = new product((int)$_GET['products_id']);
@@ -43,9 +44,7 @@ if (!is_object($product) || !$product->isProduct()) {
   include (DIR_WS_MODULES.FILENAME_ERROR_HANDLER);
 } else {
   // defaults
-  $hide_qty = 0;  
-  $module_content = '';
-  
+  $hide_qty = 0;
   // Get manufacturer name etc. for the product page
   $manufacturer_query = xtc_db_query("SELECT m.manufacturers_id,
                                              m.manufacturers_name,
@@ -74,23 +73,23 @@ if (!is_object($product) || !$product->isProduct()) {
                                 $product->data['products_price'],
                                 1
                               );
-                              
-  $products_attributes_query = xtc_db_query("select count(*) as total 
-                                               from ".TABLE_PRODUCTS_OPTIONS." popt, 
-                                                    ".TABLE_PRODUCTS_ATTRIBUTES." patrib 
-                                              where patrib.products_id='".$product->data['products_id']."' 
-                                                and patrib.options_id = popt.products_options_id 
+
+  $products_attributes_query = xtc_db_query("select count(*) as total
+                                               from ".TABLE_PRODUCTS_OPTIONS." popt,
+                                                    ".TABLE_PRODUCTS_ATTRIBUTES." patrib
+                                              where patrib.products_id='".$product->data['products_id']."'
+                                                and patrib.options_id = popt.products_options_id
                                                 and popt.language_id = '".(int) $_SESSION['languages_id']."'
                                             ");
   $products_attributes = xtc_db_fetch_array($products_attributes_query);
   if ($products_attributes['total'] > 0) {
-    $products_options_name_query = xtc_db_query("select distinct popt.products_options_id, 
-                                                                 popt.products_options_name 
-                                                            from ".TABLE_PRODUCTS_OPTIONS." popt, 
-                                                                 ".TABLE_PRODUCTS_ATTRIBUTES." patrib 
-                                                           where patrib.products_id='".$product->data['products_id']."' 
-                                                             and patrib.options_id = popt.products_options_id 
-                                                             and popt.language_id = '".(int) $_SESSION['languages_id']."' 
+    $products_options_name_query = xtc_db_query("select distinct popt.products_options_id,
+                                                                 popt.products_options_name
+                                                            from ".TABLE_PRODUCTS_OPTIONS." popt,
+                                                                 ".TABLE_PRODUCTS_ATTRIBUTES." patrib
+                                                           where patrib.products_id='".$product->data['products_id']."'
+                                                             and patrib.options_id = popt.products_options_id
+                                                             and popt.language_id = '".(int) $_SESSION['languages_id']."'
                                                         order by popt.products_options_name
                                                 ");
     while ($products_options_name = xtc_db_fetch_array($products_options_name_query)) {
@@ -108,7 +107,7 @@ if (!is_object($product) || !$product->isProduct()) {
                                              order by pa.sortorder
                                             ");
       while ($products_options = xtc_db_fetch_array($products_options_query)) {
-        $module_content[] = array ('GROUP' => $products_options_name['products_options_name'], 
+        $module_content[] = array ('GROUP' => $products_options_name['products_options_name'],
                                     'NAME' => $products_options['products_options_values_name']
                                   );
         if ($products_options['options_values_price'] != '0') {
@@ -124,7 +123,7 @@ if (!is_object($product) || !$product->isProduct()) {
     }
   }
   $info_smarty->assign('module_content', $module_content);
-  
+
   // show expiry date of active special products
   $special_expires_date_query = "SELECT expires_date
                                    FROM ".TABLE_SPECIALS."
@@ -147,11 +146,11 @@ if (!is_object($product) || !$product->isProduct()) {
   $info_smarty->assign('PRODUCTS_PRICE', $products_price['formated']);
 
   //get products vpe
-  $info_smarty->assign('PRODUCTS_VPE',$main->getVPEtext($product->data, $products_price['plain'])); //web28 - 2012-04-17 - use classes function getVPEtext() 
-  
+  $info_smarty->assign('PRODUCTS_VPE',$main->getVPEtext($product->data, $products_price['plain'])); //web28 - 2012-04-17 - use classes function getVPEtext()
+
   // products id
   $info_smarty->assign('PRODUCTS_ID', $product->data['products_id']);
-  
+
   // products name
   $info_smarty->assign('PRODUCTS_NAME', $product->data['products_name']);
 
@@ -181,8 +180,8 @@ if (!is_object($product) || !$product->isProduct()) {
     $more_images_data = array();
     foreach ($mo_images as $img) {
       $mo_img = $product->productImage($img['image_name'], 'thumbnail');
-      $more_images_data[] = array ('PRODUCTS_IMAGE' => $mo_img, 
-                                   'PRODUCTS_POPUP_LINK' => 'javascript:popupWindow(\''.xtc_href_link(FILENAME_POPUP_IMAGE, 
+      $more_images_data[] = array ('PRODUCTS_IMAGE' => $mo_img,
+                                   'PRODUCTS_POPUP_LINK' => 'javascript:popupWindow(\''.xtc_href_link(FILENAME_POPUP_IMAGE,
                                    'pID='.$product->data['products_id'].'&imgID='.$img['image_nr']).'\')'
                                    );
       //next 2 lines only needed for non modified templates
@@ -205,22 +204,22 @@ if (!is_object($product) || !$product->isProduct()) {
   //canonical_link -> set canonical tag in /template/.../module/print_product_info.html
   $canonical_link = xtc_href_link(FILENAME_PRODUCT_INFO, 'products_id='.$product->data['products_id'],$request_type,false);
   $info_smarty->assign('CanonicalLink', $canonical_link);
- 
+
   //include modules
   if ($_SESSION['customers_status']['customers_status_graduated_prices'] == 1) {
     include (DIR_WS_MODULES.FILENAME_GRADUATED_PRICE);
   }
-  
-  include (DIR_WS_MODULES.FILENAME_PRODUCTS_MEDIA);  
+
+  include (DIR_WS_MODULES.FILENAME_PRODUCTS_MEDIA);
 
   // date available/added
   if ($product->data['products_date_available'] > date('Y-m-d H:i:s')) {
     $info_smarty->assign('PRODUCTS_DATE_AVIABLE', sprintf(TEXT_DATE_AVAILABLE, xtc_date_long($product->data['products_date_available'])));
-    $info_smarty->assign('PRODUCTS_DATE_AVAILABLE', sprintf(TEXT_DATE_AVAILABLE, xtc_date_long($product->data['products_date_available']))); 
+    $info_smarty->assign('PRODUCTS_DATE_AVAILABLE', sprintf(TEXT_DATE_AVAILABLE, xtc_date_long($product->data['products_date_available'])));
   } elseif ($product->data['products_date_added'] != '0000-00-00 00:00:00') {
     $info_smarty->assign('PRODUCTS_ADDED', sprintf(TEXT_DATE_ADDED, xtc_date_long($product->data['products_date_added'])));
   }
- 
+
   $info_smarty->assign('language', $_SESSION['language']);
 
   // set cache ID

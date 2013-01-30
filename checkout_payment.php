@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: checkout_payment.php 3434 2012-08-20 11:25:35Z web28 $
+   $Id: checkout_payment.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -38,6 +38,8 @@ if (!defined('CHECK_FIRST_PAYMENT_MODUL')) {
 }
 // create smarty elements
 $smarty = new Smarty;
+$smarty->caching = false; //DokuMan - 2012-10-30 - avoid Smarty caching in order to display the correct data, if caching is enabled in shop backend
+
 // include boxes
 require (DIR_FS_CATALOG . 'templates/' . CURRENT_TEMPLATE . '/source/boxes.php');
 // include needed functions
@@ -117,9 +119,9 @@ $total_weight = $_SESSION['cart']->show_weight();
 $total_count = $_SESSION['cart']->count_contents_virtual(); // GV Code ICW ADDED FOR CREDIT CLASS SYSTEM
 
 if ($order->billing['country']['iso_code_2'] != '' && $order->delivery['country']['iso_code_2'] == '') {
-$_SESSION['delivery_zone'] = $order->billing['country']['iso_code_2'];
+  $_SESSION['delivery_zone'] = $order->billing['country']['iso_code_2'];
 } else {
-$_SESSION['delivery_zone'] = $order->delivery['country']['iso_code_2'];
+  $_SESSION['delivery_zone'] = $order->delivery['country']['iso_code_2'];
 }
 
 // load all enabled payment modules
@@ -143,7 +145,7 @@ $module_smarty = new Smarty;
 $order_total = $xtPrice->xtcFormat($order->info['total'],false); //web28 2012-04-27 - rounded $order_total
 if ($order_total > 0) {
   if (isset ($_GET['payment_error']) && is_object(${ $_GET['payment_error'] }) && ($error = ${$_GET['payment_error']}->get_error())) {
-    $smarty->assign('error', encode_htmlspecialchars($error['error']));
+    $smarty->assign('error', htmlspecialchars($error['error']));
   }
   // BOF - Tomcraft - 2009-10-03 - Paypal Express Modul
   if(isset($_SESSION['reshash']['FORMATED_ERRORS'])) {
@@ -154,7 +156,7 @@ if ($order_total > 0) {
 
   $radio_buttons = 0;
   for ($i = 0, $n = sizeof($selection); $i < $n; $i++) {
-    //ot_payment Anzeige Zahlungsrabatt bei Zahlungsauswahl
+    //ot_payment Anzeige Zahlungsrabatt bei Zahlungsauswahl    
     if (isset($GLOBALS['ot_payment']) && !isset($selection[$i]['module_cost'])) {
       $selection[$i]['module_cost'] = $GLOBALS['ot_payment']->get_module_cost($selection[$i]);
     }
@@ -221,7 +223,6 @@ $smarty->assign('language', $_SESSION['language']);
 $smarty->assign('PAYMENT_BLOCK', $payment_block);
 $main_content = $smarty->fetch(CURRENT_TEMPLATE . '/module/checkout_payment.html');
 $smarty->assign('main_content', $main_content);
-$smarty->caching = 0;
 if (!defined('RM')) {
   $smarty->load_filter('output', 'note');
 }

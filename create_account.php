@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: create_account.php 2810 2012-04-30 16:16:59Z hhacker $
+   $Id: create_account.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -37,6 +37,7 @@ if (isset($_SESSION['customer_id'])) {
 
 // create smarty elements
 $smarty = new Smarty;
+
 // include boxes
 require (DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/source/boxes.php');
 
@@ -48,10 +49,12 @@ require_once (DIR_FS_INC.'xtc_get_geo_zone_code.inc.php');
 require_once (DIR_FS_INC.'xtc_write_user_info.inc.php');
 
 $country = isset($_POST['country']) ? (int)$_POST['country'] : STORE_COUNTRY;
-$privacy = isset($_POST['privacy']) && $_POST['privacy'] == 'privacy' ? 'privacy' : '';
+$privacy = isset($_POST['privacy']) ? xtc_db_prepare_input($_POST['privacy']) : '';
 
 $process = false;
+
 if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
+
   $process = true;
 
   if (ACCOUNT_GENDER == 'true') {
@@ -64,6 +67,7 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
   }
   $email_address = xtc_db_prepare_input($_POST['email_address']);
   $confirm_email_address = isset($_POST['confirm_email_address']) ? xtc_db_prepare_input($_POST['confirm_email_address']) : 0;
+
   if (ACCOUNT_COMPANY == 'true') {
     $company = xtc_db_prepare_input($_POST['company']);
   }
@@ -82,7 +86,7 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
   }
   $telephone = xtc_db_prepare_input($_POST['telephone']);
   $fax = xtc_db_prepare_input($_POST['fax']);
-  $newsletter = isset($_POST['newsletter']) ? (int)$_POST['newsletter'] : '';
+  $newsletter = isset($_POST['newsletter']) ? xtc_db_prepare_input($_POST['newsletter']) : '';
   $password = xtc_db_prepare_input($_POST['password']);
   $confirmation = xtc_db_prepare_input($_POST['confirmation']);
 
@@ -120,7 +124,6 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
       $error = true;
     }
   }
-
 
   // xs:booster prefill (customer group)
   if(isset($_SESSION['xtb0']['DEFAULT_CUSTOMER_GROUP']) && $_SESSION['xtb0']['DEFAULT_CUSTOMER_GROUP'] != '') {
@@ -180,7 +183,7 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
                                               WHERE zone_country_id = '".(int)$country ."'
                                                AND (zone_id = '" . (int)$state . "'
                                                OR zone_code = '" . xtc_db_input($state) . "'
-                                               OR zone_name LIKE '" . xtc_db_input($state) . "%')");
+                                               OR zone_name = '" . xtc_db_input($state) . "')");
       if (xtc_db_num_rows($zone_query) == 1) {
         $zone = xtc_db_fetch_array($zone_query);
         $zone_id = $zone['zone_id'];
@@ -210,7 +213,7 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process')) {
     $messageStack->add('create_account', ENTRY_PASSWORD_ERROR_NOT_MATCHING);
   }
 
-  if (DISPLAY_PRIVACY_CHECK == 'true' && empty($privacy)) {
+  if (DISPLAY_PRIVACY_CHECK == 'true' && !$privacy) {
     $error = true;
     $messageStack->add('create_account', ENTRY_PRIVACY_ERROR);
   }
@@ -472,6 +475,7 @@ $smarty->assign('INPUT_STREET', xtc_draw_input_fieldNote(array ('name' => 'stree
 if (ACCOUNT_SUBURB == 'true') {
   $smarty->assign('suburb', '1');
   $smarty->assign('INPUT_SUBURB', xtc_draw_input_fieldNote(array ('name' => 'suburb', 'text' => '&nbsp;'. (xtc_not_null(ENTRY_SUBURB_TEXT) ? '<span class="inputRequirement">'.ENTRY_SUBURB_TEXT.'</span>' : ''))));
+
 } else {
   $smarty->assign('suburb', '0');
 }
@@ -498,6 +502,7 @@ if (ACCOUNT_STATE == 'true') {
   } else {
     $state_input = xtc_draw_input_fieldNote(array ('name' => 'state', 'text' => '&nbsp;'. (xtc_not_null(ENTRY_STATE_TEXT) ? '<span class="inputRequirement">'.ENTRY_STATE_TEXT.'</span>' : '')));
   }
+
   $smarty->assign('INPUT_STATE', $state_input);
 } else {
   $smarty->assign('state', '0');
