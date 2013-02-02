@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: metatags.php 4324 2013-01-15 18:15:01Z Tomcraft1980 $
+   $Id: metatags.php 4383 2013-01-31 18:25:19Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -206,7 +206,7 @@
     if(strtoupper($_SESSION['language_charset']) == 'UTF-8') {
       $Text = mb_convert_encoding($Text, "UTF-8", "UTF-8"); // workaround for possibly chopped characters with htmlentities
     }
-    $Text = htmlentities(metaNoEntities(strtolower($Text)), ENT_COMPAT, strtoupper($_SESSION['language_charset']));
+    $Text = htmlspecialchars(metaNoEntities(strtolower($Text)), ENT_COMPAT, strtoupper($_SESSION['language_charset']));
     //EOF DokuMan - 2012-06-12 - fix error "function.htmlentities: Invalid multibyte sequence in argument"
     $Text = preg_replace("/\s\-|\-\s/",' ',$Text); // <-- Gegen Trenn- und Gedankenstriche
     $Text = preg_replace("/(&[^aoucizens][^;]*;)/",' ',$Text);

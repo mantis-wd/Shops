@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: head.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: head.php 4387 2013-02-01 12:20:50Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -16,10 +16,32 @@
    Released under the GNU General Public License
    --------------------------------------------------------------*/
   defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.' );
+  
+  define('NEW_ADMIN_STYLE',true);
 ?>
-<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html <?php echo HTML_PARAMS; ?>>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $_SESSION['language_charset']; ?>">
   <title><?php echo TITLE; ?></title>
-  <link rel="stylesheet" type="text/css" href="includes/stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="includes/stylesheet.css">  
+  <link rel="stylesheet" type="text/css" href="includes/searchbar_menu/searchbar_menu.css" />
+  
+  <?php 
+  if (USE_ADMIN_TOP_MENU != 'false') {
+  ?>
+  <script language="javascript">
+    <!--
+      document.write('<link rel="stylesheet" type="text/css" href="includes/css/topmenu.css" />');
+    //-->
+  </script>
+  <?php
+  } else {
+    echo '<link href="includes/liststyle_menu/liststyle_left.css" rel="stylesheet" type="text/css" />';
+  }
+  ?>
+
+  <noscript>
+    <link href="includes/liststyle_menu/liststyle_left.css" rel="stylesheet" type="text/css" />
+  </noscript>
+  

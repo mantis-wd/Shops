@@ -46,6 +46,8 @@ define('TEXT_CUSTOMER_GROUP', 'Kundengruppe in der Bestellung');
 define('TEXT_CUSTOMER_EMAIL', 'E-Mail:');
 define('TEXT_CUSTOMER_TELEPHONE', 'Telefon:');
 define('TEXT_CUSTOMER_UST', 'USt-IdNr.:');
+define('TEXT_CUSTOMER_CID', 'Kundennummer:');
+define('TEXT_ORDERS_ADDRESS_EDIT_INFO', 'Bitte beachten Sie, dass die hier eingetragenen Daten nur in der Bestellung und nicht im Kundenkonto ge&auml;ndert werden!');
 
 // Artikelbearbeitung
 

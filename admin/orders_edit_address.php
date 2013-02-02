@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: orders_edit_address.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: orders_edit_address.php 4385 2013-01-31 19:23:04Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -47,6 +47,15 @@
     //EOC web28 - 2011-10-18 - add dropdown countries boxes
     
       ?>
+			<!-- Begin Infotext //-->
+			<table border="0" cellspacing="0" cellpadding="2" style="border: 1px red solid; padding:5px; background: #FFD6D6; margin: 5px 0 5px 0">
+			  <tr>
+			    <td class="main"> 
+			      <?php echo TEXT_ORDERS_ADDRESS_EDIT_INFO;?>
+			    </td>
+			  </tr>
+			</table>
+			<!-- End Infotext //-->
       <table border="0" width="100%" cellspacing="0" cellpadding="2">
         <tr class="dataTableHeadingRow">
           <td class="dataTableHeadingContent" width="10%" align="left">&nbsp;</td>
@@ -172,6 +181,15 @@
           </td>
           <td class="dataTableContent" align="left" colspan="3">
             <?php echo xtc_draw_pull_down_menu('customers_status', xtc_get_customers_statuses(), $order->info['status']). TEXT_CUSTOMER_GROUP_INFO;?>
+          </td>
+        </tr>
+
+        <tr class="dataTableRow">
+          <td class="dataTableContent" align="left">
+            <?php echo TEXT_CUSTOMER_CID;?>
+          </td>
+          <td class="dataTableContent" align="left" colspan="3">
+            <?php echo xtc_draw_input_field('customers_cid', $order->customer['csID']);?>
           </td>
         </tr>
 

@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: header.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: header.php 4387 2013-02-01 12:20:50Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -42,23 +42,27 @@
     }
   }
 
-  // Admin Menu
-  if (USE_ADMIN_TOP_MENU != 'false') {
-  ?>
-  <script src="includes/liststyle_menu/topmenu.js" type="text/javascript"></script>
-  <script language="javascript">
-  <!--
-    document.write('<link href="includes/liststyle_menu/liststyle_top.css" rel="stylesheet" type="text/css" />');
-  //-->
-  </script>
+  if (!defined('NEW_ADMIN_STYLE')) { 
+    // Admin Menu
+    if (USE_ADMIN_TOP_MENU != 'false') {
+    ?>
+    <script src="includes/liststyle_menu/topmenu.js" type="text/javascript"></script>
+    <script language="javascript">
+    <!--
+      document.write('<link href="includes/liststyle_menu/liststyle_top.css" rel="stylesheet" type="text/css" />');
+    //-->
+    </script>
+    <?php
+    } else {
+      echo '<link href="includes/liststyle_menu/liststyle_left.css" rel="stylesheet" type="text/css" />';
+    }
+    ?>
+    <noscript>
+      <link href="includes/liststyle_menu/liststyle_left.css" rel="stylesheet" type="text/css" />
+    </noscript>
   <?php
-  } else {
-    echo '<link href="includes/liststyle_menu/liststyle_left.css" rel="stylesheet" type="text/css" />';
   }
   ?>
-  <noscript>
-    <link href="includes/liststyle_menu/liststyle_left.css" rel="stylesheet" type="text/css" />
-  </noscript>
 
   <?php
   // Include XAJAX JS Library
