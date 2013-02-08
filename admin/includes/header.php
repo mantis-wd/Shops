@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: header.php 4387 2013-02-01 12:20:50Z web28 $
+   $Id: header.php 4408 2013-02-05 12:27:48Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -36,7 +36,7 @@
     if (count($lng->catalog_languages) > 1) {
       while (list($key, $value) = each($lng->catalog_languages)) {
         if ( $value['status'] != 0 ){
-          $languages_string .= '&nbsp;<a href="' . xtc_href_link($current_page, 'language=' . $key.'&'.xtc_get_all_get_params(array('language', 'currency')), 'NONSSL') . '">' . xtc_image('../lang/' .  $value['directory'] .'/admin/images/' . $value['image'], $value['name']) . '</a>';
+          $languages_string .= '&nbsp;<a href="' . xtc_href_link($current_page, xtc_get_all_get_params(array('language', 'currency')).'language=' . $key, 'NONSSL') . '">' . xtc_image('../lang/' .  $value['directory'] .'/admin/images/' . $value['image'], $value['name']) . '</a>';
         }
       }
     }

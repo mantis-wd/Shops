@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: product_info.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: product_info.php 4409 2013-02-05 12:56:15Z gtb-modified $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -44,7 +44,7 @@ if (!is_object($product) || !$product->isProduct()) {
 } else {
 
   $info_smarty = new Smarty;
-  $info_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+  $info_smarty->assign('tpl_path', DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
 
   // defaults
   $hide_qty = 0;

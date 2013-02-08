@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: stats_products_purchased.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: stats_products_purchased.php 4407 2013-02-05 12:11:45Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -21,4 +21,5 @@ define('TABLE_HEADING_MODEL', 'Products model');
 define('TABLE_HEADING_NUMBER', 'No.');
 define('TABLE_HEADING_PRODUCTS', 'Products');
 define('TABLE_HEADING_PURCHASED', 'Purchased');
+define('TABLE_HEADING_QUANTITY', 'Stock');
 ?>

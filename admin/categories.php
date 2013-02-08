@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: categories.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: categories.php 4412 2013-02-05 13:23:06Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -334,9 +334,12 @@
 
 require (DIR_WS_INCLUDES.'head.php');
 ?>
+  <script type="text/javascript" src="includes/javascript/jquery.min.js"></script>
   <script type="text/javascript" src="includes/general.js"></script>
   <script type="text/javascript" src="includes/javascript/categories.js"></script><?php //web28 - 2010-09-21-  js-file not in folder // Dokuman - 2010-10-31 - file was missing -> functions relevant for buttons ins category_view?>
   <?php
+  //jQueryDatepicker
+  require (DIR_WS_INCLUDES.'javascript/jQueryDatepicker/datepicker.js.php');
     // Include WYSIWYG if is activated
     if (USE_WYSIWYG == 'true') {
       $query = xtc_db_query("SELECT code FROM ".TABLE_LANGUAGES." WHERE languages_id='".$_SESSION['languages_id']."'");
@@ -355,7 +358,7 @@ require (DIR_WS_INCLUDES.'head.php');
       }
     }
     // generate editor for products
-    if ($action == 'new_product') {
+    if ($action == 'new_product' || $action == 'new_product_preview') {
       for ($i = 0; $i < sizeof($languages); $i ++) {
         echo xtc_wysiwyg('products_description', $data['code'], $languages[$i]['id']);
         echo xtc_wysiwyg('products_short_description', $data['code'], $languages[$i]['id']);
@@ -388,7 +391,7 @@ require (DIR_WS_INCLUDES.'head.php');
               //----- new_category / edit_category (when ALLOW_CATEGORY_DESCRIPTIONS is 'true') -----
               if ($action == 'new_category' || $action == 'edit_category') {
                 include (DIR_WS_MODULES.'new_category.php');
-              } elseif ($action == 'new_product') {
+              } elseif ($action == 'new_product' || $action == 'new_product_preview') {
                 include (DIR_WS_MODULES.'new_product.php');
               } elseif ($action == 'edit_crossselling') {
                 include (DIR_WS_MODULES.'cross_selling.php');

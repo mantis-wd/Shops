@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: categories_specials.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: categories_specials.php 4394 2013-02-04 11:00:41Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -182,7 +182,7 @@
                   <?php echo TEXT_SPECIALS_EXPIRES_DATE; ?>
                 </td>
                 <td class="main">
-                  <?php echo xtc_draw_input_field('specials_expires', $expires_date ,'id="hasDatepicker2" style="width: 135px"'); ?>
+                  <?php echo xtc_draw_input_field('specials_expires', $expires_date ,'id="DatepickerSpecials" style="width: 135px"'); ?>                
                 </td>        
                 <td class="main">
                   &nbsp;

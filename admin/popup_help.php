@@ -1,6 +1,6 @@
 <?php
  /* -----------------------------------------------------------------------------------------
-   $Id: popup_help.php 4328 2013-01-15 20:00:10Z Tomcraft1980 $
+   $Id: popup_help.php 4416 2013-02-05 13:55:53Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -21,8 +21,8 @@ $_GET['modul'] = preg_replace($valid_signs, '', $_GET['modul']);
 
 include(DIR_FS_LANGUAGES . $_GET['lng'] . '/modules/' . $_GET['type'] . '/' . $_GET['modul'] . '.php');
 
-if (defined(strtoupper('MODULE_'.$_GET['type'].'_'.str_replace('OT_','',$_GET['modul']).'_HELP_TEXT'))) {
-  $const= constant(strtoupper('MODULE_'.$_GET['type'].'_'.str_replace('OT_','',$_GET['modul']).'_HELP_TEXT'));
+if (defined(strtoupper('MODULE_'.$_GET['type'].'_'.str_ireplace('OT_','',$_GET['modul']).'_HELP_TEXT'))) {
+  $const= constant(strtoupper('MODULE_'.$_GET['type'].'_'.str_ireplace('OT_','',$_GET['modul']).'_HELP_TEXT'));
 } else {
   die( 'No help file found!' );
 }
