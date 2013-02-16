@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: install_finished.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: install_finished.php 4456 2013-02-13 09:26:31Z web28 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -14,8 +14,8 @@
    Released under the GNU General Public License
    --------------------------------------------------------------*/
 
-  require('includes/application.php');
   require('../admin/includes/configure.php');
+  require('includes/application.php');  
 
   //BOF - web28 - 2010.02.11 - NEW LANGUAGE HANDLING IN application.php
   //include('language/'.$_SESSION['language'].'.php');
@@ -27,7 +27,7 @@
 <html>
   <head>
     <title>modified eCommerce Shopsoftware Installer - Finished</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset;?>" />
     <style type="text/css">
       body { background: #eee; font-family: Arial, sans-serif; font-size: 12px;}
       table,td,div { font-family: Arial, sans-serif; font-size: 12px;}
@@ -93,6 +93,6 @@
       </tr>
     </table>
     <br />
-    <div align="center" style="font-family:Arial, sans-serif; font-size:11px;"><?php echo TEXT_FOOTER; ?><br /><img src='http://images.modified-shop.org/modified106tutf8.gif' border='0' alt='modified eCommerce Shopsoftware'></div>
+    <div align="center" style="font-family:Arial, sans-serif; font-size:11px;"><?php echo TEXT_FOOTER; ?><br /><img src='http://images.modified-shop.org/modified107tutf8.gif' border='0' alt='modified eCommerce Shopsoftware'></div>
   </body>
 </html>

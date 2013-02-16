@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: compatibility.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: compatibility.php 4440 2013-02-11 17:30:37Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -17,6 +17,26 @@
    Modified by Marco Canini, <m.canini@libero.it>
    Fixed a bug with arrays in $HTTP_xxx_VARS
    ---------------------------------------------------------------------------------------*/
+   
+  //PHP 5.4 compatibility - functions REMOVED as of PHP 5.4.0.
+  if (!function_exists('session_register')) {
+      function session_register()
+      {
+          $args = func_get_args();
+          foreach($args as $key)
+          $_SESSION[$key] = $GLOBALS[$key];
+      }
+
+      function session_is_registered($key)
+      {
+          return isset($_SESSION[$key]);
+      }
+
+      function session_unregister($key)
+      {
+          unset($_SESSION[$key]);
+      }
+  }
 
   ////
   // Recursively handle magic_quotes_gpc turned off.

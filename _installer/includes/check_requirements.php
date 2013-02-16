@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: check_requirements.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: check_requirements.php 4457 2013-02-13 11:46:58Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -9,7 +9,7 @@
    --------------------------------------------------------------*/
 
   define('PHP_VERSION_MIN', '5.0.0');
-  define('PHP_VERSION_MAX', '5.3.99');
+  define('PHP_VERSION_MAX', '5.4.99');
 
   //BOF *************  check PHP-Version *************
   //BOF - Dokuman - 2012-11-19: remove irritating PHP-Version message

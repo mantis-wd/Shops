@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: configure.php 4352 2013-01-23 12:38:17Z Tomcraft1980 $
+   $Id: configure.php 4464 2013-02-13 17:50:06Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -61,4 +61,5 @@
   define('DB_DATABASE', 'modified-shop');
   define('USE_PCONNECT', 'false'); // use persistent connections?
   define('STORE_SESSIONS', 'mysql'); // leave empty '' for default handler or set to 'mysql'
+  define('DB_SERVER_CHARSET', 'utf8'); // set db charset utf8 or latin1
 ?>

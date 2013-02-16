@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: function.piwik.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: function.piwik.php 4436 2013-02-11 12:30:00Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -55,7 +55,7 @@ function smarty_function_piwik($params, &$smarty) {
         s.parentNode.insertBefore(g,s);
     })();
     </script>
-    <noscript><p><img src="http://'.$url.'/piwik.php?idsite=1&rec=1" style="border:0" alt="" /></p></noscript>
+    <noscript><p><img src="http://'.$url.'/piwik.php?idsite='.$id.'&rec=1" style="border:0" alt="" /></p></noscript>
   ';
 
   $orderCode = null;

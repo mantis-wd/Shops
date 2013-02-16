@@ -14,27 +14,6 @@ include ('includes/application_top.php');
 // set all files to be deleted
 $unlink_file = array('_unterverzeichnis_.htaccess',
                      'admin/includes/configure.org.php',
-                     'admin/includes/javascript/spiffyCal/images/btn_close_small.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date_disabled.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date_down.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date_over.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date_up.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date1_disabled.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date1_down.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date1_over.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date1_up.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date2_disabled.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date2_down.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date2_over.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_date2_up.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_del_small.gif',
-                     'admin/includes/javascript/spiffyCal/images/btn_info.gif',
-                     'admin/includes/javascript/spiffyCal/images/s.gif',
-                     'admin/includes/javascript/spiffyCal/images/spiffycal.cur',
-                     'admin/includes/javascript/spiffyCal/images/spiffycal2.cur',
-                     'admin/includes/javascript/spiffyCal/images/spiffycal3.cur',
-                     'admin/includes/javascript/spiffyCal/spiffyCal_v2_1.css',
-                     'admin/includes/javascript/spiffyCal/spiffyCal_v2_1.js',
                      'admin/includes/javascript/jquery-ui.custom.css',
                      'admin/includes/javascript/images/ui-bg_diagonals-thick_75_f3d8d8_40x40.png',
                      'admin/includes/javascript/images/ui-bg_dots-small_65_a6a6a6_2x2.png',
@@ -85,6 +64,10 @@ $unlink_file = array('_unterverzeichnis_.htaccess',
                      'lang/german/modules/payment/iclear.php',
                      'shopstat/.htaccess',
                      'templates/xtc5/css/no_javascript.css',
+                     'templates/xtc5/mail/german/widerruf.txt',
+                     'templates/xtc5/mail/german/widerruf.html',
+                     'templates/xtc5/mail/english/widerruf.txt',
+                     'templates/xtc5/mail/english/widerruf.html',
                      'update_1.0.5.0_to_1.0.6.0.sql',
                      'wsdl_iclear_order.php',
                      'xtbcallback.php');
@@ -92,8 +75,6 @@ $unlink_file = array('_unterverzeichnis_.htaccess',
 // set all directories to be deleted                     
 $unlink_dir = array('admin/includes/javascript/images',
                     'admin/includes/javascript/ui',
-                    'admin/includes/javascript/spiffyCal/images',
-                    'admin/includes/javascript/spiffyCal',
                     'admin/includes/modules/carp',
                     'admin/includes/modules/magpierss',
                     'admin/includes/modules/magpierss/extlib',
@@ -300,7 +281,7 @@ h1 { font-size: 18px; margin: 0; padding: 0; margin-bottom: 10px; }
         </tr>
         <?php }  elseif ($clean) { ?>
         <tr>
-          <td valign="top" colspan="2" align="center" style="border:1px solid green; width:100%;">Es wurden die Dateien und Verzeichnisse erfolgreich gelöscht.<br/>Bitte stellen sie sicher, dass auch diese Datei vom Server entfernt wurde.</td>
+          <td valign="top" colspan="2" align="center" style="border:1px solid green; width:100%;">Es wurden die Dateien und Verzeichnisse erfolgreich gelöscht.<br/>Bitte stellen Sie sicher, dass auch die Datei &quot;update.php&quot; vom Server entfernt wurde.</td>
         </tr>
         <?php } ?>        
       </table>

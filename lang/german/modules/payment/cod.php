@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: cod.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+   $Id: cod.php 4478 2013-02-15 21:52:53Z Tomcraft1980 $   
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -18,7 +18,7 @@
 define('MODULE_PAYMENT_TYPE_PERMISSION', 'cod');
 define('MODULE_PAYMENT_COD_TEXT_TITLE', 'Nachnahme');
 define('MODULE_PAYMENT_COD_TEXT_DESCRIPTION', 'Nachnahme');
-define('MODULE_PAYMENT_COD_TEXT_INFO', '');
+define('MODULE_PAYMENT_COD_TEXT_INFO', 'Bitte beachten Sie, da&szlig; zus&auml;tzlich 2 Euro Zustellgeb&uuml;hr an den Zusteller vor Ort zu entrichten sind.');
 define('MODULE_PAYMENT_COD_ZONE_TITLE', 'Zahlungszone');
 define('MODULE_PAYMENT_COD_ZONE_DESC', 'Wenn eine Zone ausgew&auml;hlt ist, gilt die Zahlungsmethode nur f&uuml;r diese Zone.');
 define('MODULE_PAYMENT_COD_ALLOWED_TITLE', 'Erlaubte Zonen');

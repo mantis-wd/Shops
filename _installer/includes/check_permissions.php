@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: check_permissions.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: check_permissions.php 4462 2013-02-13 16:58:03Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -23,14 +23,16 @@
                                            //'admin/includes/configure.org.php',    
                                            //'sitemap.xml',
                                           ),
-                          'dirs' => array('admin/backups/',
+                          'dirs' => array('admin/backups',
                                           'admin/images/graphs',
-                                          'admin/images/graphs',
+                                          'admin/images/icons',
                                           'cache',
                                           'export',
+                                          'export/idealo_realtime',
                                           'images',
+                                          'images/banner',
                                           'images/categories',
-                                          'images/banner/',
+                                          'images/content',
                                           'images/product_images/info_images',
                                           'images/product_images/original_images',
                                           'images/product_images/popup_images',
@@ -40,6 +42,7 @@
                                           'media/content',
                                           'media/products',
                                           'media/products/backup',
+                                          'log',
                                           'templates_c',
                                      ),
                           );
@@ -90,12 +93,12 @@
         if ($type=='files') {
           $error_flag = true;
           $file_flag = true;
-          $message .= TEXT_WRONG_FILE_PERMISSION.DIR_FS_CATALOG.$file.'<br />';
+          $message .= '<strong>'.TEXT_WRONG_FILE_PERMISSION.'</strong>'.DIR_FS_CATALOG.$file.'<br />';
         }
         else if ($type='dirs') {
           $error_flag=true;
           $folder_flag = true;
-          $message .= TEXT_WRONG_FOLDER_PERMISSION.DIR_FS_CATALOG.$file.'<br />';
+          $message .= '<strong>'.TEXT_WRONG_FOLDER_PERMISSION.'</strong>'.DIR_FS_CATALOG.$file.'<br />';
         }
       }
     }

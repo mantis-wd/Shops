@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------------------
-#  $Id: modified_utf8.sql 4374 2013-01-29 20:19:06Z Tomcraft1980 $
+#  $Id: modified_utf8.sql 4466 2013-02-14 07:58:42Z dokuman $
 #
 #  modified eCommerce Shopsoftware
 #  http://www.modified-shop.org
@@ -620,12 +620,8 @@ CREATE TABLE orders (
   refferers_id VARCHAR(32) NOT NULL,
   conversion_type INT(1) DEFAULT 0 NOT NULL,
   orders_ident_key VARCHAR(128),
-
-  #BOF - hendrik - 2011-05-14 - independent invoice number and date
   ibn_billnr VARCHAR(32) default '',
   ibn_billdate DATE NOT NULL,
-  #EOF - hendrik - 2011-05-14 - independent invoice number and date
-
   PRIMARY KEY (orders_id),
   KEY idx_customers_id (customers_id)
 ) ENGINE=MyISAM;

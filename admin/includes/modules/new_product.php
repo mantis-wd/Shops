@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: new_product.php 4394 2013-02-04 11:00:41Z web28 $
+   $Id: new_product.php 4432 2013-02-09 17:19:56Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -229,7 +229,7 @@
 
 
 
-      <div class="main" style="margin-top: 4px;float:left">
+      <div class="main" style="margin-top: 7px;float:left">
         <div id="butSpecial">&nbsp;</div>
       </div>
       <script language="JavaScript" type="text/JavaScript">
