@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: index.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: index.php 4506 2013-02-22 16:52:31Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -29,41 +29,6 @@ $smarty = new Smarty;
 
 // include boxes
 require (DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/source/boxes.php');
-
-// the following cPath references come from application_top.php
-$category_depth = 'top';
-if (isset($cPath) && xtc_not_null($cPath)) {
-  //BOF - GTB - 2010-11-29 - show categories when no active product
-  //$categories_products_query = "select count(*) as total from ".TABLE_PRODUCTS_TO_CATEGORIES." where categories_id = '".$current_category_id."'";
-  //BOF - DokuMan - 2010-01-26 - use Join on TABLE_PRODUCTS
-  $categories_products_query = "select p2c.products_id
-                                  from ".TABLE_PRODUCTS_TO_CATEGORIES." p2c
-                                  left join ".TABLE_PRODUCTS." p
-                                   on p2c.products_id = p.products_id
-                                  where p2c.categories_id = ".(int)$current_category_id."
-                                  and p.products_status = 1";
-  //EOF - DokuMan - 2010-01-26 - use Join on TABLE_PRODUCTS
-  $categories_products_result = xtDBquery($categories_products_query);
-  //$cateqories_products = xtc_db_fetch_array($categories_products_query, true);
-  //if ($cateqories_products['total'] > 0) {
-  if (xtc_db_num_rows($categories_products_result) > 0) {
-  //EOF - GTB - 2010-11-29 - show categories when no active product
-    $category_depth = 'products'; // display products
-  } else {
-    //BOF - GTB - 2010-11-29 - only count avtive categories
-    //$category_parent_query = "select count(*) as total from ".TABLE_CATEGORIES." where parent_id = '".$current_category_id."'";
-    $category_parent_query = "select count(*) as total from ".TABLE_CATEGORIES." where parent_id = ".(int)$current_category_id." AND categories_status = 1";
-    //EOF - GTB - 2010-11-29 - only count avtive categories
-    $category_parent_result = xtDBquery($category_parent_query);
-    $category_parent = xtc_db_fetch_array($category_parent_result, true);
-    if ($category_parent['total'] > 0) {
-      $category_depth = 'nested'; // navigate through the categories
-    } else {
-      $category_depth = 'products'; // category has no products, but display the 'no products' message
-    }
-  }
-}
-
 include (DIR_WS_MODULES.'default.php');
 require (DIR_WS_INCLUDES.'header.php'); //web28 - 2013-01-04 - load header.php after default.php because of error handling status code
 

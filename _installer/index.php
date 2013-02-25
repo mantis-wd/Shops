@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: index.php 4453 2013-02-12 19:42:48Z web28 $
+   $Id: index.php 4495 2013-02-20 16:53:27Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -234,7 +234,7 @@
     </table>
     <br />
     <div align="center" style="font-family:Arial, sans-serif; font-size:11px;"><?php echo TEXT_FOOTER; ?></div>
-    <div align="center" style="padding-top:5px; font-size:11px;">Installer 107 rev2</div>
+    <div align="center" style="padding-top:5px; font-size:11px;"><?php echo INSTALLER_VERSION; ?></div>
     <div align="center" style="padding-top:5px; font-size:11px;"><?php echo $support; ?></div>
   </body>
 </html>

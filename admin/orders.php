@@ -1,6 +1,6 @@
 <?php
   /*-------------------------------------------------------------
-   $Id: orders.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: orders.php 4521 2013-02-25 13:52:39Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -409,7 +409,7 @@ require (DIR_WS_INCLUDES.'head.php');
               <table border="0" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td width="80" rowspan="2"><?php echo xtc_image(DIR_WS_ICONS.'heading_customers.gif'); ?></td>
-                  <td class="pageHeading"><?php echo HEADING_TITLE . '<span style="font-size:13px"> - '.TABLE_HEADING_PRODUCTS_MODEL.': ' . $oID . ' - ' . $order->info['date_purchased'] ; ?></span></td>
+                  <td class="pageHeading"><?php echo HEADING_TITLE . '<span style="font-size:13px"> - '.TABLE_HEADING_ORDERS_ID.': ' . $oID . ' - ' . $order->info['date_purchased'] ; ?></span></td>
                 </tr>
                 <tr>
                   <td class="main" valign="top"><?php echo TABLE_HEADING_CUSTOMERS ?></td>

@@ -1,6 +1,6 @@
 <?php
 /*-----------------------------------------------------------------------
-    $Id: search_replace_default.php 1915 2011-05-08 15:37:30Z web28 $
+    $Id: search_replace_default.php 4501 2013-02-22 08:18:38Z gtb-modified $
 	
     Zeichenkodierung: ISO-8859-1
    
@@ -34,28 +34,29 @@ function shopstat_getRegExps(&$search, &$replace)
                         "/[:,\.!?\*\+]/",   //--Doppelpunkte, Komma, Punkt etc. weg.
                         );
     $replace    = array(
-                        "-",    //--Kaufmännisches Und mit Blanks
+                        "-",    //--Kaufmännisches Und mit Blanks muss raus
                         "-",    // strip out white space
-                        "",     //--Anführungszeichen oben 
+                        "",     // replace html entities
                         "-",    //--Ampersand-Zeichen, kaufmännisches Und
                         "-",    //--öffnende spitze Klammer
                         "-",    //--schließende spitze Klammer
+                        "-",    //--Erzwungenes Leerzeichen 
                         "",     //chr(161), //umgekehrtes Ausrufezeichen
                         "ct",   //chr(162), //Cent-Zeichen
                         "GBP",  //chr(163), //Pfund-Zeichen
                         "",     //chr(169),Copyright-Zeichen                        
                         "",     //--Prozent muss weg
-                        "-",
-                        "",
-                        "ss",
-                        "ae",
-                        "ue",
-                        "oe",
-                        "Ae",
-                        "Ue",
-                        "Oe",
-                        "",
-                        ""
+                        "-",    //--öffnende Klammern nach Bindestriche
+                        "",     //--schliessende Klammern weg
+                        "ss",   //--Umlaute etc.
+                        "ae",   //--Umlaute etc.
+                        "ue",   //--Umlaute etc.
+                        "oe",   //--Umlaute etc.
+                        "Ae",   //--Umlaute etc.
+                        "Ue",   //--Umlaute etc.
+                        "Oe",   //--Umlaute etc.
+                        "",     //--Anführungszeichen weg.
+                        ""      //--Doppelpunkte, Komma, Punkt etc. weg.
                         );
 
 }

@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: categories_view.php 4355 2013-01-23 14:20:51Z Tomcraft1980 $
+   $Id: categories_view.php 4491 2013-02-19 16:59:32Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -469,6 +469,15 @@
                $products_split = new splitPageResults($_GET['page'], MAX_DISPLAY_LIST_PRODUCTS, $listing_sql, $products_query_numrows, 'p.products_id');
                $products_query = xtc_db_query($listing_sql);
              } else {
+                //display "products on startpage", no entry in table produtcs_to_categories used
+                if ($current_category_id == 0) {
+                  $add_where = 'WHERE p.products_startpage = 1';
+                  $add_join = '';
+                //display products in categories
+                } else {
+                  $add_where = '';
+                  $add_join = "JOIN " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c ON p.products_id = p2c.products_id AND p2c.categories_id = '" . $current_category_id . "'";
+                }
                 $select_str = "SELECT p.products_tax_class_id,
                                       p.products_sort,
                                       p.products_id,
@@ -486,7 +495,7 @@
                                       p.products_startpage_sort
                                  FROM " . TABLE_PRODUCTS . " p
                             LEFT JOIN " . TABLE_PRODUCTS_DESCRIPTION . " pd ON p.products_id = pd.products_id AND pd.language_id = '" . (int)$_SESSION['languages_id'] . "'
-                                 JOIN " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c ON p.products_id = p2c.products_id AND p2c.categories_id = '" . $current_category_id . "'
+                                      " . $add_join . $add_where ."
                              ORDER BY " . $prodsort;
                  $products_split = new splitPageResults($_GET['page'], MAX_DISPLAY_LIST_PRODUCTS, $select_str, $products_query_numrows);
                  $products_query = xtc_db_query($select_str);
