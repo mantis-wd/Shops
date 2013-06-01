@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: modules.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: modules.php 4531 2013-03-04 19:47:46Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -167,7 +167,7 @@ require (DIR_WS_INCLUDES.'head.php');
                           }
                           sort($directory_array[1]);
                           //EOF - DokuMan - 2011-07-19 - sorting of modules (credits to GTB)
-                          sort($directory_array);
+                          ksort($directory_array);
                           $dir->close();
                         }
                         $installed_modules = array();

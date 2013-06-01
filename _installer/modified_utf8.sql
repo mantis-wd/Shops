@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------------------
-#  $Id: modified_utf8.sql 4466 2013-02-14 07:58:42Z dokuman $
+#  $Id: modified_utf8.sql 4598 2013-04-09 20:28:39Z Tomcraft1980 $
 #
 #  modified eCommerce Shopsoftware
 #  http://www.modified-shop.org
@@ -29,7 +29,7 @@
 #   the mysqldiff perl script located in the extras
 #   directory of the 'catalog' module.
 #   * Comments should be like these, full line comments.
-#   (don't use inline comments)
+#   (don`t use inline comments)
 #  --------------------------------------------------------------
 
 SET NAMES utf8;
@@ -1793,7 +1793,7 @@ INSERT INTO countries VALUES (120,'Liberia','LR','LBR',1,1);
 INSERT INTO countries VALUES (121,'Libyan Arab Jamahiriya','LY','LBY',1,1);
 INSERT INTO countries VALUES (122,'Liechtenstein','LI','LIE',1,1);
 INSERT INTO countries VALUES (123,'Lithuania','LT','LTU',1,1);
-INSERT INTO countries VALUES (124,'Luxembourg','LU','LUX',1,1);
+INSERT INTO countries VALUES (124,'Luxembourg','LU','LUX',5,1);
 INSERT INTO countries VALUES (125,'Macau','MO','MAC',1,1);
 INSERT INTO countries VALUES (126,'Macedonia, The Former Yugoslav Republic of','MK','MKD',1,1);
 INSERT INTO countries VALUES (127,'Madagascar','MG','MDG',1,1);

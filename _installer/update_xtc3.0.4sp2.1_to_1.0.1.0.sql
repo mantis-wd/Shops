@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------------------
-#  $Id: update_xtc3.0.4sp2.1_to_1.0.1.0.sql 4209 2013-01-10 23:54:44Z Tomcraft1980 $
+#  $Id: update_xtc3.0.4sp2.1_to_1.0.1.0.sql 4612 2013-04-14 13:42:54Z Tomcraft1980 $
 #
 #  modified eCommerce Shopsoftware
 #  http://www.modified-shop.org
@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS database_version (
 ) ENGINE=myisam;
 
 # Set database Version to minimum Version 1.0.1.0 (1.0.0.0 not allowed)
-INSERT INTO database_version VALUES ('MOD_1.0.1.0');
+DELETE FROM database_version;
+INSERT INTO database_version(version) VALUES ('MOD_1.0.1.0');
  
 UPDATE configuration SET configuration_value = 'xtc5', last_modified = NOW()
 WHERE configuration_key = 'CURRENT_TEMPLATE';

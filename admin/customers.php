@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: customers.php 4372 2013-01-28 22:47:56Z Tomcraft1980 $
+   $Id: customers.php 4564 2013-04-02 15:14:54Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -528,6 +528,8 @@
                                    'entry_country_id' => $entry_country_id,
                                    'address_last_modified' => 'now()'
                                    );
+
+
 
           if (ACCOUNT_GENDER == 'true')
             $sql_data_array['entry_gender'] = $customers_gender;
@@ -1533,10 +1535,14 @@ require (DIR_WS_INCLUDES.'head.php');
                             <?php
                             if (ACCOUNT_COMPANY_VAT_CHECK == 'true') {
                               ?>
-                              <td class="dataTableContent" align="left">&nbsp;
+                              <td class="dataTableContent" align="left">
                                 <?php
                                 if ($customers['customers_vat_id']) {
-                                  echo $customers['customers_vat_id'].'<br /><span style="font-size:8pt"><nobr>('.xtc_validate_vatid_status($customers['customers_id']).')</nobr></span>';
+                                  if (xtc_not_null(xtc_validate_vatid_status($customers['customers_id']))) {
+                                    echo $customers['customers_vat_id'].'<br /><span style="font-size:8pt"><nobr>('.xtc_validate_vatid_status($customers['customers_id']).')</nobr></span>';
+                                  } else {
+                                    echo $customers['customers_vat_id'];
+                                  }
                                 }
                                 ?>
                               </td>

@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: xtc_draw_hidden_field.inc.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: xtc_draw_hidden_field.inc.php 4603 2013-04-10 15:52:14Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -17,15 +17,15 @@
    ---------------------------------------------------------------------------------------*/
 
    function xtc_draw_hidden_field($name, $value = '', $parameters = '') {
-    $field = '<input type="hidden" name="' . xtc_parse_input_field_data($name, array('"' => '&quot;')) . '"';
+    $field = '<input type="hidden" name="' . xtc_parse_input_field_data($name, array('"' => '&quot;')) . '" value="';
 
     if (xtc_not_null($value)) {
-      $field .= ' value="' . xtc_parse_input_field_data($value, array('"' => '&quot;')) . '"';
+      $field .= xtc_parse_input_field_data($value, array('"' => '&quot;'));
     } else {
       $field .= xtc_parse_input_field_data((array_key_exists($name, $GLOBALS) ?  $GLOBALS[$name] : NULL), array('"' => '&quot;'));
     }
 
-    if (xtc_not_null($parameters)) $field .= ' ' . $parameters;
+    $field .= xtc_not_null($parameters) ? '" '.$parameters : '"';
 
     $field .= ' />';
 

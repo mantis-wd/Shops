@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: german.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: german.php 4577 2013-04-05 08:43:06Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -177,7 +177,7 @@ define('TXT_TOOLS','Zusatzprogramme');
 define('TEXT_ACCOUNTING','Zugriffseinstellungen f&uuml;r:');
 
 /******* SHOPGATE **********/
-include_once DIR_FS_EXTERNAL.'/shopgate/base/lang/german/admin/german.php';
+include_once DIR_FS_EXTERNAL.'shopgate/base/lang/german/admin/german.php';
 /******* SHOPGATE **********/
 
 // javascript messages

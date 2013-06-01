@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: header.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: header.php 4579 2013-04-05 13:34:27Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -43,7 +43,7 @@ elseif (isset($error) && ($error == CATEGORIE_NOT_FOUND || $error == TEXT_PRODUC
 
 /******** SHOPGATE **********/
 if(strpos(MODULE_PAYMENT_INSTALLED, 'shopgate.php') !== false && strpos($_SESSION['customers_status']['customers_status_payment_unallowed'], 'shopgate') === false){
-  include_once (DIR_FS_EXTERNAL.'/shopgate/base/includes/header.php');
+  include_once (DIR_FS_EXTERNAL.'shopgate/base/includes/header.php');
 }
 /******** SHOPGATE **********/
 ?>
@@ -52,6 +52,13 @@ if(strpos(MODULE_PAYMENT_INSTALLED, 'shopgate.php') !== false && strpos($_SESSIO
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=<?php echo $_SESSION['language_charset']; ?>" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
+<?php
+/******** SHOPGATE **********/
+if(strpos(MODULE_PAYMENT_INSTALLED, 'shopgate.php') !== false && strpos($_SESSION['customers_status']['customers_status_payment_unallowed'], 'shopgate') === false){
+  echo $shopgateJsHeader;
+}
+/******** SHOPGATE **********/
+?>
 <?php include(DIR_WS_MODULES.FILENAME_METATAGS); ?>
 <link rel="shortcut icon" href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER).DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/favicon.ico';?>" type="image/x-icon" />
 <?php
@@ -318,12 +325,6 @@ echo '<body onload="resize();"> ';
 echo '<body>';
 }
 
-/******** SHOPGATE **********/
-if (isset($shopgateMobileHeader)) {
-  echo $shopgateMobileHeader;
-}
-/******** SHOPGATE **********/
-
 // econda tracking
 if (TRACKING_ECONDA_ACTIVE=='true') {
 ?>
@@ -437,9 +438,9 @@ if(xtc_get_shop_conf('SHOP_OFFLINE') != 'checked' || $_SESSION['customers_status
 
 //BOF - Dokuman - 2012-06-19 - BILLSAFE payment module (BillSAFE-Layer Start)
 if (defined('MODULE_PAYMENT_BILLSAFE_2_LAYER')) {
-  if (preg_match('/checkout_payment/',$_SERVER['PHP_SELF']) && MODULE_PAYMENT_BILLSAFE_2_LAYER == "True") {
+  if (preg_match('/checkout_payment/',$_SERVER['PHP_SELF']) && MODULE_PAYMENT_BILLSAFE_2_LAYER == 'True') {
     if (isset($_GET['payment_error'])) {
-      $bs_error = stripslashes('payment_error='.$_GET['payment_error'].'&error_message='.urlencode(html_entity_decode($_GET['error_message'])));
+      $bs_error = stripslashes(html_entity_decode('payment_error='.$_GET['payment_error'].'&error_message='.$_GET['error_message']));
     } else {
       $bs_error = '';
     }
@@ -447,7 +448,7 @@ if (defined('MODULE_PAYMENT_BILLSAFE_2_LAYER')) {
       if (top.lpg) top.lpg.close("'.str_replace('&amp;', '&', xtc_href_link(FILENAME_CHECKOUT_PAYMENT, $bs_error, 'SSL')).'");
     --></script>';
   }
-  if (preg_match('/checkout_success/',$_SERVER['PHP_SELF']) && MODULE_PAYMENT_BILLSAFE_2_LAYER == "True") {
+  if (preg_match('/checkout_success/',$_SERVER['PHP_SELF']) && MODULE_PAYMENT_BILLSAFE_2_LAYER == 'True') {
     echo '<script type="text/javascript"><!--
       if (top.lpg) top.lpg.close("'.xtc_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL').'");
     --></script>';

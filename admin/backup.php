@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: backup.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: backup.php 4564 2013-04-02 15:14:54Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -113,7 +113,7 @@
         }
         break;
     case 'restorelocalnow':
-      $file = &xtc_try_upload('sql_file', DIR_FS_BACKUP, '777', array('sql','gz'));
+      $file = xtc_try_upload('sql_file', DIR_FS_BACKUP, '777', array('sql','gz'));
       xtc_redirect(xtc_href_link(FILENAME_BACKUP));
       break;
     }

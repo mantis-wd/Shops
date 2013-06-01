@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------------------
-#  $Id: update_1.0.5.0_to_1.0.6.0.sql 4445 2013-02-12 11:55:24Z Tomcraft1980 $
+#  $Id: update_1.0.5.0_to_1.0.6.0.sql 4602 2013-04-10 15:39:16Z Tomcraft1980 $
 #
 #  modified eCommerce Shopsoftware
 #  http://www.modified-shop.org
@@ -38,7 +38,7 @@ ALTER TABLE orders MODIFY comments text;
 
 #DokuMan - 2010-10-13 - add index idx_categories_id
 #ALTER TABLE products_to_categories
-#  ADD INDEX idx_categories_id (categories_id,products_id);
+#  ADD INDEX idx_categories_id (categories_id);
 
 #DokuMan - 2010-10-14 - keep index naming convention (idx_)
 #ALTER TABLE orders_products

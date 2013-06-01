@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: checkout_success.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: checkout_success.php 4579 2013-04-05 13:34:27Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -126,6 +126,10 @@ if (($_SESSION['account_type'] == 1) && (DELETE_GUEST_ACCOUNT == 'true')) {
   require (DIR_WS_INCLUDES.'write_customers_status.php');
 }
 //EOF - DokuMan - 2010-05-20 - Move guest deletion from logoff to checkout_success
+
+//BOF - Dokuman - 2012-06-19 - BILLSAFE payment module
+echo '<script type="text/javascript"> if (top.lpg) top.lpg.close("'.xtc_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL').'"); </script>';
+//EOF - Dokuman - 2012-06-19 - BILLSAFE payment module
 
 $smarty->assign('language', $_SESSION['language']);
 $main_content = $smarty->fetch(CURRENT_TEMPLATE.'/module/checkout_success.html');

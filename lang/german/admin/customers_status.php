@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: customers_status.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $   
+   $Id: customers_status.php 4604 2013-04-10 16:42:34Z Tomcraft1980 $   
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -18,7 +18,7 @@
 
 define('HEADING_TITLE', 'Kundengruppen');
 
-define('ENTRY_CUSTOMERS_FSK18','Kauf von FSK18 Artikel Sperren?');
+define('ENTRY_CUSTOMERS_FSK18','Kauf von FSK18 Artikel sperren?');
 define('ENTRY_CUSTOMERS_FSK18_DISPLAY','Anzeige von FSK18 Artikeln?');
 define('ENTRY_CUSTOMERS_STATUS_ADD_TAX','UST in Rechnung ausweisen');
 define('ENTRY_CUSTOMERS_STATUS_MIN_ORDER','Mindestbestellwert:');

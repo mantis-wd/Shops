@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------------------
-   $Id: stylesheet.css 4400 2013-02-05 01:44:46Z Tomcraft1980 $
+   $Id: stylesheet.css 4637 2013-04-16 18:50:05Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -106,6 +106,9 @@ input[type=text], input[type=password] {
   border:1px solid #666;
   padding:2px;
   background:url(img/input_bg.gif) no-repeat;
+}
+input[type=radio], input[type=checkbox] {
+  margin: 0 3px;
 }
 /* PARAGRAPH GLOBAL */
 p {
@@ -765,8 +768,6 @@ div.highlightbox div.hr {
 /* PAYMENT TYPE SELECTION */
 table.paymentblock {
   background-color:#f8f8f8;
-  border:#eee solid;
-  border-width:0 1px 1px 1px;
   margin-bottom:15px;
 }
 table.paymentblock tr td.header {
@@ -776,11 +777,29 @@ table.paymentblock tr td.header {
   color:#000;
   font-weight:bold;
 }
+table.paymentblock tr td.header.left {
+  border:#eee solid;
+  border-width:0 0 0 1px;
+}
+table.paymentblock tr td.header.right {
+  border:#eee solid;
+  border-width:0 1px 0 0;
+}
+table.paymentblock tr td.payleft {
+  border:#eee solid;
+  border-width:0 0 1px 1px;
+}
+table.paymentblock tr td.payright {
+  border:#eee solid;
+  border-width:0 1px 1px 0;
+}
+table.paymentblock tr td.filler {
+  background:#fff !important;
+  line-height:10px !important;
+}
 /* SHIPPING TYPE SELECTION */
 table.shippingblock {
   background-color:#f8f8f8;
-  border:#eee solid;
-  border-width:0 1px 1px 1px;
   margin-bottom:15px;
 }
 table.shippingblock tr td.header {
@@ -788,19 +807,36 @@ table.shippingblock tr td.header {
   padding:2px 2px 2px 5px;
   color:#000;
   font-weight:bold;
+  border:#eee solid;
+  border-width:0 1px 0 1px;
 }
 table.shippingblock tr td {
   vertical-align:top;
+}
+table.shippingblock tr td.filler {
+  background:#fff !important;
+  line-height:10px !important;
 }
 table.shippingblock tr td.description {
   width:100%;
   vertical-align:top;
   padding-left:6px;
+  border:#eee solid;
+  border-width:0 0 1px 0;
+}
+table.shippingblock tr td.freeshipping {
+  width:100%;
+  vertical-align:top;
+  padding-left:6px;
+  border:#eee solid;
+  border-width:0 1px 1px 1px;
 }
 table.shippingblock tr td.radiobutton {
   vertical-align:top;
   white-space:nowrap;
   padding:4px;
+  border:#eee solid;
+  border-width:0 0 1px 1px;
 }
 table.shippingblock tr td.radiobutton input {
   margin:0;
@@ -809,6 +845,8 @@ table.shippingblock tr td.radiobutton input {
 table.shippingblock tr td.price {
   vertical-align:top;
   white-space:nowrap;
+  border:#eee solid;
+  border-width:0 1px 1px 0;
 }
 /* ORDER DETAILS IN ACCOUNT HISTORY */
 table.accounthistoryinfoorderdetails tr td {
@@ -1316,6 +1354,13 @@ float:left;
 }
 div.checkoutInfoBoxes  a.more_info{
 color: red!important;
+}
+div.checkoutInfoBoxesLarge{
+width:910px;
+border: 0px solid #a3a3a3;
+padding:5px;
+margin-right:0px;
+float:left;
 }
 div.checkoutNavBoxes{
 width:438px;

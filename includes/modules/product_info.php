@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: product_info.php 4409 2013-02-05 12:56:15Z gtb-modified $
+   $Id: product_info.php 4581 2013-04-05 14:30:36Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -24,7 +24,7 @@
 
 /******* SHOPGATE **********/
 if(strpos(MODULE_PAYMENT_INSTALLED, 'shopgate.php') !== false && strpos($_SESSION['customers_status']['customers_status_payment_unallowed'], 'shopgate') === false){
-  include_once DIR_FS_EXTERNAL.'/shopgate/base/includes/modules/product_info.php';
+  include_once DIR_FS_EXTERNAL.'shopgate/base/includes/modules/product_info.php';
 }
 /******* SHOPGATE **********/
 
@@ -45,6 +45,7 @@ if (!is_object($product) || !$product->isProduct()) {
 
   $info_smarty = new Smarty;
   $info_smarty->assign('tpl_path', DIR_WS_BASE.'templates/'.CURRENT_TEMPLATE.'/');
+  include_once(DIR_WS_INCLUDES.'modules/payment/klarna/display_klarna_price.php'); // Klarna payment module integration
 
   // defaults
   $hide_qty = 0;

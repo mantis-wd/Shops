@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------
-   $Id: stylesheet.css 3952 2012-11-15 00:20:51Z Tomcraft1980 $   
+   $Id: stylesheet.css 4634 2013-04-16 16:44:50Z Tomcraft1980 $   
 
    XT-Commerce - community made shopping
    http://www.xt-commerce.com
@@ -261,6 +261,7 @@ body {
   color: #000000;
   vertical-align: middle;
   border-bottom: 1px dashed #cccccc;
+  text-align: left;
 }
 td.categories_view_data {
   font-family: Verdana, Arial, sans-serif; 
@@ -294,6 +295,7 @@ td.categories_view_data {
   padding: 5px;
   background: url(../images/menu-bg-li.gif);
   border-bottom: 1px solid #b40076;
+  width: 100%;
 }
 .infoBoxContent {
   font-family: Verdana, Arial, sans-serif;
@@ -405,6 +407,9 @@ CHECKBOX, INPUT, RADIO, SELECT, TEXTAREA, FILE {
   font-family: Verdana, Arial, sans-serif;
   font-size: 12px;
   border: solid 1px #a3a3a3;
+}
+INPUT[type=checkbox], INPUT[type=radio] {
+  border: none;
 }
 FORM {
   display: inline;

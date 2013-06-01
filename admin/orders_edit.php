@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------------------
-   $Id: orders_edit.php 4517 2013-02-23 16:22:55Z Tomcraft1980 $
+   $Id: orders_edit.php 4598 2013-04-09 20:28:39Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -97,6 +97,7 @@ if ($action == 'address_edit') {
                            'customers_lastname' => xtc_db_prepare_input($_POST['customers_lastname']),
                            'customers_name' => xtc_db_prepare_input($_POST['customers_firstname']) . ' ' . xtc_db_prepare_input($_POST['customers_lastname']),
                            'customers_street_address' => xtc_db_prepare_input($_POST['customers_street_address']),
+                           'customers_suburb' => xtc_db_prepare_input($_POST['customers_suburb']),
                            'customers_city' => xtc_db_prepare_input($_POST['customers_city']),
                            'customers_postcode' => xtc_db_prepare_input($_POST['customers_postcode']),
                            'customers_country' => $customers_country['countries_name'],
@@ -109,6 +110,7 @@ if ($action == 'address_edit') {
                            'delivery_lastname' => xtc_db_prepare_input($_POST['delivery_lastname']),
                            'delivery_name' => xtc_db_prepare_input($_POST['delivery_firstname']) . ' ' . xtc_db_prepare_input($_POST['delivery_lastname']),
                            'delivery_street_address' => xtc_db_prepare_input($_POST['delivery_street_address']),
+                           'delivery_suburb' => xtc_db_prepare_input($_POST['delivery_suburb']),
                            'delivery_city' => xtc_db_prepare_input($_POST['delivery_city']),
                            'delivery_postcode' => xtc_db_prepare_input($_POST['delivery_postcode']),
                            'delivery_country' => $delivery_country['countries_name'],
@@ -119,6 +121,7 @@ if ($action == 'address_edit') {
                            'billing_lastname' => xtc_db_prepare_input($_POST['billing_lastname']),
                            'billing_name' => xtc_db_prepare_input($_POST['billing_firstname']) . ' ' . xtc_db_prepare_input($_POST['billing_lastname']),
                            'billing_street_address' => xtc_db_prepare_input($_POST['billing_street_address']),
+                           'billing_suburb' => xtc_db_prepare_input($_POST['billing_suburb']),
                            'billing_city' => xtc_db_prepare_input($_POST['billing_city']),
                            'billing_postcode' => xtc_db_prepare_input($_POST['billing_postcode']),
                            'billing_country' => $billing_country['countries_name'],
@@ -955,6 +958,7 @@ if ($action == 'save_order') {
 
     //echo $module_value['value'].'|'.$module_n_price.'|'.$module_tax.'|'.$module_value['class'].'<br>';
 
+
   }
   //EOF#######  Module  #######//
 
@@ -1344,6 +1348,21 @@ require (DIR_WS_INCLUDES.'head.php');
               <?php
               $heading = array ();
               $contents = array ();
+              // KLARNA ORDERSTATUS UPDATE START
+              require_once DIR_FS_DOCUMENT_ROOT . 'includes/external/klarna/class.KlarnaCore.php';
+              if ($_GET['edit_action']=="klarna_check_orderstatus") {
+                include_once DIR_FS_ADMIN. 'klarna_check_orderstatus.php';
+                $orderStatus = new KlarnaCheckOrder;
+                $orderStatus->checkOrder($_GET['oID'], $order->info['payment_method']);
+              }
+              if ($order->info['payment_method'] == 'klarna_partPayment' || $order->info['payment_method'] == 'klarna_invoice' || $order->info['payment_method'] == 'klarna_SpecCamp') {
+                echo "<link href='" . KlarnaUtils::getStaticPath() .
+                     "images.css' type='text/css' rel='stylesheet'/>";
+                $contents[] = array ('align' => 'center',
+                                     'text' => '<br /><span class="klarna_logo_small"></span><br /><br />'.'<a class="button" onclick="this.blur();" href="'.xtc_href_link(FILENAME_ORDERS_EDIT, 'edit_action=klarna_check_orderstatus&oID='.$_GET['oID']).'">Check Order Status</a><br /><br />'
+                                     );
+              }
+              // KLARNA ORDERSTATUS UPDATE END
               switch ($action) {
                 default :
                   if (is_object($order)) {

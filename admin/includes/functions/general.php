@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: general.php 4347 2013-01-21 18:40:00Z Tomcraft1980 $
+   $Id: general.php 4558 2013-04-02 14:07:48Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -96,7 +96,7 @@
         if ($attribute_stock_values['attributes_stock'] <= '0') {
           $stock_flag = 'true';
           $which_attribute_query = xtDBquery("SELECT products_options_values_name FROM ".TABLE_PRODUCTS_OPTIONS_VALUES." WHERE products_options_values_id = '".$attribute_stock_values['options_values_id']."' AND language_id = '".(int)$_SESSION['languages_id']."'");
-          $which_attribute = xtc_db_fetch_array($which_attribute_query);
+          $which_attribute = xtc_db_fetch_array($which_attribute_query,true);
           $stock_warn .= ', '.$which_attribute['products_options_values_name'];
         }
       }

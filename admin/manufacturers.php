@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: manufacturers.php 4200 2013-01-10 19:47:11Z Tomcraft1980 $
+   $Id: manufacturers.php 4564 2013-04-02 15:14:54Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -40,7 +40,7 @@
         $dir_manufacturers=DIR_FS_CATALOG_IMAGES."/manufacturers";
         $accepted_manufacturers_image_files_extensions = array("jpg","jpeg","jpe","gif","png","bmp","tiff","tif","bmp");
         $accepted_manufacturers_image_files_mime_types = array("image/jpeg","image/gif","image/png","image/bmp");
-        if ($manufacturers_image = &xtc_try_upload('manufacturers_image', $dir_manufacturers, '', $accepted_manufacturers_image_files_extensions, $accepted_manufacturers_image_files_mime_types)) {
+        if ($manufacturers_image = xtc_try_upload('manufacturers_image', $dir_manufacturers, '', $accepted_manufacturers_image_files_extensions, $accepted_manufacturers_image_files_mime_types)) {
             xtc_db_query("UPDATE " . TABLE_MANUFACTURERS . "
                              SET manufacturers_image ='manufacturers/".$manufacturers_image->filename . "'
                            WHERE manufacturers_id = '" . (int)$manufacturers_id . "'");

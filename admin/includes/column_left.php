@@ -1,6 +1,6 @@
 <?php
   /* --------------------------------------------------------------
-   $Id: column_left.php 4387 2013-02-01 12:20:50Z web28 $
+   $Id: column_left.php 4577 2013-04-05 08:43:06Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -66,7 +66,7 @@
   echo ('</li>');
 
   /******** SHOPGATE **********/
-  include_once DIR_FS_EXTERNAL.'/shopgate/base/admin/includes/column_left.php';
+  include_once DIR_FS_EXTERNAL.'shopgate/base/admin/includes/column_left.php';
   /******** SHOPGATE **********/
   
   // BOF - Tomcraft - 2009-11-28 - Included xs:booster

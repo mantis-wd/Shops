@@ -1,6 +1,6 @@
 <?php
   /*-------------------------------------------------------------
-   $Id: orders.php 4521 2013-02-25 13:52:39Z dokuman $
+   $Id: orders.php 4579 2013-04-05 13:34:27Z Tomcraft1980 $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -1070,7 +1070,11 @@ require (DIR_WS_INCLUDES.'head.php');
                             $heading[] = array ('text' => '<b>['.$oInfo->orders_id.']&nbsp;&nbsp;'.xtc_datetime_short($oInfo->date_purchased).'</b>');
                             $contents[] = array ('align' => 'center', 'text' => '<a class="button" href="'.xtc_href_link(FILENAME_ORDERS, xtc_get_all_get_params(array ('oID', 'action')).'oID='.$oInfo->orders_id.'&action=edit').'">'.BUTTON_EDIT.'</a> <a class="button" href="'.xtc_href_link(FILENAME_ORDERS, xtc_get_all_get_params(array ('oID', 'action')).'oID='.$oInfo->orders_id.'&action=delete').'">'.BUTTON_DELETE_OR_REVERSE.'</a>');
                             //BOF - Dokuman - 2012-06-19 - BILLSAFE payment module
-                            if ($oInfo->payment_method == 'billsafe_2') $contents[] = array ('align' => 'center', 'text' => '<a class="button" href="billsafe_orders_2.php?oID='.$oInfo->orders_id.'">BillSAFE Details</a>');
+                            if ($oInfo->payment_method === 'billsafe_2') {
+                              $contents[] = array ('align' => 'center', 'text' => '<a class="button" href="billsafe_orders_2.php?oID='.$oInfo->orders_id.'">BillSAFE Details</a>');
+                            } elseif ($oInfo->payment_method === 'billsafe_2hp') {
+                              $contents[] = array ('align' => 'center', 'text' => '<a class="button" href="billsafe_orders_2hp.php?oID='.$oInfo->orders_id.'">BillSAFE Details</a>');
+                            }
                             //EOF - Dokuman - 2012-06-19 - BILLSAFE payment module
                             if (AFTERBUY_ACTIVATED == 'true') {
                               $contents[] = array ('align' => 'center', 'text' => '<a class="button" href="'.xtc_href_link(FILENAME_ORDERS, xtc_get_all_get_params(array ('oID', 'action')).'oID='.$oInfo->orders_id.'&action=afterbuy_send').'">'.BUTTON_AFTERBUY_SEND.'</a>');

@@ -1,6 +1,6 @@
 <?php
  /* -----------------------------------------------------------------------------------------
-   $Id: popup_help.php 4416 2013-02-05 13:55:53Z Tomcraft1980 $
+   $Id: popup_help.php 4599 2013-04-10 08:37:41Z dokuman $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -9,8 +9,6 @@
    -----------------------------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
-
-error_reporting(0);
 
 require('includes/configure.php');
 
